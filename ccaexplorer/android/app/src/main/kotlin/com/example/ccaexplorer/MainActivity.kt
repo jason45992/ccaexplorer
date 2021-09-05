@@ -1,4 +1,4 @@
-package com.example.ccaexplorer
+package com.dip054.ccaexplorer
 
 import io.flutter.embedding.android.FlutterActivity
 

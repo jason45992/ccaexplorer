@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "734082341456",
+    "firebase_url": "https://cca-explorer-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "cca-explorer",
+    "storage_bucket": "cca-explorer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734082341456:android:6bd59edd79fd82f6eacf55",
+        "android_client_info": {
+          "package_name": "com.dip054.ccaexplorer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734082341456-cbpss4nfrgd71u7ls99p6nnn0o5v3i5n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-u1GqyHCUElgrmpB_Fxl2moUiu2y3uHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734082341456-cbpss4nfrgd71u7ls99p6nnn0o5v3i5n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "734082341456-7ci9o2s0jru43dkfm9mh1725dvc27oj1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Leo.CCA-Explorer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

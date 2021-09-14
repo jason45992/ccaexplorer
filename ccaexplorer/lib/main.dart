@@ -25,9 +25,9 @@ class App extends StatelessWidget {
       title: 'Firebase Meetup',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
-              highlightColor: Colors.deepPurple,
+              highlightColor: Colors.blue,
             ),
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.blue,
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
         ),
@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Firebase Meetup'),
+        title: const Text('CCA Explorer'),
       ),
       body: ListView(
         children: <Widget>[

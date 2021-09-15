@@ -82,10 +82,11 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  const Header('Discussion'),
+                  Header('Discussion'),
                   GuestBook(
                     addMessage: (String message) =>
                         appState.addMessageToGuestBook(message),
+                    messages: appState.guestBookMessages, // new
                   ),
                 ],
               ],
@@ -123,8 +124,30 @@ class ApplicationState extends ChangeNotifier {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loginState = ApplicationLoginState.loggedIn;
+        // Add from here
+        _guestBookSubscription = FirebaseFirestore.instance
+            .collection('guestbook')
+            .orderBy('timestamp', descending: true)
+            .snapshots()
+            .listen((snapshot) {
+          _guestBookMessages = [];
+          snapshot.docs.forEach((document) {
+            _guestBookMessages.add(
+              GuestBookMessage(
+                name: document.data()['name'],
+                message: document.data()['text'],
+              ),
+            );
+          });
+          notifyListeners();
+        });
+        // to here.
       } else {
         _loginState = ApplicationLoginState.loggedOut;
+        // Add from here
+        _guestBookMessages = [];
+        _guestBookSubscription?.cancel();
+        // to here.
       }
       notifyListeners();
     });
@@ -135,6 +158,12 @@ class ApplicationState extends ChangeNotifier {
 
   String? _email;
   String? get email => _email;
+
+  // Add from here
+  StreamSubscription<QuerySnapshot>? _guestBookSubscription;
+  List<GuestBookMessage> _guestBookMessages = [];
+  List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
+  // to here.
 
   void startLoginFlow() {
     _loginState = ApplicationLoginState.emailAddress;
@@ -200,8 +229,10 @@ class ApplicationState extends ChangeNotifier {
 }
 
 class GuestBook extends StatefulWidget {
-  const GuestBook({required this.addMessage});
+  // Modify the following line
+  GuestBook({required this.addMessage, required this.messages});
   final FutureOr<void> Function(String message) addMessage;
+  final List<GuestBookMessage> messages; // new
 
   @override
   _GuestBookState createState() => _GuestBookState();
@@ -212,47 +243,59 @@ class _GuestBookState extends State<GuestBook> {
   final _controller = TextEditingController();
 
   @override
+  // Modify from here
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Form(
-        key: _formKey,
-        child: Row(
-          children: [
-            Expanded(
-              child: TextFormField(
-                controller: _controller,
-                decoration: const InputDecoration(
-                  hintText: 'Leave a message',
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // to here.
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            key: _formKey,
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                      hintText: 'Leave a message',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter your message to continue';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Enter your message to continue';
-                  }
-                  return null;
-                },
-              ),
+                SizedBox(width: 8),
+                StyledButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      await widget.addMessage(_controller.text);
+                      _controller.clear();
+                    }
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.send),
+                      SizedBox(width: 4),
+                      Text('SEND'),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(width: 8),
-            StyledButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  await widget.addMessage(_controller.text);
-                  _controller.clear();
-                }
-              },
-              child: Row(
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  const Icon(Icons.send),
-                  const SizedBox(width: 4),
-                  const Text('SEND'),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+        // Modify from here
+        SizedBox(height: 8),
+        for (var message in widget.messages)
+          Paragraph('${message.name}: ${message.message}'),
+        SizedBox(height: 8),
+        // to here.
+      ],
     );
   }
 }

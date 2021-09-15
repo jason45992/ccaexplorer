@@ -6,7 +6,7 @@ import 'package:provider/provider.dart'; // new
 import 'src/authentication.dart'; // new
 import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
-
+import 'package:ccaexplorer/app_theme.dart';
 import 'src/widgets.dart';
 
 void main() {

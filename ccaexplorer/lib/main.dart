@@ -8,6 +8,7 @@ import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
 import 'src/widgets.dart';
+import 'event_list/event_home_screen.dart';
 
 void main() {
   runApp(
@@ -33,7 +34,7 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const HomePage(),
+      home: EventlHomeScreen(),
     );
   }
 }
@@ -49,7 +50,7 @@ class HomePage extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-          // Image.asset('assets/codelab.png'),
+          Image.asset('assets/images/codelab.png'),
           const SizedBox(height: 8),
           const IconAndDetail(Icons.calendar_today, 'October 30'),
           const IconAndDetail(Icons.location_city, 'San Francisco'),
@@ -304,4 +305,16 @@ class GuestBookMessage {
   GuestBookMessage({required this.name, required this.message});
   final String name;
   final String message;
+}
+
+class HexColor extends Color {
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll('#', '');
+    if (hexColor.length == 6) {
+      hexColor = 'FF' + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
 }

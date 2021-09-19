@@ -8,6 +8,9 @@ import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
 import 'src/widgets.dart';
+import 'package:ccaexplorer/navigator_bar/navigator_app_theme.dart';
+import 'package:ccaexplorer/navigator_bar/tabIcon_data.dart';
+import 'package:ccaexplorer/fitness_app_home_screen.dart';
 
 void main() {
   runApp(
@@ -33,13 +36,13 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const HomePage(),
+      home: FitnessAppHomeScreen(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -304,4 +307,16 @@ class GuestBookMessage {
   GuestBookMessage({required this.name, required this.message});
   final String name;
   final String message;
+}
+
+class HexColor extends Color {
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll('#', '');
+    if (hexColor.length == 6) {
+      hexColor = 'FF' + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
 }

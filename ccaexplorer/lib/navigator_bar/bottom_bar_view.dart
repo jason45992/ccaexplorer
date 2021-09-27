@@ -124,7 +124,7 @@ class _BottomBarViewState extends State<BottomBarView>
                 width: 38 * 2.0,
                 height: 38 * 2.0,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(4.0),
                   child: ScaleTransition(
                     alignment: Alignment.center,
                     scale: Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -137,7 +137,7 @@ class _BottomBarViewState extends State<BottomBarView>
                         color: NavigatorAppTheme.nearlyDarkBlue,
                         gradient: LinearGradient(
                             colors: [
-                              NavigatorAppTheme.nearlyDarkBlue,
+                              NavigatorAppTheme.grey,
                               HexColor('#6A88E5'),
                             ],
                             begin: Alignment.topLeft,

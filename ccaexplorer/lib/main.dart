@@ -7,10 +7,8 @@ import 'src/authentication.dart'; // new
 import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
+import 'package:ccaexplorer/pages/home_page.dart';
 import 'src/widgets.dart';
-import 'package:ccaexplorer/navigator_bar/navigator_app_theme.dart';
-import 'package:ccaexplorer/navigator_bar/tabIcon_data.dart';
-import 'package:ccaexplorer/fitness_app_home_screen.dart';
 
 void main() {
   runApp(
@@ -36,7 +34,7 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: FitnessAppHomeScreen(),
+      home: HomePage(),
     );
   }
 }

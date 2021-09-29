@@ -7,8 +7,10 @@ import 'src/authentication.dart'; // new
 import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
+import 'package:ccaexplorer/pages/home_page.dart';
 import 'src/widgets.dart';
 import 'package:ccaexplorer/register.dart';
+import 'src/event_details/event_detail.dart';
 
 void main() {
   runApp(
@@ -34,19 +36,19 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const Register(),
+      home: HomePage(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Event Registrtion'),
+        title: const Text('CCA Explorer'),
       ),
       body: ListView(
         children: <Widget>[
@@ -305,4 +307,16 @@ class GuestBookMessage {
   GuestBookMessage({required this.name, required this.message});
   final String name;
   final String message;
+}
+
+class HexColor extends Color {
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll('#', '');
+    if (hexColor.length == 6) {
+      hexColor = 'FF' + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
 }

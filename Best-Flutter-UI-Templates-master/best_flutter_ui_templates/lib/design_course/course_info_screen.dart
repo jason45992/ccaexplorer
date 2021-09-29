@@ -292,20 +292,20 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
               child: SizedBox(
                 width: AppBar().preferredSize.height,
                 height: AppBar().preferredSize.height,
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius:
-                        BorderRadius.circular(AppBar().preferredSize.height),
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      color: DesignCourseAppTheme.nearlyBlack,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius:
+                            BorderRadius.circular(AppBar().preferredSize.height),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: DesignCourseAppTheme.nearlyBlack,
+                          ),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
               ),
             )
           ],
@@ -313,6 +313,11 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
       ),
     );
   }
+
+
+
+
+
 
   Widget getTimeBoxUI(String text1, String txt2) {
     return Padding(

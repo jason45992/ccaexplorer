@@ -33,6 +33,9 @@ dependencies:
   provider: ^6.0.0
   google_fonts: ^2.1.0
   firebase_core: ^1.6.0
+  pinch_zoom_image_last: ^0.4.1
+  full_screen_image: ^1.0.2
+ 
 
 dev_dependencies:
   flutter_test:
@@ -42,7 +45,12 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
-flutter:
+flutter:   
+  assets:     
+    - assets/back_button.png
+    - assets/codelab.png
+    - assets/mechchallenge.jpeg
+    - assets/image2.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

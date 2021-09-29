@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
 import 'package:ccaexplorer/pages/home_page.dart';
 import 'src/widgets.dart';
+import 'src/event_details/event_detail.dart';
 
 void main() {
   runApp(
@@ -26,9 +27,9 @@ class App extends StatelessWidget {
       title: 'Firebase Meetup',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
-              highlightColor: Colors.deepPurple,
+              highlightColor: Colors.red,
             ),
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.red,
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
         ),
@@ -46,7 +47,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Firebase Meetup'),
+        title: const Text('CCA Explorer'),
       ),
       body: ListView(
         children: <Widget>[

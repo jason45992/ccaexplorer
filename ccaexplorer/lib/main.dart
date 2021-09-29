@@ -7,7 +7,9 @@ import 'src/authentication.dart'; // new
 import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
+
 import 'src/widgets.dart';
+import 'src/event_details/event_detail.dart';
 
 void main() {
   runApp(
@@ -25,9 +27,9 @@ class App extends StatelessWidget {
       title: 'Firebase Meetup',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
-              highlightColor: Colors.blue,
+              highlightColor: Colors.red,
             ),
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
         ),

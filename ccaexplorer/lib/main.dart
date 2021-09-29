@@ -8,6 +8,7 @@ import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
 import 'src/widgets.dart';
+import 'package:ccaexplorer/register.dart';
 
 void main() {
   runApp(
@@ -25,15 +26,15 @@ class App extends StatelessWidget {
       title: 'Firebase Meetup',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
-              highlightColor: Colors.deepPurple,
+              highlightColor: Colors.black,
             ),
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.blueGrey,
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const HomePage(),
+      home: const Register(),
     );
   }
 }
@@ -45,14 +46,14 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Firebase Meetup'),
+        title: const Text('Event Registrtion'),
       ),
       body: ListView(
         children: <Widget>[
           // Image.asset('assets/codelab.png'),
           const SizedBox(height: 8),
-          const IconAndDetail(Icons.calendar_today, 'October 30'),
-          const IconAndDetail(Icons.location_city, 'San Francisco'),
+          const IconAndDetail(Icons.calendar_today, 'Title'),
+          const IconAndDetail(Icons.location_city, 'Place'),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Authentication(
               email: appState.email,

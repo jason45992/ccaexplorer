@@ -7,10 +7,11 @@ import 'src/authentication.dart'; // new
 import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
-import 'package:ccaexplorer/pages/home_page.dart';
-import 'src/widgets.dart';
 import 'package:ccaexplorer/register.dart';
 import 'src/event_details/event_detail.dart';
+import 'event_list/event_home_screen.dart';
+import 'package:ccaexplorer/pages/home_page.dart';
+import 'src/widgets.dart';
 
 void main() {
   runApp(
@@ -52,7 +53,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-          // Image.asset('assets/codelab.png'),
+          Image.asset('assets/images/codelab.png'),
           const SizedBox(height: 8),
           const IconAndDetail(Icons.calendar_today, 'Title'),
           const IconAndDetail(Icons.location_city, 'Place'),

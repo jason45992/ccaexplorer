@@ -40,24 +40,33 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  font_awesome_flutter: ^9.0.0
+  flutter_rating_bar: ^4.0.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:   
-  assets:     
+
+  # To add assets to your application, add an assets section, like this:
+  assets:   
     - assets/back_button.png
     - assets/codelab.png
     - assets/mechchallenge.jpeg
     - assets/image2.jpg
     - assets/navigator/
+    - assets/hotel/
+    - assets/images/
+    - assets/event_list/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
    
+
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

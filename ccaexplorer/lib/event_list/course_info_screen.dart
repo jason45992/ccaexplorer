@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'design_course_app_theme.dart';
+import '../event_list/event_app_theme.dart';
 
 class CourseInfoScreen extends StatefulWidget {
   @override
@@ -47,7 +47,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
         (MediaQuery.of(context).size.width / 1.2) +
         24.0;
     return Container(
-      color: DesignCourseAppTheme.nearlyWhite,
+      color: EventAppTheme.nearlyWhite,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(
@@ -56,7 +56,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 1.2,
-                  child: Image.asset('assets/design_course/webInterFace.png'),
+                  child: Image.asset('assets/event_list/webInterFace.png'),
                 ),
               ],
             ),
@@ -67,13 +67,13 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
               right: 0,
               child: Container(
                 decoration: BoxDecoration(
-                  color: DesignCourseAppTheme.nearlyWhite,
+                  color: EventAppTheme.nearlyWhite,
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(32.0),
                       topRight: Radius.circular(32.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: DesignCourseAppTheme.grey.withOpacity(0.2),
+                        color: EventAppTheme.grey.withOpacity(0.2),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -101,7 +101,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                 fontWeight: FontWeight.w600,
                                 fontSize: 22,
                                 letterSpacing: 0.27,
-                                color: DesignCourseAppTheme.darkerText,
+                                color: EventAppTheme.darkerText,
                               ),
                             ),
                           ),
@@ -119,7 +119,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                     fontWeight: FontWeight.w200,
                                     fontSize: 22,
                                     letterSpacing: 0.27,
-                                    color: DesignCourseAppTheme.nearlyBlue,
+                                    color: EventAppTheme.nearlyBlue,
                                   ),
                                 ),
                                 Container(
@@ -132,12 +132,12 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                           fontWeight: FontWeight.w200,
                                           fontSize: 22,
                                           letterSpacing: 0.27,
-                                          color: DesignCourseAppTheme.grey,
+                                          color: EventAppTheme.grey,
                                         ),
                                       ),
                                       Icon(
                                         Icons.star,
-                                        color: DesignCourseAppTheme.nearlyBlue,
+                                        color: EventAppTheme.nearlyBlue,
                                         size: 24,
                                       ),
                                     ],
@@ -174,7 +174,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                     fontWeight: FontWeight.w200,
                                     fontSize: 14,
                                     letterSpacing: 0.27,
-                                    color: DesignCourseAppTheme.grey,
+                                    color: EventAppTheme.grey,
                                   ),
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis,
@@ -197,17 +197,17 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                     height: 48,
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        color: DesignCourseAppTheme.nearlyWhite,
+                                        color: EventAppTheme.nearlyWhite,
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(16.0),
                                         ),
                                         border: Border.all(
-                                            color: DesignCourseAppTheme.grey
+                                            color: EventAppTheme.grey
                                                 .withOpacity(0.2)),
                                       ),
                                       child: Icon(
                                         Icons.add,
-                                        color: DesignCourseAppTheme.nearlyBlue,
+                                        color: EventAppTheme.nearlyBlue,
                                         size: 28,
                                       ),
                                     ),
@@ -219,14 +219,13 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                     child: Container(
                                       height: 48,
                                       decoration: BoxDecoration(
-                                        color: DesignCourseAppTheme.nearlyBlue,
+                                        color: EventAppTheme.nearlyBlue,
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(16.0),
                                         ),
                                         boxShadow: <BoxShadow>[
                                           BoxShadow(
-                                              color: DesignCourseAppTheme
-                                                  .nearlyBlue
+                                              color: EventAppTheme.nearlyBlue
                                                   .withOpacity(0.5),
                                               offset: const Offset(1.1, 1.1),
                                               blurRadius: 10.0),
@@ -240,8 +239,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18,
                                             letterSpacing: 0.0,
-                                            color: DesignCourseAppTheme
-                                                .nearlyWhite,
+                                            color: EventAppTheme.nearlyWhite,
                                           ),
                                         ),
                                       ),
@@ -269,7 +267,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                 scale: CurvedAnimation(
                     parent: animationController!, curve: Curves.fastOutSlowIn),
                 child: Card(
-                  color: DesignCourseAppTheme.nearlyBlue,
+                  color: EventAppTheme.nearlyBlue,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50.0)),
                   elevation: 10.0,
@@ -279,7 +277,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                     child: Center(
                       child: Icon(
                         Icons.favorite,
-                        color: DesignCourseAppTheme.nearlyWhite,
+                        color: EventAppTheme.nearlyWhite,
                         size: 30,
                       ),
                     ),
@@ -299,7 +297,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                         BorderRadius.circular(AppBar().preferredSize.height),
                     child: Icon(
                       Icons.arrow_back_ios,
-                      color: DesignCourseAppTheme.nearlyBlack,
+                      color: EventAppTheme.nearlyBlack,
                     ),
                     onTap: () {
                       Navigator.pop(context);
@@ -319,11 +317,11 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
       padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(
-          color: DesignCourseAppTheme.nearlyWhite,
+          color: EventAppTheme.nearlyWhite,
           borderRadius: const BorderRadius.all(Radius.circular(16.0)),
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: DesignCourseAppTheme.grey.withOpacity(0.2),
+                color: EventAppTheme.grey.withOpacity(0.2),
                 offset: const Offset(1.1, 1.1),
                 blurRadius: 8.0),
           ],
@@ -342,7 +340,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
                   letterSpacing: 0.27,
-                  color: DesignCourseAppTheme.nearlyBlue,
+                  color: EventAppTheme.nearlyBlue,
                 ),
               ),
               Text(
@@ -352,7 +350,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                   fontWeight: FontWeight.w200,
                   fontSize: 14,
                   letterSpacing: 0.27,
-                  color: DesignCourseAppTheme.grey,
+                  color: EventAppTheme.grey,
                 ),
               ),
             ],

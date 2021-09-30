@@ -1,6 +1,6 @@
-import 'package:ccaexplorer/design_course/category_list_view.dart';
-import 'package:ccaexplorer/design_course/course_info_screen.dart';
-import 'package:ccaexplorer/design_course/popular_course_list_view.dart';
+import 'package:ccaexplorer/event_list/category_list_view.dart';
+import 'package:ccaexplorer/event_list/course_info_screen.dart';
+import 'package:ccaexplorer/event_list/popular_course_list_view.dart';
 import 'package:ccaexplorer/main.dart';
 import 'package:flutter/material.dart';
 import 'event_app_theme.dart';
@@ -52,6 +52,11 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        CategoryListView(
+          callBack: () {
+            moveTo();
+          },
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0, left: 130, right: 16),
           child: Text(
@@ -86,14 +91,9 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
             ],
           ),
         ),
-        const SizedBox(
-          height: 16,
-        ),
-        CategoryListView(
-          callBack: () {
-            moveTo();
-          },
-        ),
+        // const SizedBox(
+        //   height: 10,
+        // ),
       ],
     );
   }
@@ -110,7 +110,7 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              fontSize: 10,
+              fontSize: 12,
               letterSpacing: 0.27,
               color: EventAppTheme.darkerText,
             ),
@@ -200,6 +200,7 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   color: HexColor('#F8FAFB'),
+                  border: Border.all(color: HexColor('#B9BABC')),
                   borderRadius: const BorderRadius.only(
                     bottomRight: Radius.circular(13.0),
                     bottomLeft: Radius.circular(13.0),

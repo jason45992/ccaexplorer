@@ -1,9 +1,9 @@
-import 'package:ccaexplorer/design_course/category_list_view.dart';
-import 'package:ccaexplorer/design_course/course_info_screen.dart';
-import 'package:ccaexplorer/design_course/popular_course_list_view.dart';
+import 'package:ccaexplorer/event_list/category_list_view.dart';
+import 'package:ccaexplorer/event_list/course_info_screen.dart';
+import 'package:ccaexplorer/event_list/popular_course_list_view.dart';
 import 'package:ccaexplorer/main.dart';
 import 'package:flutter/material.dart';
-import 'design_course_app_theme.dart';
+import '../event_list/event_app_theme.dart';
 
 class DesignCourseHomeScreen extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: DesignCourseAppTheme.nearlyWhite,
+      color: EventAppTheme.nearlyWhite,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Column(
@@ -61,7 +61,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
               fontWeight: FontWeight.w600,
               fontSize: 22,
               letterSpacing: 0.27,
-              color: DesignCourseAppTheme.darkerText,
+              color: EventAppTheme.darkerText,
             ),
           ),
         ),
@@ -112,7 +112,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
               fontWeight: FontWeight.w600,
               fontSize: 22,
               letterSpacing: 0.27,
-              color: DesignCourseAppTheme.darkerText,
+              color: EventAppTheme.darkerText,
             ),
           ),
           Flexible(
@@ -149,10 +149,10 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
       child: Container(
         decoration: BoxDecoration(
             color: isSelected
-                ? DesignCourseAppTheme.nearlyBlue
-                : DesignCourseAppTheme.nearlyWhite,
+                ? EventAppTheme.nearlyBlue
+                : EventAppTheme.nearlyWhite,
             borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-            border: Border.all(color: DesignCourseAppTheme.nearlyBlue)),
+            border: Border.all(color: EventAppTheme.nearlyBlue)),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
@@ -175,8 +175,8 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                     fontSize: 12,
                     letterSpacing: 0.27,
                     color: isSelected
-                        ? DesignCourseAppTheme.nearlyWhite
-                        : DesignCourseAppTheme.nearlyBlue,
+                        ? EventAppTheme.nearlyWhite
+                        : EventAppTheme.nearlyBlue,
                   ),
                 ),
               ),
@@ -219,7 +219,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                             fontFamily: 'WorkSans',
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
-                            color: DesignCourseAppTheme.nearlyBlue,
+                            color: EventAppTheme.nearlyBlue,
                           ),
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
@@ -276,7 +276,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     letterSpacing: 0.2,
-                    color: DesignCourseAppTheme.grey,
+                    color: EventAppTheme.grey,
                   ),
                 ),
                 Text(
@@ -286,7 +286,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                     letterSpacing: 0.27,
-                    color: DesignCourseAppTheme.darkerText,
+                    color: EventAppTheme.darkerText,
                   ),
                 ),
               ],

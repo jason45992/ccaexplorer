@@ -1,6 +1,4 @@
-import 'package:ccaexplorer/design_course/design_course_app_theme.dart';
-import 'package:ccaexplorer/design_course/models/category.dart';
-import 'package:ccaexplorer/main.dart';
+import 'package:ccaexplorer/event_list/models/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoryListView extends StatefulWidget {
@@ -107,20 +105,20 @@ class CategoryView extends StatelessWidget {
               splashColor: Colors.transparent,
               onTap: callback,
               child: SizedBox(
-                width: 150,
+                width: 275,
                 child: Stack(
                   children: <Widget>[
                     Container(
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 24, bottom: 24, left: 16),
+                        padding:
+                            const EdgeInsets.only(top: 0, bottom: 0, left: 5),
                         child: Row(
                           children: <Widget>[
                             ClipRRect(
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(16.0)),
                               child: AspectRatio(
-                                  aspectRatio: 1.0,
+                                  aspectRatio: 2.0,
                                   child: Image.asset(category!.imagePath)),
                             )
                           ],

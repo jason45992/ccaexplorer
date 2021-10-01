@@ -12,6 +12,7 @@ import 'src/event_details/event_detail.dart';
 import 'event_list/event_home_screen.dart';
 import 'package:ccaexplorer/pages/home_page.dart';
 import 'src/widgets.dart';
+import 'event_list/models/event_model.dart';
 
 void main() {
   runApp(
@@ -37,6 +38,7 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      // home: EventlHomeScreen(),
       home: HomePage(),
     );
   }
@@ -96,6 +98,10 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
+          Consumer<ApplicationState>(
+              builder: (context, appState, _) =>
+                  AddUser("Jason", "jason@ntu.sg", "U12345678", 87654321, 200)),
+          GetUserName("dCPPH6Q1bYrGhTAVUju4")
           // To here.
         ],
       ),

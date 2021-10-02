@@ -8,6 +8,7 @@ import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
 import 'src/widgets.dart';
+import 'src/login/login.dart';
 
 void main() {
   runApp(
@@ -33,7 +34,8 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const HomePage(),
+      // home: HomePage(),
+      home: SignIn(),
     );
   }
 }

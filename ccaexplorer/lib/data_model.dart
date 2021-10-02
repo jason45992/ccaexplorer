@@ -50,34 +50,11 @@ class ApplicationState extends ChangeNotifier {
           });
           notifyListeners();
         });
-
-        // User
-        _userDetailSubscription = FirebaseFirestore.instance
-            .collection('user')
-            .snapshots()
-            .listen((snapshot) {
-          _userDetailList = [];
-          snapshot.docs.forEach((document) {
-            _userDetailList.add(
-              UserDetails(
-                fullName: document.data()['full_name'],
-                email: document.data()['email'],
-                matricNum: document.data()['matriculation_number'],
-                phoneNum: document.data()['phone_number'],
-                profilePicId: document.data()['profilepicture_id'],
-              ),
-            );
-          });
-          notifyListeners();
-        });
       } else {
         _loginState = ApplicationLoginState.loggedOut;
         // destory subscription
         _guestBookMessages = [];
         _guestBookSubscription?.cancel();
-
-        _userDetailList = [];
-        _userDetailSubscription?.cancel();
       }
       notifyListeners();
     });
@@ -92,11 +69,6 @@ class ApplicationState extends ChangeNotifier {
   StreamSubscription<QuerySnapshot>? _guestBookSubscription;
   List<GuestBookMessage> _guestBookMessages = [];
   List<GuestBookMessage> get guestBookMessages => _guestBookMessages;
-
-  // User
-  StreamSubscription<QuerySnapshot>? _userDetailSubscription;
-  List<UserDetails> _userDetailList = [];
-  List<UserDetails> get userDetailList => _userDetailList;
 
   // Authenticaiton
   void startLoginFlow() {
@@ -236,49 +208,4 @@ class GuestBookMessage {
   GuestBookMessage({required this.name, required this.message});
   final String name;
   final String message;
-}
-
-// user
-class UserDetail extends StatefulWidget {
-  // Modify the following line
-  UserDetail({required this.userDetails});
-  // final FutureOr<void> Function(String message) addUser;
-  final List<UserDetails> userDetails; // new
-
-  @override
-  _UserState createState() => _UserState();
-}
-
-class _UserState extends State<UserDetail> {
-  // final _formKey = GlobalKey<FormState>(debugLabel: '_UserState');
-  // final _controller = TextEditingController();
-
-  @override
-  // Modify from here
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 8),
-        for (var user in widget.userDetails)
-          Paragraph('${user.fullName}: ${user.email}'),
-        SizedBox(height: 8),
-        // to here.
-      ],
-    );
-  }
-}
-
-class UserDetails {
-  UserDetails(
-      {required this.fullName,
-      required this.email,
-      required this.matricNum,
-      required this.phoneNum,
-      required this.profilePicId});
-  final String fullName;
-  final String email;
-  final String matricNum;
-  final int phoneNum;
-  final int profilePicId;
 }

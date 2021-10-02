@@ -4,12 +4,16 @@ import 'package:provider/provider.dart'; // new
 import 'src/authentication.dart'; // new
 import 'src/widgets.dart';
 import 'data_model.dart';
+import 'event_list/models/user_data_model.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ApplicationState(),
-      builder: (context, _) => App(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ApplicationState()),
+        ChangeNotifierProvider(create: (_) => ApplicationUserDetailState()),
+      ],
+      child: App(),
     ),
   );
 }
@@ -85,6 +89,16 @@ class HomePage extends StatelessWidget {
                         appState.addMessageToGuestBook(message),
                     messages: appState.guestBookMessages,
                   ),
+                ],
+              ],
+            ),
+          ),
+          Consumer<ApplicationUserDetailState>(
+            builder: (context, appState, _) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
+                  Header('Demo'),
                   UserDetail(userDetails: appState.userDetailList)
                 ],
               ],

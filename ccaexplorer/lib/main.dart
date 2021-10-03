@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart'; // new
-import 'src/authentication.dart'; // new
+import 'src/authentication_state.dart'; // new
 import 'src/widgets.dart';
-import 'data_model.dart';
+import 'authentication.dart';
 import 'event_list/models/user_data_model.dart';
+import 'common_method/common_method_authentication.dart';
+import 'guest_book.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ApplicationState()),
+        ChangeNotifierProvider(create: (_) => ApplicationGuestBookState()),
         ChangeNotifierProvider(create: (_) => ApplicationUserDetailState()),
       ],
       child: App(),
@@ -78,11 +81,12 @@ class HomePage extends StatelessWidget {
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
           // Modify from here
-          Consumer<ApplicationState>(
+          Consumer<ApplicationGuestBookState>(
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
+                if (AuthenticationCommon().loginState ==
+                    ApplicationLoginState.loggedIn) ...[
                   Header('Discussion'),
                   GuestBook(
                     addMessage: (String message) =>
@@ -97,7 +101,9 @@ class HomePage extends StatelessWidget {
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
+                Header(AuthenticationCommon().loginState.toString()),
+                if (AuthenticationCommon().loginState ==
+                    ApplicationLoginState.loggedIn) ...[
                   Header('Demo'),
                   UserDetail(userDetails: appState.userDetailList)
                 ],

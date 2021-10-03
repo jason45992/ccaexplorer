@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../src/authentication.dart';
+import '../../src/authentication_state.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../src/widgets.dart';
+import '../../common_method/common_method_authentication.dart';
 
 class ApplicationUserDetailState extends ChangeNotifier {
   ApplicationUserDetailState() {
@@ -32,7 +33,7 @@ class ApplicationUserDetailState extends ChangeNotifier {
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
-        _loginState = ApplicationLoginState.loggedIn;
+        AuthenticationCommon().loginState = ApplicationLoginState.loggedIn;
         // User
         _userDetailSubscription = FirebaseFirestore.instance
             .collection('user')
@@ -53,7 +54,7 @@ class ApplicationUserDetailState extends ChangeNotifier {
           notifyListeners();
         });
       } else {
-        _loginState = ApplicationLoginState.loggedOut;
+        AuthenticationCommon().loginState = ApplicationLoginState.loggedOut;
         // destory subscription
         _userDetailList = [];
         _userDetailSubscription?.cancel();
@@ -62,75 +63,10 @@ class ApplicationUserDetailState extends ChangeNotifier {
     });
   }
 
-  ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
-  ApplicationLoginState get loginState => _loginState;
-  String? _email;
-  String? get email => _email;
-
   // User
   StreamSubscription<QuerySnapshot>? _userDetailSubscription;
   List<UserDetails> _userDetailList = [];
   List<UserDetails> get userDetailList => _userDetailList;
-
-  // Authenticaiton
-  void startLoginFlow() {
-    _loginState = ApplicationLoginState.emailAddress;
-    notifyListeners();
-  }
-
-  void verifyEmail(
-    String email,
-    void Function(FirebaseAuthException e) errorCallback,
-  ) async {
-    try {
-      var methods =
-          await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-      if (methods.contains('password')) {
-        _loginState = ApplicationLoginState.password;
-      } else {
-        _loginState = ApplicationLoginState.register;
-      }
-      _email = email;
-      notifyListeners();
-    } on FirebaseAuthException catch (e) {
-      errorCallback(e);
-    }
-  }
-
-  void signInWithEmailAndPassword(
-    String email,
-    String password,
-    void Function(FirebaseAuthException e) errorCallback,
-  ) async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      errorCallback(e);
-    }
-  }
-
-  void cancelRegistration() {
-    _loginState = ApplicationLoginState.emailAddress;
-    notifyListeners();
-  }
-
-  void registerAccount(String email, String displayName, String password,
-      void Function(FirebaseAuthException e) errorCallback) async {
-    try {
-      var credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      await credential.user!.updateProfile(displayName: displayName);
-    } on FirebaseAuthException catch (e) {
-      errorCallback(e);
-    }
-  }
-
-  void signOut() {
-    FirebaseAuth.instance.signOut();
-  }
 }
 
 // user

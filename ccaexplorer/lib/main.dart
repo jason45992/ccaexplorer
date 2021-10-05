@@ -13,10 +13,15 @@ import 'src/authentication_state.dart'; // new
 import 'src/widgets.dart';
 import 'authentication.dart';
 import 'event_list/models/user_data_model.dart';
+import 'event_list/event_home_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'common_method/common_method_authentication.dart';
 import 'guest_book.dart';
+import 'admin/GridViewDemo.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     MultiProvider(
       providers: [
@@ -44,8 +49,8 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      // home: EventlHomeScreen(),
-      home: HomePage(),
+      home: GridViewDemo(title: 'Grid View Demo'),
+      // home: HomePage(),
     );
   }
 }

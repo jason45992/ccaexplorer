@@ -5,7 +5,7 @@ import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
 import 'package:ccaexplorer/register.dart';
-import 'src/event_details/event_detail.dart';
+import 'event_details/event_detail.dart';
 import 'event_list/event_home_screen.dart';
 import 'src/login/login.dart';
 import 'package:ccaexplorer/pages/home_page.dart';
@@ -15,6 +15,7 @@ import 'authentication.dart';
 import 'event_list/models/user_data_model.dart';
 import 'common_method/common_method_authentication.dart';
 import 'guest_book.dart';
+import 'admin_image_upload/event_detail_admin.dart';
 
 void main() {
   runApp(
@@ -45,7 +46,7 @@ class App extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: EventlHomeScreen(),
-      home: HomePage(),
+      home: admin_event_form(),
     );
   }
 }

@@ -11,22 +11,6 @@ class ApplicationUserDetailState extends ChangeNotifier {
   ApplicationUserDetailState() {
     init();
   }
-  // add method for guest book
-  // Future<DocumentReference> addMessageToGuestBook(String message) {
-  //   if (_loginState != ApplicationLoginState.loggedIn) {
-  //     throw Exception('Must be logged in');
-  //   }
-
-  //   return FirebaseFirestore.instance
-  //       .collection('guestbook')
-  //       .add(<String, dynamic>{
-  //     'text': message,
-  //     'timestamp': DateTime.now().millisecondsSinceEpoch,
-  //     'name': FirebaseAuth.instance.currentUser!.displayName,
-  //     'userId': FirebaseAuth.instance.currentUser!.uid,
-  //   });
-  // }
-
   //init applicaiton State
   Future<void> init() async {
     await Firebase.initializeApp();

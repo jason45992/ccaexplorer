@@ -75,21 +75,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               )),
           ElevatedButton.icon(
-              onPressed: () {
-                // Respond to button press
-              },
-              icon: Icon(
-                Icons.star,
-                size: 20,
-                color: Colors.yellow,
+            onPressed: () {
+              // Respond to button press
+            },
+            icon: Icon(
+              Icons.star,
+              size: 20,
+              color: Colors.yellow,
+            ),
+            label: Text("Favourite", style: TextStyle(color: Colors.black87)),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.white),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                  side: BorderSide(color: Colors.white),
+                ),
               ),
-              label: Text("Favourite", style: TextStyle(color: Colors.black87)),
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.white),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          side: BorderSide(color: Colors.white))))),
+            ),
+          ),
         ],
       ),
     );

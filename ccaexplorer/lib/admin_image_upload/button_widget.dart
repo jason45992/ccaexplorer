@@ -19,6 +19,5 @@ class ButtonWidget extends StatelessWidget {
       textColor: Colors.white,
       onPressed: onClicked,
     );
-    ;
   }
 }

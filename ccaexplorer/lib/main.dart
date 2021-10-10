@@ -119,7 +119,9 @@ class HomeScreen extends StatelessWidget {
                 if (AuthenticationCommon().loginState ==
                     ApplicationLoginState.loggedIn) ...[
                   Header('Demo'),
-                  UserDetail(userDetails: appState.userDetailList)
+                  UserDetail(
+                      addUser: (String message) => appState.addUser(message),
+                      userDetails: appState.userDetailList)
                 ],
               ],
             ),

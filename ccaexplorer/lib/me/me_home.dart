@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../authentication.dart';
-import '../event_list/models/user_data_model.dart';
+import '../home_event_list/models/user_data_model.dart';
 import 'admin_menu.dart';
 
 void main() async {

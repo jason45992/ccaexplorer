@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../event_list/event_app_theme.dart';
+import '../home_event_list/event_app_theme.dart';
 
 class CourseInfoScreen extends StatefulWidget {
   @override

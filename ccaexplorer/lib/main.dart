@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
 import 'package:ccaexplorer/me/me_home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -42,8 +43,8 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: GridViewDemo(title: 'Grid View Demo'),
-      // home: HomePage(),
+      // home: GridViewDemo(title: 'Grid View Demo'),
+      home: EventlHomeScreen(),
     );
   }
 }

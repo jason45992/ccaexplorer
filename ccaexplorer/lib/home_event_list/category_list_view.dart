@@ -1,4 +1,4 @@
-import 'package:ccaexplorer/event_list/models/category.dart';
+import 'package:ccaexplorer/home_event_list/models/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoryListView extends StatefulWidget {

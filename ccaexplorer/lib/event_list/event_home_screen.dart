@@ -29,15 +29,13 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
               child: SingleChildScrollView(
                 child: Container(
                   height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: <Widget>[
-                      getSearchBarUI(),
-                      getCategoryUI(),
-                      Flexible(
-                        child: getPopularCourseUI(),
-                      ),
-                    ],
-                  ),
+                  child: Column(children: <Widget>[
+                    getSearchBarUI(),
+                    getCategoryUI(),
+                    Flexible(
+                      child: getPopularCourseUI(),
+                    ),
+                  ]),
                 ),
               ),
             ),

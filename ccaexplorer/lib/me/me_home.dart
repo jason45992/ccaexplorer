@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../authentication.dart';
 import '../event_list/models/user_data_model.dart';
+import 'admin_menu.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,6 +77,7 @@ class _MeHomeState extends State<MeHome> {
                 height: 10,
               ),
               getSettingList(),
+              // _offsetPopup()
             ],
           ),
           floatingActionButton: getAdminUI()),
@@ -306,7 +308,10 @@ class _MeHomeState extends State<MeHome> {
   Widget getAdminUI() {
     return FloatingActionButton(
       onPressed: () {
-        print("admin button pressed");
+        Navigator.of(context).push(PageRouteBuilder(
+            opaque: false,
+            pageBuilder: (BuildContext context, _, __) =>
+                RedeemConfirmationScreen()));
       },
       child: const Icon(Icons.manage_accounts),
       backgroundColor: Colors.green,

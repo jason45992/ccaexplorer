@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/me/me_home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart'; // new
@@ -5,7 +6,7 @@ import 'src/authentication_state.dart'; // new
 import 'src/widgets.dart';
 import 'authentication.dart';
 import 'event_list/models/user_data_model.dart';
-import 'event_list/event_home_screen.dart';
+import 'me/admin_menu.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'common_method/common_method_authentication.dart';
 import 'guest_book.dart';

@@ -2,8 +2,16 @@ import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
 import 'package:ccaexplorer/me/me_home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart'; // new
-import 'src/authentication_state.dart'; // new
+import 'package:provider/provider.dart';
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ccaexplorer/app_theme.dart';
+import 'package:ccaexplorer/register.dart';
+import 'event_details/event_detail.dart';
+import 'event_list/event_home_screen.dart';
+import 'src/login/login.dart';
+import 'package:ccaexplorer/pages/home_page.dart';
+import 'src/authentication_state.dart';
 import 'src/widgets.dart';
 import 'authentication.dart';
 import 'event_list/models/user_data_model.dart';
@@ -11,6 +19,7 @@ import 'me/admin_menu.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'common_method/common_method_authentication.dart';
 import 'guest_book.dart';
+import 'admin_image_upload/event_detail_admin.dart';
 import 'admin/GridViewDemo.dart';
 
 void main() async {
@@ -35,9 +44,9 @@ class App extends StatelessWidget {
       title: 'Firebase Meetup',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
-              highlightColor: Colors.deepPurple,
+              highlightColor: Colors.black,
             ),
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.blueGrey,
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
         ),
@@ -45,25 +54,26 @@ class App extends StatelessWidget {
       ),
       // home: GridViewDemo(title: 'Grid View Demo'),
       home: EventlHomeScreen(),
+      // home: HomePage(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Firebase Meetup'),
+        title: const Text('CCA Explorer'),
       ),
       body: ListView(
         children: <Widget>[
           Image.asset('assets/images/codelab.png'),
           const SizedBox(height: 8),
-          const IconAndDetail(Icons.calendar_today, 'October 30'),
-          const IconAndDetail(Icons.location_city, 'San Francisco'),
+          const IconAndDetail(Icons.calendar_today, 'Title'),
+          const IconAndDetail(Icons.location_city, 'Place'),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Authentication(
               email: appState.email,

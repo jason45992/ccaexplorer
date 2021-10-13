@@ -1,3 +1,5 @@
+import 'package:ccaexplorer/club/club_detail/club_detail.dart';
+import 'package:ccaexplorer/club/club_detail/club_detail_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -6,18 +8,24 @@ import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
 import 'package:ccaexplorer/register.dart';
 // import 'src/event_details/event_detail.dart';
+import 'club/club_join/club_join_form.dart';
 import 'event_list/event_home_screen.dart';
 import 'src/login/login.dart';
 import 'package:ccaexplorer/pages/home_page.dart';
-import 'package:ccaexplorer/club/club_list.dart';
+import 'package:ccaexplorer/club/club_list/club_list.dart';
 import 'src/authentication_state.dart'; // new
 import 'src/widgets.dart';
 import 'authentication.dart';
 import 'event_list/models/user_data_model.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'common_method/common_method_authentication.dart';
 import 'guest_book.dart';
+import 'admin_image_upload/event_detail_admin.dart';
+import 'admin/GridViewDemo.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     MultiProvider(
       providers: [
@@ -45,8 +53,8 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: EventlHomeScreen(),
-      // home: HomePage(),
+      home: HomePage(),
+      //home: ClubDetailPage(Club.generateClubs()[0]),
     );
   }
 }
@@ -114,7 +122,9 @@ class HomeScreen extends StatelessWidget {
                 if (AuthenticationCommon().loginState ==
                     ApplicationLoginState.loggedIn) ...[
                   Header('Demo'),
-                  UserDetail(userDetails: appState.userDetailList)
+                  UserDetail(
+                      addUser: (String message) => appState.addUser(message),
+                      userDetails: appState.userDetailList)
                 ],
               ],
             ),

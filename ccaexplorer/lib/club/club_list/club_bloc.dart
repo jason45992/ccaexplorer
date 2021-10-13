@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ccaexplorer/club/club_data.dart';
+import 'package:ccaexplorer/club/club_list/club_data.dart';
 
 const categoryHeight = 55.0;
-const clubHeight = 110.0;
+const clubHeight = 100.0;
 
 class ClubBloc with ChangeNotifier {
   List<TabCategory> tabs = [];
@@ -10,6 +10,8 @@ class ClubBloc with ChangeNotifier {
   TabController? tabController;
   ScrollController scrollController = ScrollController();
   bool _listen = true;
+
+  get club => Club(name: "", image: "");
 
   void init(TickerProvider ticker) {
     tabController = TabController(vsync: ticker, length: clubCategories.length);
@@ -112,5 +114,11 @@ class Item {
   const Item({required this.category, required this.club});
   final ClubCategory category;
   final Club club;
-  bool get isCategory => category != null;
+  bool isCategory() {
+    if (category.clubs.length == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

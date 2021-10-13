@@ -11,21 +11,20 @@ class ApplicationUserDetailState extends ChangeNotifier {
   ApplicationUserDetailState() {
     init();
   }
-  // add method for guest book
-  // Future<DocumentReference> addMessageToGuestBook(String message) {
-  //   if (_loginState != ApplicationLoginState.loggedIn) {
-  //     throw Exception('Must be logged in');
-  //   }
 
-  //   return FirebaseFirestore.instance
-  //       .collection('guestbook')
-  //       .add(<String, dynamic>{
-  //     'text': message,
-  //     'timestamp': DateTime.now().millisecondsSinceEpoch,
-  //     'name': FirebaseAuth.instance.currentUser!.displayName,
-  //     'userId': FirebaseAuth.instance.currentUser!.uid,
-  //   });
-  // }
+  Future<DocumentReference> addUser(String message) {
+    if (AuthenticationCommon().loginState != ApplicationLoginState.loggedIn) {
+      throw Exception('Must be logged in');
+    }
+
+    return FirebaseFirestore.instance.collection('user').add(<String, dynamic>{
+      'email': 'testUser@mail.com',
+      'full_name': 'Test User',
+      'matriculation_number': 'U19201234',
+      'phone_number': 87654321,
+      'profilepicture_id': 0,
+    });
+  }
 
   //init applicaiton State
   Future<void> init() async {
@@ -72,8 +71,8 @@ class ApplicationUserDetailState extends ChangeNotifier {
 // user
 class UserDetail extends StatefulWidget {
   // Modify the following line
-  UserDetail({required this.userDetails});
-  // final FutureOr<void> Function(String message) addUser;
+  UserDetail({required this.addUser, required this.userDetails});
+  final FutureOr<void> Function(String message) addUser;
   final List<UserDetails> userDetails; // new
 
   @override
@@ -81,8 +80,8 @@ class UserDetail extends StatefulWidget {
 }
 
 class _UserState extends State<UserDetail> {
-  // final _formKey = GlobalKey<FormState>(debugLabel: '_UserState');
-  // final _controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>(debugLabel: '_UserState');
+  final _controller = TextEditingController();
 
   @override
   // Modify from here
@@ -90,6 +89,20 @@ class _UserState extends State<UserDetail> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(width: 8),
+        StyledButton(
+          onPressed: () async {
+            await widget.addUser(_controller.text);
+            _controller.clear();
+          },
+          child: Row(
+            children: [
+              Icon(Icons.send),
+              SizedBox(width: 4),
+              Text('SEND'),
+            ],
+          ),
+        ),
         SizedBox(height: 8),
         for (var user in widget.userDetails)
           Paragraph('${user.fullName}: ${user.email}'),

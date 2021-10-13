@@ -142,8 +142,8 @@ class CategoryView extends StatelessWidget {
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 top: 8,
-                                                left: 80,
-                                                right: 16,
+                                                left: 70,
+                                                right: 0,
                                                 bottom: 8),
                                             child: Row(
                                               mainAxisAlignment:

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class ClubCategory {
   const ClubCategory({
     required this.name,

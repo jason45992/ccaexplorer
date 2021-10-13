@@ -7,7 +7,7 @@ import 'package:ccaexplorer/app_theme.dart';
 import 'package:ccaexplorer/register.dart';
 import 'event_details/event_detail.dart';
 import 'event_list/event_home_screen.dart';
-import 'src/login/login.dart';
+import 'login/login.dart';
 import 'package:ccaexplorer/pages/home_page.dart';
 import 'src/authentication_state.dart';
 import 'src/widgets.dart';
@@ -50,7 +50,7 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: admin_event_form(),
+      home: SignIn(),
       // home: HomePage(),
     );
   }

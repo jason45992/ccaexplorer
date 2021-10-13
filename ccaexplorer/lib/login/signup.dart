@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import '../../authentication.dart'; // new
+import 'package:ccaexplorer/authentication.dart'; // new
 import '../../../main.dart';
-import '../../src/login/login.dart';
+import '../../login/login.dart';
+import '../../login/admin_signup.dart';
 
-class AdminSignUp extends StatefulWidget {
+class SignUp extends StatefulWidget {
   @override
-  a_State createState() => a_State();
+  __State createState() => __State();
 }
 
-class a_State extends State<AdminSignUp> {
+class __State extends State<SignUp> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   // final void Function() startLoginFlow;
@@ -26,18 +27,11 @@ class a_State extends State<AdminSignUp> {
                 ),
                 Container(
                     alignment: Alignment.center,
-                    padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    padding: EdgeInsets.all(10),
                     child: Text(
                       'Sign Up',
-                      style: TextStyle(fontSize: 25),
+                      style: TextStyle(fontSize: 20),
                     )),
-                FlatButton(
-                  onPressed: () {
-                    //forgot password screen
-                  },
-                  textColor: Colors.grey,
-                  child: Text('As Club Admin'),
-                ),
                 Container(
                   padding: EdgeInsets.all(10),
                   child: TextField(
@@ -81,17 +75,16 @@ class a_State extends State<AdminSignUp> {
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  // padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: TextField(
-                    obscureText: true,
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Club Verification Code',
-                    ),
-                  ),
+                FlatButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AdminSignUp()),
+                    );
+                    //forgot password screen
+                  },
+                  textColor: Colors.grey,
+                  child: Text('If you are a club Admin ...'),
                 ),
                 Container(
                     height: 50,
@@ -109,6 +102,27 @@ class a_State extends State<AdminSignUp> {
                         );
                       },
                     )),
+                Container(
+                    child: Row(
+                  children: <Widget>[
+                    Text(''),
+                    FlatButton(
+                      textColor: Colors.grey,
+                      child: Text(
+                        'Already had an account? Sign in here.',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignIn()),
+                        );
+                        //signup screen
+                      },
+                    )
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                ))
               ],
             )));
   }

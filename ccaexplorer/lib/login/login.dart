@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../src/authentication.dart'; // new
 import '../../../main.dart';
-import '../../src/login/signup.dart';
-import '../../src/login/admin_signup.dart';
+import '../../login/signup.dart';
+import '../../login/admin_signup.dart';
 
 void main() {
   runApp(MaterialApp(

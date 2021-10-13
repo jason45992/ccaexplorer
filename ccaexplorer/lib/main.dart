@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/pages/timetable_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart'; // new
@@ -8,9 +9,8 @@ import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
 import 'package:ccaexplorer/register.dart';
-import 'src/event_details/event_detail.dart';
 import 'event_list/event_home_screen.dart';
-import 'src/login/login.dart';
+import 'login/login.dart';
 import 'package:ccaexplorer/pages/home_page.dart';
 import 'src/widgets.dart';
 import 'event_list/models/event_model.dart';
@@ -40,7 +40,8 @@ class App extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: EventlHomeScreen(),
-      home: HomePage(),
+      // home: SignIn(),
+      home: TimetablePage(),
     );
   }
 }

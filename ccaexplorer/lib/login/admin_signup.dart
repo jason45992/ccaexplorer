@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../src/authentication.dart'; // new
 import '../../../main.dart';
-import '../../src/login/login.dart';
+import '../../login/login.dart';
 
 class AdminSignUp extends StatefulWidget {
   @override

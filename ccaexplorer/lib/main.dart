@@ -1,6 +1,7 @@
 import 'package:ccaexplorer/admin/club_management.dart';
 import 'package:ccaexplorer/admin/select_club.dart';
 import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
+import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:ccaexplorer/me/me_home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,6 +36,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ApplicationState()),
         ChangeNotifierProvider(create: (_) => ApplicationGuestBookState()),
         ChangeNotifierProvider(create: (_) => ApplicationUserDetailState()),
+        ChangeNotifierProvider(create: (_) => ApplicationEventDetailState())
       ],
       child: App(),
     ),
@@ -57,8 +59,9 @@ class App extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: GridViewDemo(title: 'Grid View Demo'),
-      home: EventlHomeScreen(),
-      // home: HomePage(),
+      // home: AdminClubManagement(),
+      // home: EventlHomeScreen(),
+      home: HomeScreen(),
     );
   }
 }
@@ -129,6 +132,21 @@ class HomeScreen extends StatelessWidget {
                   UserDetail(
                       addUser: (String message) => appState.addUser(message),
                       userDetails: appState.userDetailList)
+                ],
+              ],
+            ),
+          ),
+          Consumer<ApplicationEventDetailState>(
+            builder: (context, appState, _) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Header(AuthenticationCommon().loginState.toString()),
+                if (AuthenticationCommon().loginState ==
+                    ApplicationLoginState.loggedIn) ...[
+                  Header('Event'),
+                  EventListDetail(
+                      addevent: (String message) => appState.addEvent(message),
+                      eventDetails: appState.eventDetailList)
                 ],
               ],
             ),

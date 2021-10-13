@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'dart:async'; // new
-import 'package:cloud_firestore/cloud_firestore.dart'; // new
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ccaexplorer/app_theme.dart';
 import 'package:ccaexplorer/register.dart';
 import 'event_details/event_detail.dart';
 import 'event_list/event_home_screen.dart';
 import 'src/login/login.dart';
 import 'package:ccaexplorer/pages/home_page.dart';
-import 'src/authentication_state.dart'; // new
+import 'src/authentication_state.dart';
 import 'src/widgets.dart';
 import 'authentication.dart';
 import 'event_list/models/user_data_model.dart';
@@ -120,7 +120,9 @@ class HomeScreen extends StatelessWidget {
                 if (AuthenticationCommon().loginState ==
                     ApplicationLoginState.loggedIn) ...[
                   Header('Demo'),
-                  UserDetail(userDetails: appState.userDetailList)
+                  UserDetail(
+                      addUser: (String message) => appState.addUser(message),
+                      userDetails: appState.userDetailList)
                 ],
               ],
             ),

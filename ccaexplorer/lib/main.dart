@@ -3,8 +3,8 @@ import 'package:ccaexplorer/club/club_detail/club_detail_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'dart:async'; // new
-import 'package:cloud_firestore/cloud_firestore.dart'; // new
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ccaexplorer/app_theme.dart';
 import 'package:ccaexplorer/register.dart';
 // import 'src/event_details/event_detail.dart';

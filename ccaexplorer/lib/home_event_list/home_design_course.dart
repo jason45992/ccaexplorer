@@ -115,13 +115,13 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
               color: EventAppTheme.darkerText,
             ),
           ),
-          Flexible(
-            child: PopularCourseListView(
-              callBack: () {
-                moveTo();
-              },
-            ),
-          )
+          // Flexible(
+          //   child: PopularCourseListView(
+          //     callBack: () {
+          //       moveTo();
+          //     },
+          //   ),
+          // )
         ],
       ),
     );

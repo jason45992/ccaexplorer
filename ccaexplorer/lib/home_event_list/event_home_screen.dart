@@ -1,8 +1,10 @@
 import 'package:ccaexplorer/home_event_list/category_list_view.dart';
 import 'package:ccaexplorer/home_event_list/course_info_screen.dart';
+import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:ccaexplorer/home_event_list/popular_course_list_view.dart';
 import 'package:ccaexplorer/main.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'event_app_theme.dart';
 
 class EventlHomeScreen extends StatefulWidget {
@@ -15,36 +17,45 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: EventAppTheme.nearlyWhite,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Column(
-          children: <Widget>[
-            SizedBox(
-              height: MediaQuery.of(context).padding.top,
-            ),
-            getAppBarUI(),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Container(
+    ApplicationEventDetailState().init();
+    return Consumer<ApplicationEventDetailState>(
+        builder: (context, appState, _) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: <Widget>[
-                      getSearchBarUI(),
-                      getCategoryUI(),
-                      Flexible(
-                        child: getPopularCourseUI(),
-                      ),
-                    ],
+                  color: EventAppTheme.nearlyWhite,
+                  child: Scaffold(
+                    backgroundColor: Colors.transparent,
+                    body: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: MediaQuery.of(context).padding.top,
+                        ),
+                        getAppBarUI(),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Container(
+                              height: MediaQuery.of(context).size.height,
+                              child: Column(
+                                children: <Widget>[
+                                  getSearchBarUI(),
+                                  getCategoryUI(),
+                                  Flexible(
+                                    child: getPopularCourseUI(appState),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                )
+              ],
+            ));
   }
 
   Widget getCategoryUI() {
@@ -98,7 +109,7 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
     );
   }
 
-  Widget getPopularCourseUI() {
+  Widget getPopularCourseUI(ApplicationEventDetailState appState) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
       child: Column(
@@ -106,7 +117,7 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            '230 results found',
+            '${appState.eventDetailList.length} results found',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.w600,
@@ -120,6 +131,7 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
               callBack: () {
                 // moveTo();
               },
+              appState: appState,
             ),
           )
         ],

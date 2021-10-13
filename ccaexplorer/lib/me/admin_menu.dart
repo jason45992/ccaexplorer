@@ -1,9 +1,4 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../authentication.dart';
-import '../home_event_list/models/user_data_model.dart';
 
 class RedeemConfirmationScreen extends StatelessWidget {
   final List<String> entries = <String>[
@@ -32,7 +27,7 @@ class RedeemConfirmationScreen extends StatelessWidget {
                         side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      color: Colors.grey,
+                      color: Color(0xFFD6D5D4),
                       child: Center(
                           child: Text(
                         '${entries[index]}',

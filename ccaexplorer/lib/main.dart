@@ -19,6 +19,7 @@ import 'common_method/common_method_authentication.dart';
 import 'guest_book.dart';
 import 'admin_image_upload/event_detail_admin.dart';
 import 'admin/GridViewDemo.dart';
+import 'admin/ClubProfileEdit/clubprofile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +51,7 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: admin_event_form(),
+      home: clubprofile(),
       // home: HomePage(),
     );
   }

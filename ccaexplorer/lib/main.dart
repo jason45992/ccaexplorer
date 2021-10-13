@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/me/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -5,7 +6,7 @@ import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
 import 'package:ccaexplorer/register.dart';
-import 'src/event_details/event_detail.dart';
+//import 'src/event_details/event_detail.dart';
 import 'event_list/event_home_screen.dart';
 import 'src/login/login.dart';
 import 'package:ccaexplorer/pages/home_page.dart';
@@ -17,7 +18,10 @@ import 'event_list/event_home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'common_method/common_method_authentication.dart';
 import 'guest_book.dart';
+import 'me/edit_profile.dart';
+import 'me/member_list.dart';
 import 'admin/GridViewDemo.dart';
+import 'me/setting.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,8 +53,8 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: GridViewDemo(title: 'Grid View Demo'),
-      // home: HomePage(),
+      //home: GridViewDemo(title: 'Grid View Demo'),
+      home: Setting(),
     );
   }
 }

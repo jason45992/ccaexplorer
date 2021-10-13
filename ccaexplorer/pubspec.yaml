@@ -35,6 +35,7 @@ dependencies:
   full_screen_image: ^1.0.2
   firebase_storage: ^10.0.4
   image_picker: ^0.8.4+1
+  url_launcher: ^6.0.10
 
 dev_dependencies:
   flutter_test:

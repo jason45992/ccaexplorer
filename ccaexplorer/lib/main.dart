@@ -51,7 +51,7 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: TimetablePage(),
+      home: SignIn(),
       // home: HomePage(),
     );
   }

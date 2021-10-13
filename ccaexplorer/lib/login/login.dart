@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
-import '../../authentication.dart'; // new
+// import '../../src/authentication.dart'; // new
 import '../../../main.dart';
 import '../../login/signup.dart';
 import '../../login/admin_signup.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../src/authentication_state.dart';
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../src/widgets.dart';
+import '../../common_method/common_method_authentication.dart';
 
 void main() {
   runApp(MaterialApp(

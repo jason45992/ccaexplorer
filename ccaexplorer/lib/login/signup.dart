@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../authentication.dart'; // new
+import 'package:ccaexplorer/authentication.dart'; // new
 import '../../../main.dart';
 import '../../login/login.dart';
 import '../../login/admin_signup.dart';

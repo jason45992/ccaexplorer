@@ -1,10 +1,35 @@
+import 'package:ccaexplorer/src/authentication_state.dart';
+import 'package:ccaexplorer/src/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../../../main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../common_method/common_method_authentication.dart';
+import 'dart:async';
+import '../../event_list/models/user_data_model.dart';
+
+// Widget _buildBody(BuildContext context) {
+//  return StreamBuilder<QuerySnapshot>(
+//    stream: FirebaseFirestore.instance.collection('event').snapshots(),
+//    builder: (context, snapshot) {
+//      if (!snapshot.hasData) return LinearProgressIndicator();
+
+//      return _buildList(context, snapshot.data.documents);
+//    },
+//  );
+// }
 
 class TimetablePage extends StatefulWidget {
   @override
   createState() => new MyHomePageState();
+
+// User
+  StreamSubscription<QuerySnapshot>? _userDetailSubscription;
+  List<UserDetails> _userDetailList = [];
+  List<UserDetails> get userDetailList => _userDetailList;
 }
 
 class MyHomePageState extends State<TimetablePage> {
@@ -41,7 +66,8 @@ class MyHomePageState extends State<TimetablePage> {
             //     appointmentItemHeight: 70,
             //   ),
             // ),
-            _DismissibleApp(),
+            // _DismissibleApp(),
+            GetUserName(),
           ],
         ),
       ),
@@ -96,6 +122,7 @@ class _DismissibleAppState extends State<_DismissibleApp> {
     'In 1 week',
     'In 1 week'
   ];
+  // final event = FirebaseFirestore.instance.collection('event');
 
   @override
   Widget build(BuildContext context) {
@@ -185,135 +212,76 @@ class _DismissibleAppState extends State<_DismissibleApp> {
   }
 }
 
-// class TimetablePage extends StatefulWidget {
-//   TimetablePage({Key? key}) : super(key: key);
+class GetUserName extends StatelessWidget {
+  // var doc_ref = FirebaseFirestore.instance.collection("event").doc();
 
-//   _TimetablePageState createState() => _TimetablePageState();
+  // final String documentId
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    // throw UnimplementedError();
+    return FutureBuilder<DocumentSnapshot>(
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        // if (snapshot.hasError) {
+        //   return Text("Something went wrong");
+        // }
+
+        // if (snapshot.hasData && !snapshot.data!.exists) {
+        //   return Text("Document does not exist");
+        // }
+
+        // if (snapshot.connectionState == ConnectionState.done) {
+        //   // Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+        //   return Text("Full Name: ${_userDetailList[0]} ${_userDetailList[1]}");
+        // }
+
+        // return Text("Full Name: ${_userDetailList[0]} ${_userDetailList[1]}");
+        return Consumer<ApplicationUserDetailState>(
+          builder: (context, appState, _) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [Text(appState.userDetailList[0].email)],
+          ),
+        );
+      },
+    );
+  }
+}
+
+// List _clubDetailList = [];
+
+// GetUserName(this.documentId);
+
+// @override
+// Widget build(BuildContext context) {
+
+//   CollectionReference users = FirebaseFirestore.instance.collection('event');
+
+//   return FutureBuilder<DocumentSnapshot>(
+//     future: users.doc(documentId).get(),
+//     builder:
+//         (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+//       if (snapshot.hasError) {
+//         return Text("Something went wrong");
+//       }
+
+//       if (snapshot.hasData && !snapshot.data!.exists) {
+//         return Text("Document does not exist");
+//       }
+
+//       if (snapshot.connectionState == ConnectionState.done) {
+//         Map<String, dynamic> data =
+//             snapshot.data!.data() as Map<String, dynamic>;
+//         return Text("Full Name: ${data['club']} ");
+//       }
+
+//       return Text("loading");
+//     },
+//   );
 // }
 
-// // class _TimetablePageState extends State<TimetablePage> {
-// //   Widget build(BuildContext context) {
-// //     return Scaffold(
-// //       appBar: AppBar(
-// //         title: Text("Timetable Page"),
-// //       ),
-// //     );
-// //   }
-// class _TimetablePageState extends State<TimetablePage> {
-//   // Widget build(BuildContext context) {
-//   //   return Container(
-
-//   //     child: SfCalendar(
-//   //       view: CalendarView.week,
-//   //       specialRegions: _getTimeRegions(),
-//   //     ),
-//   //   );
-//   // }
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       // appBar: AppBar(
-//       //   // title: const Text("Timetable"),
-//       //   // leading: IconButton(
-//       //   //   icon: Icon(Icons.menu),
-//       //   //   tooltip: 'Navigreation',
-//       //   //   onPressed: () => debugPrint('Navigreation button is pressed'),
-//       //   // ),
-//       //   title: Text('...'),
-//       // ),
-//       // body: Center(
-//       //   child: SfCalendar(
-//       //     view: CalendarView.week,
-//       //     specialRegions: _getTimeRegions(),
-//       //   ),
-//       // ),
-//       body: Center(
-//         child: ListView(
-//           children: <Widget>[
-//             Row(
-//               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 FlatButton(
-//                     onPressed: () {
-//                       Navigator.push(
-//                         context,
-//                         MaterialPageRoute(
-//                             builder: (context) => SfCalendar(
-//                                   view: CalendarView.week,
-//                                   specialRegions: _getTimeRegions(),
-//                                 )),
-//                       );
-//                     },
-//                     textColor: Colors.grey,
-//                     child: Text('Timetable'),
-//                     minWidth: 180),
-//                 FlatButton(
-//                     onPressed: () {
-//                       print('Event');
-//                       //forgot password screen
-//                     },
-//                     textColor: Colors.grey,
-//                     child: Text('Event'),
-//                     minWidth: 180),
-//               ],
-//             ),
-//             Container(
-//               height: 700,
-//               color: Colors.amber[600],
-//               child: Center(
-//                   child: SfCalendar(
-//                 view: CalendarView.week,
-//                 specialRegions: _getTimeRegions(),
-//               )),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   List<TimeRegion> _getTimeRegions() {
-//     final List<TimeRegion> regions = <TimeRegion>[];
-//     regions.add(TimeRegion(
-//         startTime: DateTime.now(),
-//         endTime: DateTime.now().add(Duration(hours: 1)),
-//         enablePointerInteraction: false,
-//         color: Colors.grey.withOpacity(0.2),
-//         text: 'Break'));
-
-//     return regions;
-//   }
-
-//   List<Meeting> _getDataSource() {
-//     final List<Meeting> meetings = <Meeting>[];
-//     final DateTime today = DateTime.now();
-//     final DateTime startTime =
-//         DateTime(today.year, today.month, today.day, 9, 0, 0);
-//     final DateTime endTime = startTime.add(const Duration(hours: 2));
-//     meetings.add(Meeting(
-//         'Conference', startTime, endTime, const Color(0xFF0F8644), false));
-//     return meetings;
-//   }
-// }
-
-// class SecondRoute extends StatelessWidget {
-//   const SecondRoute({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Reset Password"),
-//       ),
-//       body: Center(
-//         child: ElevatedButton(
-//           onPressed: () {
-//             Navigator.pop(context);
-//           },
-//           child: const Text('Go back!'),
-//         ),
-//       ),
-//     );
-//   }
+//   List<ClubDetails> _clubDetailList = [];
 // }
 
 class MeetingDataSource extends CalendarDataSource {
@@ -355,4 +323,9 @@ class Meeting {
   DateTime to;
   Color background;
   bool isAllDay;
+}
+
+class UserDetails {
+  UserDetails({required this.club});
+  final String club;
 }

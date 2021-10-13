@@ -51,8 +51,8 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SignIn(),
-      // home: HomePage(),
+      // home: SignIn(),
+      home: TimetablePage(),
     );
   }
 }
@@ -116,14 +116,9 @@ class HomeScreen extends StatelessWidget {
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Header(AuthenticationCommon().loginState.toString()),
-                if (AuthenticationCommon().loginState ==
-                    ApplicationLoginState.loggedIn) ...[
-                  Header('Demo'),
-                  UserDetail(
-                      addUser: (String message) => appState.addUser(message),
-                      userDetails: appState.userDetailList)
-                ],
+                UserDetail(
+                    addUser: (String message) => appState.addUser(message),
+                    userDetails: appState.userDetailList)
               ],
             ),
           ),

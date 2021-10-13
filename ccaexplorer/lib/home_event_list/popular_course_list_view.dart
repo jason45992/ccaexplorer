@@ -1,12 +1,14 @@
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
-import 'package:ccaexplorer/home_event_list/models/category.dart';
 import 'package:ccaexplorer/main.dart';
 import 'package:flutter/material.dart';
+import 'models/event_data_model.dart';
 
 class PopularCourseListView extends StatefulWidget {
-  const PopularCourseListView({Key? key, this.callBack}) : super(key: key);
+  const PopularCourseListView({Key? key, this.callBack, required this.appState})
+      : super(key: key);
 
   final Function()? callBack;
+  final ApplicationEventDetailState appState;
   @override
   _PopularCourseListViewState createState() => _PopularCourseListViewState();
 }
@@ -41,9 +43,10 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
               children: List<Widget>.generate(
-                Category.popularCourseList.length,
+                widget.appState.eventDetailList.length,
                 (int index) {
-                  final int count = Category.popularCourseList.length;
+                  // final int count = Category.popularCourseList.length;
+                  final int count = widget.appState.eventDetailList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                     CurvedAnimation(
@@ -54,11 +57,10 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
                   );
                   animationController?.forward();
                   return CategoryView(
-                    callback: widget.callBack,
-                    category: Category.popularCourseList[index],
-                    animation: animation,
-                    animationController: animationController,
-                  );
+                      callback: widget.callBack,
+                      eventDetails: widget.appState.eventDetailList[index],
+                      animation: animation,
+                      animationController: animationController);
                 },
               ),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -78,14 +80,14 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
 class CategoryView extends StatelessWidget {
   const CategoryView(
       {Key? key,
-      this.category,
+      this.eventDetails,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
   final VoidCallback? callback;
-  final Category? category;
+  final EventDetails? eventDetails;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
@@ -129,7 +131,7 @@ class CategoryView extends StatelessWidget {
                                             padding: const EdgeInsets.only(
                                                 top: 16, left: 16, right: 16),
                                             child: Text(
-                                              category!.title,
+                                              eventDetails!.eventTitle,
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w800,
@@ -153,7 +155,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${category!.lessonCount} registered',
+                                                  '0 registered',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w200,
@@ -202,7 +204,7 @@ class CategoryView extends StatelessWidget {
                                 const BorderRadius.all(Radius.circular(16.0)),
                             child: AspectRatio(
                                 aspectRatio: 1,
-                                child: Image.asset(category!.imagePath)),
+                                child: Image.network(eventDetails!.poster)),
                           ),
                         ),
                       ),

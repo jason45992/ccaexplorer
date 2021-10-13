@@ -3,6 +3,7 @@ import 'package:ccaexplorer/admin/select_club.dart';
 import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
 import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:ccaexplorer/me/me_home.dart';
+import 'package:ccaexplorer/pages/timetable_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ccaexplorer/app_theme.dart';
 import 'package:ccaexplorer/register.dart';
 import 'event_details/event_detail.dart';
-import 'src/login/login.dart';
+import 'login/login.dart';
 import 'package:ccaexplorer/pages/home_page.dart';
 import 'src/authentication_state.dart';
 import 'src/widgets.dart';
@@ -62,6 +63,7 @@ class App extends StatelessWidget {
       // home: AdminClubManagement(),
       // home: EventlHomeScreen(),
       home: HomeScreen(),
+      // home: SignIn(),
     );
   }
 }
@@ -125,14 +127,9 @@ class HomeScreen extends StatelessWidget {
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Header(AuthenticationCommon().loginState.toString()),
-                if (AuthenticationCommon().loginState ==
-                    ApplicationLoginState.loggedIn) ...[
-                  Header('Demo'),
-                  UserDetail(
-                      addUser: (String message) => appState.addUser(message),
-                      userDetails: appState.userDetailList)
-                ],
+                UserDetail(
+                    addUser: (String message) => appState.addUser(message),
+                    userDetails: appState.userDetailList)
               ],
             ),
           ),

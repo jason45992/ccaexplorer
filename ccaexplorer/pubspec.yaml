@@ -38,6 +38,7 @@ dependencies:
  
   firebase_storage: ^10.0.4
   image_picker: ^0.8.4+1
+  syncfusion_flutter_calendar: ^19.3.45
 
 dev_dependencies:
   flutter_test:

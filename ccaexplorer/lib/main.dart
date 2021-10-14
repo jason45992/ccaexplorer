@@ -1,3 +1,6 @@
+import 'package:ccaexplorer/login/signup.dart';
+import 'package:ccaexplorer/pages/me_page.dart';
+import 'package:ccaexplorer/pages/timetable_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +10,7 @@ import 'package:ccaexplorer/app_theme.dart';
 import 'package:ccaexplorer/register.dart';
 import 'event_details/event_detail.dart';
 import 'event_list/event_home_screen.dart';
-import 'src/login/login.dart';
+import 'login/login.dart';
 import 'package:ccaexplorer/pages/home_page.dart';
 import 'src/authentication_state.dart';
 import 'src/widgets.dart';
@@ -20,6 +23,8 @@ import 'guest_book.dart';
 import 'admin_image_upload/event_detail_admin.dart';
 import 'admin/GridViewDemo.dart';
 import 'admin/ClubProfileEdit/clubprofile.dart';
+import 'me/me_home.dart';
+import 'login/admin_signup.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,7 +56,7 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: clubprofile(),
+      home: SignIn(),
       // home: HomePage(),
     );
   }

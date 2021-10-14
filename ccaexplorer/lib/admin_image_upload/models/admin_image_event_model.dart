@@ -36,7 +36,7 @@ class AddEvent extends StatelessWidget {
     // Create a CollectionReference called users that references the firestore collection
     String downloadUrl = '';
     String downloadUrl2 = '';
-    CollectionReference event = FirebaseFirestore.instance.collection('event');
+    final event = FirebaseFirestore.instance.collection('event').doc();
 
     Future<void> uploadFile(String filePath) async {
       await Firebase.initializeApp();
@@ -65,23 +65,24 @@ class AddEvent extends StatelessWidget {
 
     Future<void> addEvent() async {
       await Firebase.initializeApp();
-
+      final refid = event.id;
       return event
-          .add({
+          .set({
             'event_title': event_title_controller,
             'place': event_venue_controller,
             'datetime': timeinput,
             'club': dropdownValue,
             'cover': downloadUrl,
             'poster': downloadUrl2,
-            'description': Textcontroller
+            'description': Textcontroller,
+            'eventid': refid
           })
           .then((value) => print("Event Added"))
           .catchError((error) => print("Failed to add user: $error"));
     }
 
     return ButtonWidget(
-      onClicked: () {
+      onClicked: () async {
         addEvent();
         uploadFile(file_path);
         uploadFile2(file_path2);

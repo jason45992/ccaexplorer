@@ -3,9 +3,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../authentication.dart';
+<<<<<<< HEAD
 import '../event_list/models/user_data_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+=======
+import '../home_event_list/models/user_data_model.dart';
+import 'admin_menu.dart';
+>>>>>>> cc4c6dee22f56d8212053ceeeae0f9571d124a5d
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -79,6 +84,7 @@ class _MeHomeState extends State<MeHome> {
                 height: 10,
               ),
               getSettingList(),
+              // _offsetPopup()
             ],
           ),
           floatingActionButton: getAdminUI()),
@@ -300,7 +306,10 @@ class _MeHomeState extends State<MeHome> {
   Widget getAdminUI() {
     return FloatingActionButton(
       onPressed: () {
-        print("admin button pressed");
+        Navigator.of(context).push(PageRouteBuilder(
+            opaque: false,
+            pageBuilder: (BuildContext context, _, __) =>
+                RedeemConfirmationScreen()));
       },
       child: const Icon(Icons.manage_accounts),
       backgroundColor: Colors.green,

@@ -1,6 +1,6 @@
-import 'package:ccaexplorer/event_list/category_list_view.dart';
-import 'package:ccaexplorer/event_list/course_info_screen.dart';
-import 'package:ccaexplorer/event_list/popular_course_list_view.dart';
+import 'package:ccaexplorer/home_event_list/category_list_view.dart';
+import 'package:ccaexplorer/home_event_list/course_info_screen.dart';
+import 'package:ccaexplorer/home_event_list/popular_course_list_view.dart';
 import 'package:ccaexplorer/main.dart';
 import 'package:flutter/material.dart';
 import 'event_app_theme.dart';

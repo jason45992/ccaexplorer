@@ -1,5 +1,5 @@
-import 'package:ccaexplorer/event_list/event_app_theme.dart';
-import 'package:ccaexplorer/event_list/models/category.dart';
+import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
+import 'package:ccaexplorer/home_event_list/models/category.dart';
 import 'package:ccaexplorer/main.dart';
 import 'package:flutter/material.dart';
 

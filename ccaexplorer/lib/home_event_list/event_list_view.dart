@@ -3,17 +3,17 @@ import 'package:ccaexplorer/main.dart';
 import 'package:flutter/material.dart';
 import 'models/event_data_model.dart';
 
-class PopularCourseListView extends StatefulWidget {
-  const PopularCourseListView({Key? key, this.callBack, required this.appState})
+class EventListView extends StatefulWidget {
+  const EventListView({Key? key, this.callBack, required this.appState})
       : super(key: key);
 
   final Function()? callBack;
   final ApplicationEventDetailState appState;
   @override
-  _PopularCourseListViewState createState() => _PopularCourseListViewState();
+  _EventListViewState createState() => _EventListViewState();
 }
 
-class _PopularCourseListViewState extends State<PopularCourseListView>
+class _EventListViewState extends State<EventListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   @override

@@ -1,5 +1,6 @@
 import 'package:ccaexplorer/club/club_list/club_list.dart';
 import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
+import 'package:ccaexplorer/me/me_home.dart';
 import 'package:ccaexplorer/pages/club_page.dart';
 import 'package:ccaexplorer/pages/me_page.dart';
 import 'package:ccaexplorer/pages/timetable_page.dart';
@@ -18,7 +19,7 @@ class _HomePageState extends State<HomePage> {
     EventlHomeScreen(),
     ClubHomeScreen(),
     TimetablePage(),
-    MePage()
+    MeHome()
   ];
 
   int _selectedIndex = 0;

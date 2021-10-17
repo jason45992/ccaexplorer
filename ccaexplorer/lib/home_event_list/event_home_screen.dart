@@ -20,7 +20,8 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
   Widget build(BuildContext context) {
     // ApplicationEventDetailState().init();
     return Consumer<ApplicationEventDetailState>(
-        builder: (context, appState, _) => Column(
+        builder: (context, appState, _) => SingleChildScrollView(
+                child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
@@ -56,7 +57,7 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
                   ),
                 )
               ],
-            ));
+            )));
   }
 
   Widget getBannerUI(ApplicationEventDetailState appState) {

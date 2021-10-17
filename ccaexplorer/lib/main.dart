@@ -7,6 +7,8 @@ import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
 import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:ccaexplorer/me/me_home.dart';
 import 'package:ccaexplorer/pages/timetable_page.dart';
+import 'package:ccaexplorer/club/club_detail/club_detail.dart';
+import 'package:ccaexplorer/club/club_detail/club_detail_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -19,8 +21,12 @@ import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
 import 'login/login.dart';
 import 'event_details/event_detail.dart';
 import 'login/login.dart';
+// import 'src/event_details/event_detail.dart';
+import 'club/club_join/club_join_form.dart';
+import 'src/login/login.dart';
 import 'package:ccaexplorer/pages/home_page.dart';
-import 'src/authentication_state.dart';
+import 'package:ccaexplorer/club/club_list/club_list.dart';
+import 'src/authentication_state.dart'; // new
 import 'src/widgets.dart';
 import 'authentication.dart';
 import 'home_event_list/models/user_data_model.dart';
@@ -40,8 +46,6 @@ import 'admin/participant_profile.dart';
 import 'admin/ClubProfileEdit/clubprofile.dart';
 import 'me/me_home.dart';
 import 'login/admin_signup.dart';
-import 'me/me_home.dart';
-import 'admin/published_events.dart';
 import 'admin/edit_member.dart';
 import 'admin/club_recruitment_department.dart';
 
@@ -76,8 +80,18 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+<<<<<<< HEAD
       //home: GridViewDemo(title: 'Grid View Demo'),
       home: HomeScreen(),
+=======
+      // home: GridViewDemo(title: 'Grid View Demo'),
+      // home: AdminClubManagement(),
+      // home: EventlHomeScreen(),
+      // home: ClubRecruitmentDepartment(),
+      // home: SignIn(),
+      home: HomePage(),
+      //home: ClubDetailPage(Club.generateClubs()[0]),
+>>>>>>> d5a51a67e206d708d14a196b05c6fa8ce4d6d484
     );
   }
 }

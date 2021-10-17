@@ -1,3 +1,5 @@
+import 'package:ccaexplorer/club/club_list/club_list.dart';
+import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
 import 'package:ccaexplorer/pages/club_page.dart';
 import 'package:ccaexplorer/pages/me_page.dart';
 import 'package:ccaexplorer/pages/timetable_page.dart';
@@ -12,7 +14,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PageController _pageController = PageController();
-  List<Widget> _screen = [EventPage(), ClubPage(), TimetablePage(), MePage()];
+  List<Widget> _screen = [
+    EventlHomeScreen(),
+    ClubHomeScreen(),
+    TimetablePage(),
+    MePage()
+  ];
 
   int _selectedIndex = 0;
   void _onPageChanged(int index) {

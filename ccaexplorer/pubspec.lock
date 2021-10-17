@@ -372,7 +372,7 @@ packages:
       name: multi_image_picker2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.7.15"
+    version: "5.0.02"
   nested:
     dependency: transitive
     description:
@@ -478,6 +478,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  readmore:
+    dependency: "direct main"
+    description:
+      name: readmore
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   rxdart:
     dependency: transitive
     description:

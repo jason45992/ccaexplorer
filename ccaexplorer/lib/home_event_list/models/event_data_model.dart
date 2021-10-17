@@ -72,6 +72,7 @@ class ApplicationEventDetailState extends ChangeNotifier {
   StreamSubscription<QuerySnapshot>? _eventDetailSubscription;
   List<EventDetails> _eventDetailList = [];
   List<EventDetails> get eventDetailList => _eventDetailList;
+  set setEventDetailList(List<EventDetails> list) => _eventDetailList = list;
 }
 
 // event

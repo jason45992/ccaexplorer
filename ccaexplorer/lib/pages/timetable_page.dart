@@ -9,7 +9,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../common_method/common_method_authentication.dart';
 import 'dart:async';
-import '../../event_list/models/user_data_model.dart';
+import '../../home_event_list/models/user_data_model.dart';
+import '../../home_event_list/models/event_data_model.dart';
 
 // Widget _buildBody(BuildContext context) {
 //  return StreamBuilder<QuerySnapshot>(
@@ -66,8 +67,8 @@ class MyHomePageState extends State<TimetablePage> {
             //     appointmentItemHeight: 70,
             //   ),
             // ),
-            // _DismissibleApp(),
-            GetUserName(),
+            _DismissibleApp(),
+            // GetUserName(),
           ],
         ),
       ),
@@ -238,10 +239,10 @@ class GetUserName extends StatelessWidget {
         // }
 
         // return Text("Full Name: ${_userDetailList[0]} ${_userDetailList[1]}");
-        return Consumer<ApplicationUserDetailState>(
+        return Consumer<ApplicationEventDetailState>(
           builder: (context, appState, _) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text(appState.userDetailList[0].email)],
+            children: [Text(appState.eventDetailList[0].poster)],
           ),
         );
       },
@@ -316,9 +317,9 @@ class MeetingDataSource extends CalendarDataSource {
 }
 
 class Meeting {
-  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
+  Meeting(this.userName, this.from, this.to, this.background, this.isAllDay);
 
-  String eventName;
+  String userName;
   DateTime from;
   DateTime to;
   Color background;

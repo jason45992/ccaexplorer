@@ -35,6 +35,7 @@ dependencies:
   full_screen_image: ^1.0.2
   flutter_datetime_picker: ^1.5.1
   intl: ^0.17.0
+  readmore: ^2.1.0
  
   firebase_storage: ^10.0.4
   image_picker: ^0.8.4+1
@@ -67,6 +68,7 @@ flutter:
     - assets/hotel/
     - assets/images/
     - assets/event_list/
+    - assets/club/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

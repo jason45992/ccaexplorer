@@ -39,6 +39,7 @@ dependencies:
  
   firebase_storage: ^10.0.4
   image_picker: ^0.8.4+1
+  url_launcher: ^6.0.10
   multi_image_picker2: ^5.0.2
   numberpicker: ^2.0.1
   syncfusion_flutter_calendar: ^19.3.45

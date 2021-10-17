@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/me/setting.dart';
 import 'package:ccaexplorer/login/signup.dart';
 import 'package:ccaexplorer/pages/me_page.dart';
 import 'package:ccaexplorer/admin/club_management.dart';
@@ -15,6 +16,9 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ccaexplorer/app_theme.dart';
 import 'package:ccaexplorer/register.dart';
+//import 'src/event_details/event_detail.dart';
+import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
+import 'login/login.dart';
 import 'event_details/event_detail.dart';
 import 'login/login.dart';
 // import 'src/event_details/event_detail.dart';
@@ -30,6 +34,10 @@ import 'me/admin_menu.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'common_method/common_method_authentication.dart';
 import 'guest_book.dart';
+import 'me/edit_profile.dart';
+import 'me/member_list.dart';
+import 'admin/GridViewDemo.dart';
+import 'me/setting.dart';
 import 'admin_image_upload/event_detail_admin.dart';
 import 'admin/GridViewDemo.dart';
 import 'admin/published_events.dart';
@@ -79,6 +87,7 @@ class App extends StatelessWidget {
       // home: SignIn(),
       home: HomePage(),
       //home: ClubDetailPage(Club.generateClubs()[0]),
+>>>>>>> d5a51a67e206d708d14a196b05c6fa8ce4d6d484
     );
   }
 }

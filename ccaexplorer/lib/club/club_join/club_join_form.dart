@@ -205,10 +205,7 @@ class ClubJoinPageState extends State<ClubJoinPage> {
               height: 44,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ClubJoinPage()),
-                  );
+                  showAlertDialog(context);
                 },
                 style: ElevatedButton.styleFrom(
                   elevation: 6,
@@ -230,6 +227,41 @@ class ClubJoinPageState extends State<ClubJoinPage> {
           ],
         ),
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Application submitted successfully.",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 

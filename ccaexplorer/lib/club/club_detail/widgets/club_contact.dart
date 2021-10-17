@@ -36,7 +36,10 @@ class ClubContact extends StatelessWidget {
             height: 40,
             child: ElevatedButton(
               onPressed: () {
-                showAlertDialog(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ClubJoinPage()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 elevation: 6,
@@ -59,38 +62,4 @@ class ClubContact extends StatelessWidget {
       ),
     );
   }
-}
-
-showAlertDialog(BuildContext context) {
-  // set up the button
-  Widget okButton = TextButton(
-    child: Text("OK"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    backgroundColor: Colors.white,
-    elevation: 2,
-    buttonPadding: EdgeInsets.symmetric(vertical: 20),
-    content: Text(
-      "Application submitted successfully.",
-      style: TextStyle(
-        color: Colors.black.withOpacity(0.6),
-      ),
-    ),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }

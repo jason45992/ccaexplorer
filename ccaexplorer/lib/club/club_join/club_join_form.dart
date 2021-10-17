@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ccaexplorer/event_list/event_app_theme.dart';
+import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 
 class ClubJoinPage extends StatefulWidget {
   State<StatefulWidget> createState() {

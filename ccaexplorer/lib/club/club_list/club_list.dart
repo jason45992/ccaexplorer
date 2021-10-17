@@ -1,7 +1,7 @@
 import 'package:ccaexplorer/club/club_detail/club_detail.dart';
 import 'package:ccaexplorer/club/club_list/club_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:ccaexplorer/event_list/event_app_theme.dart';
+import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:ccaexplorer/club/club_list/club_data.dart';
 import 'package:ccaexplorer/club/club_detail/club_detail_data.dart' as Detail;
 import 'package:ccaexplorer/main.dart';

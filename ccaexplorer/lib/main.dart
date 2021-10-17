@@ -87,7 +87,6 @@ class App extends StatelessWidget {
       // home: SignIn(),
       home: HomePage(),
       //home: ClubDetailPage(Club.generateClubs()[0]),
->>>>>>> d5a51a67e206d708d14a196b05c6fa8ce4d6d484
     );
   }
 }

@@ -165,13 +165,13 @@ class _ClubItem extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: 100,
+                width: 75,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Image.asset(club.image),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 1),
                 child: Text(
@@ -201,7 +201,7 @@ Widget getSearchBarUI() {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
-          width: 390,
+          width: 350,
           height: 64,
           child: Padding(
             padding: const EdgeInsets.only(top: 8, bottom: 8),

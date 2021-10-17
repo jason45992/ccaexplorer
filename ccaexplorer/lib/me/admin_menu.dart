@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/admin/select_club.dart';
 import 'package:flutter/material.dart';
 
 class RedeemConfirmationScreen extends StatelessWidget {
@@ -22,16 +23,21 @@ class RedeemConfirmationScreen extends StatelessWidget {
                   return Container(
                     padding: EdgeInsets.only(top: 0, left: 20, right: 20),
                     height: 80,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
-                        borderRadius: BorderRadius.circular(5),
+                    child: GestureDetector(
+                      onTap: () {
+                        moveTo('${entries[index]}', context);
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        color: Color(0xFFD6D5D4),
+                        child: Center(
+                            child: Text(
+                          '${entries[index]}',
+                        )),
                       ),
-                      color: Color(0xFFD6D5D4),
-                      child: Center(
-                          child: Text(
-                        '${entries[index]}',
-                      )),
                     ),
                   );
                 },
@@ -52,5 +58,30 @@ class RedeemConfirmationScreen extends StatelessWidget {
             ),
           )
         ]));
+  }
+
+  moveTo(String type, BuildContext context) {
+    if (type == 'Events') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AdminClubList(), //club profile
+        ),
+      );
+    } else if (type == 'Club Management') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AdminClubList(), //club profile
+        ),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AdminClubList(), //club profile
+        ),
+      );
+    }
   }
 }

@@ -100,7 +100,7 @@ class _MeHomeState extends State<MeHome> {
             child: Image.asset('assets/images/userImage.png'),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 18, right: 18),
+            padding: const EdgeInsets.only(left: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,7 +120,7 @@ class _MeHomeState extends State<MeHome> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 18, right: 0),
+            padding: const EdgeInsets.only(left: 10, right: 0),
             child: Container(
               decoration: BoxDecoration(
                   color: Color(0xFFFFFFFF),

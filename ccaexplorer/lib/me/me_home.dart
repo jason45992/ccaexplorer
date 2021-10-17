@@ -3,14 +3,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../authentication.dart';
-<<<<<<< HEAD
-import '../event_list/models/user_data_model.dart';
+import 'package:ccaexplorer/home_event_list/models/user_data_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-=======
 import '../home_event_list/models/user_data_model.dart';
 import 'admin_menu.dart';
->>>>>>> cc4c6dee22f56d8212053ceeeae0f9571d124a5d
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();

@@ -1,13 +1,10 @@
-<<<<<<< HEAD
 import 'package:ccaexplorer/login/signup.dart';
 import 'package:ccaexplorer/pages/me_page.dart';
-=======
 import 'package:ccaexplorer/admin/club_management.dart';
 import 'package:ccaexplorer/admin/select_club.dart';
 import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
 import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:ccaexplorer/me/me_home.dart';
->>>>>>> cc4c6dee22f56d8212053ceeeae0f9571d124a5d
 import 'package:ccaexplorer/pages/timetable_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,15 +26,14 @@ import 'common_method/common_method_authentication.dart';
 import 'guest_book.dart';
 import 'admin_image_upload/event_detail_admin.dart';
 import 'admin/GridViewDemo.dart';
-<<<<<<< HEAD
 import 'admin/ClubProfileEdit/clubprofile.dart';
 import 'me/me_home.dart';
 import 'login/admin_signup.dart';
-=======
 import 'admin/published_events.dart';
 import 'admin/registration_list.dart';
 import 'admin/participant_profile.dart';
->>>>>>> cc4c6dee22f56d8212053ceeeae0f9571d124a5d
+import 'admin/edit_member.dart';
+import 'admin/club_recruitment_department.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,7 +69,7 @@ class App extends StatelessWidget {
       // home: GridViewDemo(title: 'Grid View Demo'),
       // home: AdminClubManagement(),
       // home: EventlHomeScreen(),
-      home: HomeScreen(),
+      home: ClubRecruitmentDepartment(),
       // home: SignIn(),
     );
   }

@@ -50,6 +50,7 @@ class MyHomePageState extends State<TimetablePage> {
           title: TabBar(
             tabs: myTabs,
             isScrollable: true,
+            labelStyle: TextStyle(fontSize: 18),
             indicatorColor: Colors.white,
             labelColor: Colors.white,
           ),

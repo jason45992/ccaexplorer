@@ -48,48 +48,48 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              color: _selectedIndex == 0 ? Colors.purple : Colors.grey,
+              color: _selectedIndex == 0 ? Colors.blue : Colors.grey,
             ),
             title: Text(
               'Home',
               style: TextStyle(
-                color: _selectedIndex == 0 ? Colors.purple : Colors.grey,
-              ),
+                  color: _selectedIndex == 0 ? Colors.blue : Colors.grey,
+                  fontSize: 12),
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.grid_view,
-              color: _selectedIndex == 1 ? Colors.purple : Colors.grey,
+              color: _selectedIndex == 1 ? Colors.blue : Colors.grey,
             ),
             title: Text(
               'Club',
               style: TextStyle(
-                color: _selectedIndex == 1 ? Colors.purple : Colors.grey,
+                color: _selectedIndex == 1 ? Colors.blue : Colors.grey,
               ),
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.event,
-              color: _selectedIndex == 2 ? Colors.purple : Colors.grey,
+              color: _selectedIndex == 2 ? Colors.blue : Colors.grey,
             ),
             title: Text(
               'Timetable',
               style: TextStyle(
-                color: _selectedIndex == 2 ? Colors.purple : Colors.grey,
+                color: _selectedIndex == 2 ? Colors.blue : Colors.grey,
               ),
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
-              color: _selectedIndex == 3 ? Colors.purple : Colors.grey,
+              color: _selectedIndex == 3 ? Colors.blue : Colors.grey,
             ),
             title: Text(
               'Me',
               style: TextStyle(
-                color: _selectedIndex == 3 ? Colors.purple : Colors.grey,
+                color: _selectedIndex == 3 ? Colors.blue : Colors.grey,
               ),
             ),
           ),

@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '/admin/admin_theme.dart';
 
-class AdminPublishedEvents extends StatefulWidget {
+class Favorites extends StatefulWidget {
   @override
-  _AdminPublishedEventsState createState() => _AdminPublishedEventsState();
+  _FavoritesState createState() => _FavoritesState();
 }
 
-class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
+class _FavoritesState extends State<Favorites> {
   AnimationController? animationController;
   List<HotelListData> publishedEventList = HotelListData.hotelList;
 
@@ -88,7 +88,7 @@ class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
             Expanded(
               child: Center(
                 child: Text(
-                  'Published Events',
+                  'My Favorites',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
@@ -197,7 +197,7 @@ class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
                         width: 20,
                       ),
                       SizedBox(
-                        width: 20,
+                        width: 50,
                       ),
                       Container(
                         padding: const EdgeInsets.only(left: 10, right: 10),
@@ -207,7 +207,7 @@ class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
                                 const BorderRadius.all(Radius.circular(24.0)),
                             border: Border.all(color: Color(0xffb0b4b8))),
                         height: 30,
-                        width: 60,
+                        width: 80,
                         child: Material(
                           color: Colors.transparent,
                           child: InkWell(

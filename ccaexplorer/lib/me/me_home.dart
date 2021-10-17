@@ -5,20 +5,22 @@ import 'package:provider/provider.dart';
 import '../authentication.dart';
 import '../home_event_list/models/user_data_model.dart';
 import 'admin_menu.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ApplicationState()),
-        ChangeNotifierProvider(create: (_) => ApplicationUserDetailState()),
-      ],
-      child: MeHome(),
-    ),
-  );
-}
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   runApp(
+//     MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider(create: (_) => ApplicationState()),
+//         ChangeNotifierProvider(create: (_) => ApplicationUserDetailState()),
+//       ],
+//       child: MeHome(),
+//     ),
+//   );
+// }
 
 class MeHome extends StatefulWidget {
   MeHome();
@@ -34,6 +36,7 @@ class _MeHomeState extends State<MeHome> {
   List<String?> listOfStr = [];
   String? images;
   bool isLoading = false;
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
@@ -100,16 +103,7 @@ class _MeHomeState extends State<MeHome> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  'Name',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    letterSpacing: 0.2,
-                    color: Color(0xFF3A5160),
-                  ),
-                ),
+                getuserid(),
                 Text(
                   'Matric Num',
                   textAlign: TextAlign.left,
@@ -315,6 +309,40 @@ class _MeHomeState extends State<MeHome> {
       },
       child: const Icon(Icons.manage_accounts),
       backgroundColor: Colors.green,
+    );
+  }
+
+  Widget getuserid() {
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('useracc');
+    return FutureBuilder<DocumentSnapshot>(
+      future: users.doc(user!.uid).get(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text("Something went wrong");
+        }
+
+        if (snapshot.hasData && !snapshot.data!.exists) {
+          return Text("Document does not exist");
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          Map<String, dynamic> data =
+              snapshot.data!.data() as Map<String, dynamic>;
+          return Text(
+            data['Name'],
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: 20,
+              letterSpacing: 0.2,
+              color: Color(0xFF3A5160),
+            ),
+          );
+        }
+
+        return Text("loading");
+      },
     );
   }
 }

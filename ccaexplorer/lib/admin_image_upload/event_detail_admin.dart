@@ -43,6 +43,7 @@ class _AdminEventFormState extends State<AdminEventForm> {
   String? dropdownValue;
   // ignore: non_constant_identifier_names
   String file_path1 = '';
+  // ignore: non_constant_identifier_names
   String file_path2 = '';
   List<File> images1 = [];
   List<File> images2 = [];
@@ -239,7 +240,7 @@ class _AdminEventFormState extends State<AdminEventForm> {
         controller: timeinput,
         decoration: InputDecoration(
           hintText: 'Enter Time',
-          labelText: 'Time',
+          labelText: 'Event Time',
           border: OutlineInputBorder(),
         ),
         onTap: () async {
@@ -363,6 +364,7 @@ class _AdminEventFormState extends State<AdminEventForm> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget Description_Text() {
     return Container(
       child: TextField(
@@ -373,7 +375,7 @@ class _AdminEventFormState extends State<AdminEventForm> {
           border: OutlineInputBorder(),
         ),
         keyboardType: TextInputType.multiline,
-        textInputAction: TextInputAction.newline,
+        textInputAction: TextInputAction.done,
         onTap: () {
           Navigator.push(
             context,

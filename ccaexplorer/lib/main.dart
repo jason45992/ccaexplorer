@@ -3,6 +3,8 @@ import 'package:ccaexplorer/admin/select_club.dart';
 import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
 import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:ccaexplorer/me/me_home.dart';
+import 'package:ccaexplorer/login/signup.dart';
+import 'package:ccaexplorer/pages/me_page.dart';
 import 'package:ccaexplorer/pages/timetable_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,6 +29,9 @@ import 'admin/GridViewDemo.dart';
 import 'admin/published_events.dart';
 import 'admin/registration_list.dart';
 import 'admin/participant_profile.dart';
+import 'admin/ClubProfileEdit/clubprofile.dart';
+import 'me/me_home.dart';
+import 'login/admin_signup.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

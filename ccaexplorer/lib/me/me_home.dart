@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +121,7 @@ class _MeHomeState extends State<MeHome> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 10, right: 0),
+            padding: const EdgeInsets.only(left: 60, right: 0),
             child: Container(
               decoration: BoxDecoration(
                   color: Color(0xFFFFFFFF),
@@ -258,7 +259,7 @@ class _MeHomeState extends State<MeHome> {
             borderRadius: BorderRadius.circular(5),
           ),
           child: ListTile(
-            leading: Icon(Icons.settings),
+            leading: Icon(Icons.settings, color: EventAppTheme.grey),
             title: Text('Settings'),
             onTap: () {
               print("settings 1");
@@ -274,7 +275,10 @@ class _MeHomeState extends State<MeHome> {
             borderRadius: BorderRadius.circular(5),
           ),
           child: ListTile(
-            leading: Icon(Icons.favorite),
+            leading: Icon(
+              Icons.favorite,
+              color: EventAppTheme.grey,
+            ),
             title: Text('My Favorites'),
             onTap: () {
               print("settings 2");
@@ -290,7 +294,7 @@ class _MeHomeState extends State<MeHome> {
             borderRadius: BorderRadius.circular(5),
           ),
           child: ListTile(
-            leading: Icon(Icons.phone),
+            leading: Icon(Icons.phone, color: EventAppTheme.grey),
             title: Text('Contact Us'),
             onTap: () {
               print("settings 3");

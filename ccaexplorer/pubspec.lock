@@ -338,6 +338,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
+  list_tile_switch:
+    dependency: "direct main"
+    description:
+      name: list_tile_switch
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   matcher:
     dependency: transitive
     description:
@@ -490,6 +497,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.1"
+  spinner_input:
+    dependency: "direct main"
+    description:
+      name: spinner_input
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   stack_trace:
     dependency: transitive
     description:

@@ -9,7 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../common_method/common_method_authentication.dart';
 import 'dart:async';
-import '../../event_list/models/user_data_model.dart';
+import '../../home_event_list/models/user_data_model.dart';
 
 // Widget _buildBody(BuildContext context) {
 //  return StreamBuilder<QuerySnapshot>(

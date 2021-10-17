@@ -7,6 +7,8 @@ import '../home_event_list/models/user_data_model.dart';
 import 'admin_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ccaexplorer/home_event_list/models/user_data_model.dart';
+import '../home_event_list/models/user_data_model.dart';
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();

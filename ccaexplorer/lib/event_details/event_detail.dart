@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:full_screen_image/full_screen_image.dart';
+import 'package:ccaexplorer/admin/admin_theme.dart';
 
 class EventDetail extends StatelessWidget {
   const EventDetail({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              appBar(),
+              getAppBarUI(),
               imagepad(),
               desciption_title(),
               desciption_body(),
@@ -52,44 +54,60 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget appBar() {
+  Widget getAppBarUI() {
     return Container(
-      padding: EdgeInsets.all(16),
-      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: AdminTheme.buildLightTheme().backgroundColor,
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              offset: const Offset(0, 2),
+              blurRadius: 8.0),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          SizedBox(
-              height: 32.0,
-              width: 32.0,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius:
-                      BorderRadius.circular(AppBar().preferredSize.height),
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.black87,
-                  ),
-                  onTap: () {},
+          Container(
+            alignment: Alignment.centerLeft,
+            width: AppBar().preferredSize.height + 40,
+            height: AppBar().preferredSize.height,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(32.0),
                 ),
-              )),
-          ElevatedButton.icon(
-              onPressed: () {
-                // Respond to button press
-              },
-              icon: Icon(
-                Icons.star,
-                size: 20,
-                color: Colors.yellow,
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(Icons.arrow_back),
+                ),
               ),
-              label: Text("Favourite", style: TextStyle(color: Colors.black87)),
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.white),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          side: BorderSide(color: Colors.white))))),
+            ),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              // Respond to button press
+            },
+            icon: Icon(
+              Icons.star,
+              size: 20,
+              color: Colors.yellow,
+            ),
+            label: Text("Favourite", style: TextStyle(color: Colors.black87)),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.white),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                  side: BorderSide(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -203,3 +221,50 @@ Widget desciption_body() => Container(
         style: TextStyle(fontSize: 20, fontStyle: FontStyle.normal),
       ),
     );
+
+  // Widget appBar() {
+  //   return Container(
+  //     padding: EdgeInsets.all(16),
+  //     width: MediaQuery.of(context).size.width,
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //       children: <Widget>[
+  //         SizedBox(
+  //             height: 32.0,
+  //             width: 32.0,
+  //             child: Material(
+  //               color: Colors.transparent,
+  //               child: InkWell(
+  //                 borderRadius:
+  //                     BorderRadius.circular(AppBar().preferredSize.height),
+  //                 child: Icon(
+  //                   Icons.arrow_back_ios,
+  //                   color: Colors.black87,
+  //                 ),
+  //                 onTap: () {},
+  //               ),
+  //             )),
+  //         ElevatedButton.icon(
+  //           onPressed: () {
+  //             // Respond to button press
+  //           },
+  //           icon: Icon(
+  //             Icons.star,
+  //             size: 20,
+  //             color: Colors.yellow,
+  //           ),
+  //           label: Text("Favourite", style: TextStyle(color: Colors.black87)),
+  //           style: ButtonStyle(
+  //             backgroundColor: MaterialStateProperty.all(Colors.white),
+  //             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+  //               RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.circular(20.0),
+  //                 side: BorderSide(color: Colors.white),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }

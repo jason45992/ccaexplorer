@@ -1,9 +1,7 @@
-import 'package:ccaexplorer/event_list/category_list_view.dart';
-import 'package:ccaexplorer/event_list/course_info_screen.dart';
-import 'package:ccaexplorer/event_list/popular_course_list_view.dart';
+import 'package:ccaexplorer/home_event_list/course_info_screen.dart';
 import 'package:ccaexplorer/main.dart';
 import 'package:flutter/material.dart';
-import '../event_list/event_app_theme.dart';
+import '../home_event_list/event_app_theme.dart';
 
 class DesignCourseHomeScreen extends StatefulWidget {
   @override
@@ -89,11 +87,11 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         const SizedBox(
           height: 16,
         ),
-        CategoryListView(
-          callBack: () {
-            moveTo();
-          },
-        ),
+        // CategoryListView(
+        //   callBack: () {
+        //     moveTo();
+        //   },
+        // ),
       ],
     );
   }
@@ -115,13 +113,13 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
               color: EventAppTheme.darkerText,
             ),
           ),
-          Flexible(
-            child: PopularCourseListView(
-              callBack: () {
-                moveTo();
-              },
-            ),
-          )
+          // Flexible(
+          //   child: PopularCourseListView(
+          //     callBack: () {
+          //       moveTo();
+          //     },
+          //   ),
+          // )
         ],
       ),
     );

@@ -1,8 +1,10 @@
-import 'package:ccaexplorer/event_list/category_list_view.dart';
-import 'package:ccaexplorer/event_list/course_info_screen.dart';
-import 'package:ccaexplorer/event_list/popular_course_list_view.dart';
+import 'package:ccaexplorer/home_event_list/banner_list_view.dart';
+import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
+import 'package:ccaexplorer/home_event_list/event_list_view.dart';
 import 'package:ccaexplorer/main.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'event_app_theme.dart';
 
 class EventlHomeScreen extends StatefulWidget {
@@ -12,50 +14,61 @@ class EventlHomeScreen extends StatefulWidget {
 
 class _EventlHomeScreenState extends State<EventlHomeScreen> {
   CategoryType categoryType = CategoryType.all;
+  List<EventDetails> tempEventList = [];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: EventAppTheme.nearlyWhite,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Column(
-          children: <Widget>[
-            SizedBox(
-              height: MediaQuery.of(context).padding.top,
-            ),
-            getAppBarUI(),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Container(
+    // ApplicationEventDetailState().init();
+    return Consumer<ApplicationEventDetailState>(
+        builder: (context, appState, _) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: <Widget>[
-                      getSearchBarUI(),
-                      getCategoryUI(),
-                      Flexible(
-                        child: getPopularCourseUI(),
-                      ),
-                    ],
+                  color: EventAppTheme.nearlyWhite,
+                  child: Scaffold(
+                    backgroundColor: Colors.transparent,
+                    body: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: MediaQuery.of(context).padding.top,
+                        ),
+                        // getAppBarUI(),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Container(
+                              height: MediaQuery.of(context).size.height,
+                              child: Column(
+                                children: <Widget>[
+                                  getSearchBarUI(appState, context),
+                                  getBannerUI(appState),
+                                  Flexible(
+                                    child: getEventListUI(appState),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                )
+              ],
+            ));
   }
 
-  Widget getCategoryUI() {
+  Widget getBannerUI(ApplicationEventDetailState appState) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        CategoryListView(
+        BannerListView(
           callBack: () {
             moveTo();
           },
+          appState: appState,
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0, left: 130, right: 16),
@@ -77,17 +90,18 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: Row(
             children: <Widget>[
-              getButtonUI(CategoryType.all, categoryType == CategoryType.all),
+              getButtonUI(
+                  CategoryType.all, categoryType == CategoryType.all, appState),
               const SizedBox(
                 width: 16,
               ),
-              getButtonUI(
-                  CategoryType.latest, categoryType == CategoryType.latest),
+              getButtonUI(CategoryType.latest,
+                  categoryType == CategoryType.latest, appState),
               const SizedBox(
                 width: 16,
               ),
-              getButtonUI(
-                  CategoryType.myClub, categoryType == CategoryType.myClub),
+              getButtonUI(CategoryType.myClub,
+                  categoryType == CategoryType.myClub, appState),
             ],
           ),
         ),
@@ -98,7 +112,7 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
     );
   }
 
-  Widget getPopularCourseUI() {
+  Widget getEventListUI(ApplicationEventDetailState appState) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
       child: Column(
@@ -106,7 +120,7 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            '230 results found',
+            '${appState.eventDetailList.length} results found',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.w600,
@@ -116,10 +130,11 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
             ),
           ),
           Flexible(
-            child: PopularCourseListView(
+            child: EventListView(
               callBack: () {
                 // moveTo();
               },
+              appState: appState,
             ),
           )
         ],
@@ -128,15 +143,16 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
   }
 
   void moveTo() {
-    Navigator.push<dynamic>(
-      context,
-      MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => CourseInfoScreen(),
-      ),
-    );
+    // Navigator.push<dynamic>(
+    //   context,
+    //   MaterialPageRoute<dynamic>(
+    //     builder: (BuildContext context) => CourseInfoScreen(),
+    //   ),
+    // );
   }
 
-  Widget getButtonUI(CategoryType categoryTypeData, bool isSelected) {
+  Widget getButtonUI(CategoryType categoryTypeData, bool isSelected,
+      ApplicationEventDetailState appState) {
     String txt = '';
     if (CategoryType.all == categoryTypeData) {
       txt = 'ALL';
@@ -159,6 +175,8 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
             onTap: () {
               setState(() {
                 categoryType = categoryTypeData;
+                updateListByCategory(
+                    categoryType, appState, this.tempEventList);
               });
             },
             child: Padding(
@@ -185,7 +203,14 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
     );
   }
 
-  Widget getSearchBarUI() {
+  Widget getSearchBarUI(
+      ApplicationEventDetailState appState, BuildContext context) {
+    TextEditingController searchController = TextEditingController();
+    void stateSetter() {
+      setState(() {});
+      print("Set State triggered!");
+    }
+
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 18),
       child: Row(
@@ -194,9 +219,9 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
         children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width * 0.9,
-            height: 64,
+            height: 60,
             child: Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              padding: const EdgeInsets.only(top: 0, bottom: 8),
               child: Container(
                 decoration: BoxDecoration(
                   color: HexColor('#F8FAFB'),
@@ -214,11 +239,12 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
                       child: Container(
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         child: TextFormField(
+                          controller: searchController,
                           style: TextStyle(
                             fontFamily: 'WorkSans',
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: EventAppTheme.nearlyBlue,
+                            fontSize: 14,
+                            color: EventAppTheme.grey,
                           ),
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
@@ -236,15 +262,27 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
                               color: HexColor('#B9BABC'),
                             ),
                           ),
-                          onEditingComplete: () {},
+                          onTap: () {
+                            appState.init();
+                          },
                         ),
                       ),
                     ),
                     SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: Icon(Icons.search, color: HexColor('#B9BABC')),
-                    )
+                        width: 60,
+                        height: 40,
+                        child: new IconButton(
+                          icon: new Icon(
+                            Icons.search,
+                            color: HexColor('#B9BABC'),
+                          ),
+                          onPressed: () {
+                            FocusScope.of(context).unfocus();
+                            updateListByKeyWord(searchController.text, appState,
+                                context, stateSetter, this.tempEventList);
+                            setState(() {});
+                          },
+                        ))
                   ],
                 ),
               ),
@@ -295,6 +333,92 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
       ),
     );
   }
+}
+
+updateListByKeyWord(
+    String keyWord,
+    ApplicationEventDetailState appState,
+    BuildContext context,
+    VoidCallback stateSetter,
+    List<EventDetails> tempEventList) {
+  // appState.init();
+  // Future.delayed(const Duration(milliseconds: 250), () {
+  if (keyWord.isNotEmpty) {
+    List<EventDetails> tempList = appState.eventDetailList
+        .where((map) =>
+            map.eventTitle.toLowerCase().contains(keyWord.toLowerCase()))
+        .toList();
+    if (tempList.length == 0) {
+      showAlertDialog(context);
+    } else {
+      appState.setEventDetailList = tempList;
+      tempEventList = tempList;
+    }
+  } else {
+    appState.init();
+    Future.delayed(const Duration(milliseconds: 5000), () {
+      tempEventList = appState.eventDetailList;
+      print(tempEventList.length);
+    });
+  }
+  // stateSetter();
+  // print("executed");
+  // });
+}
+
+updateListByCategory(CategoryType categoryType,
+    ApplicationEventDetailState appState, List<EventDetails> tempEventList) {
+  if (categoryType == CategoryType.all) {
+    // appState.init();
+  } else if (categoryType == CategoryType.latest) {
+    List<EventDetails> tempList = tempEventList
+        .where((map) => ((new DateFormat("yyyy-MM-dd hh:mm:ss")
+                .parse(map.datetime)
+                .isAfter(DateTime.now())) &&
+            (new DateFormat("yyyy-MM-dd hh:mm:ss")
+                .parse(map.datetime)
+                .isBefore(DateTime.now().add(Duration(days: 14, hours: 23))))))
+        .toList();
+    if (tempList.length > 0) {
+      appState.setEventDetailList = tempList;
+    }
+  } else {
+    //my club
+    List<String> clubList = ["student union", "art"];
+    List<EventDetails> tempList = appState.eventDetailList
+        .where((map) => (clubList.contains(map.club.toLowerCase())))
+        .toList();
+    if (tempList.length > 0) {
+      appState.setEventDetailList = tempList;
+    }
+  }
+}
+
+showAlertDialog(BuildContext context) {
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("No result found"),
+    content: Text("Please use other keywords."),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
 
 enum CategoryType {

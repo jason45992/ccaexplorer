@@ -1,15 +1,17 @@
-import 'package:ccaexplorer/event_list/models/category.dart';
+import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:flutter/material.dart';
 
-class CategoryListView extends StatefulWidget {
-  const CategoryListView({Key? key, this.callBack}) : super(key: key);
+class BannerListView extends StatefulWidget {
+  const BannerListView({Key? key, this.callBack, required this.appState})
+      : super(key: key);
 
   final Function()? callBack;
+  final ApplicationEventDetailState appState;
   @override
-  _CategoryListViewState createState() => _CategoryListViewState();
+  _BannerListViewState createState() => _BannerListViewState();
 }
 
-class _CategoryListViewState extends State<CategoryListView>
+class _BannerListViewState extends State<BannerListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
 
@@ -47,12 +49,12 @@ class _CategoryListViewState extends State<CategoryListView>
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: Category.categoryList.length,
+                itemCount: widget.appState.eventDetailList.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count = Category.categoryList.length > 10
+                  final int count = widget.appState.eventDetailList.length > 10
                       ? 10
-                      : Category.categoryList.length;
+                      : widget.appState.eventDetailList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -62,7 +64,7 @@ class _CategoryListViewState extends State<CategoryListView>
                   animationController?.forward();
 
                   return CategoryView(
-                    category: Category.categoryList[index],
+                    event: widget.appState.eventDetailList[index],
                     animation: animation,
                     animationController: animationController,
                     callback: widget.callBack,
@@ -80,14 +82,14 @@ class _CategoryListViewState extends State<CategoryListView>
 class CategoryView extends StatelessWidget {
   const CategoryView(
       {Key? key,
-      this.category,
+      this.event,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
   final VoidCallback? callback;
-  final Category? category;
+  final EventDetails? event;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
@@ -119,7 +121,7 @@ class CategoryView extends StatelessWidget {
                                   const BorderRadius.all(Radius.circular(16.0)),
                               child: AspectRatio(
                                   aspectRatio: 2.0,
-                                  child: Image.asset(category!.imagePath)),
+                                  child: Image.network(event!.cover)),
                             )
                           ],
                         ),

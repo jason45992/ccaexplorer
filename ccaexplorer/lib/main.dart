@@ -74,10 +74,10 @@ class App extends StatelessWidget {
       ),
       // home: GridViewDemo(title: 'Grid View Demo'),
       // home: AdminClubManagement(),
-      // home: EventlHomeScreen(),
+      home: EventlHomeScreen(),
       // home: ClubRecruitmentDepartment(),
       // home: SignIn(),
-      home: HomePage(),
+      // home: ClubHomeScreen(),
       //home: ClubDetailPage(Club.generateClubs()[0]),
     );
   }

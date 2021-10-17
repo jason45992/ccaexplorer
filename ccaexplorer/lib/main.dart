@@ -19,7 +19,6 @@ import 'event_details/event_detail.dart';
 import 'login/login.dart';
 // import 'src/event_details/event_detail.dart';
 import 'club/club_join/club_join_form.dart';
-import 'src/login/login.dart';
 import 'package:ccaexplorer/pages/home_page.dart';
 import 'package:ccaexplorer/club/club_list/club_list.dart';
 import 'src/authentication_state.dart'; // new
@@ -76,8 +75,8 @@ class App extends StatelessWidget {
       // home: AdminClubManagement(),
       // home: EventlHomeScreen(),
       // home: ClubRecruitmentDepartment(),
-      // home: SignIn(),
-      home: HomePage(),
+      home: SignIn(),
+      // home: HomePage(),
       //home: ClubDetailPage(Club.generateClubs()[0]),
     );
   }

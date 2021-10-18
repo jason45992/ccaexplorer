@@ -28,12 +28,12 @@ class _TimeTableState extends State<TimeTable> {
   @override
   void initState() {
     super.initState();
+    getData();
   }
 
   final List<Tab> myTabs = <Tab>[Tab(text: 'Timetable'), Tab(text: 'Event')];
   @override
   Widget build(BuildContext context) {
-    getData();
     return DefaultTabController(
       length: myTabs.length,
       child: Scaffold(
@@ -53,12 +53,13 @@ class _TimeTableState extends State<TimeTable> {
               view: CalendarView.week,
               dataSource: MeetingDataSource(events),
               showDatePickerButton: true,
-              onTap: calendarTapped,
+              onTap: timeTableTapped,
             ),
             // _DismissibleApp(),
             SfCalendar(
               dataSource: MeetingDataSource(events),
               view: CalendarView.schedule,
+              onTap: eventTapped,
               scheduleViewSettings: ScheduleViewSettings(
                 weekHeaderSettings: WeekHeaderSettings(
                     startDateFormat: 'dd MMM ',
@@ -95,6 +96,7 @@ class _TimeTableState extends State<TimeTable> {
     querySnapshot.docs.forEach((document) {
       _eventDetailList.add(
         EventDetails(
+          eventId: document.get('eventid'),
           club: document.get('club'),
           cover: document.get('cover'),
           datetime: document.get('datetime'),
@@ -126,25 +128,30 @@ class _TimeTableState extends State<TimeTable> {
 
     _eventDetailList.asMap().forEach((index, element) {
       final String eventTitle = element.eventTitle;
+      final String eventId = element.eventId;
+      final String place = element.place;
       final DateTime startTime =
           new DateFormat("yyyy-MM-dd hh:mm:ss").parse(element.datetime);
       final DateTime endTime = startTime.add(const Duration(hours: 2));
-      events.add(Meeting(
-          eventTitle, startTime, endTime, Color(colorCode[index]), false));
+      events.add(Meeting(eventId, eventTitle, place, startTime, endTime,
+          Color(colorCode[index]), false));
     });
   }
 
   String? _subjectText = '',
+      _eventId = '',
+      _locationText = '',
       _startTimeText = '',
       _endTimeText = '',
       _dateText = '',
       _timeDetails = '';
 
-  void calendarTapped(CalendarTapDetails details) {
+  void timeTableTapped(CalendarTapDetails details) {
     if (details.targetElement == CalendarElement.appointment ||
         details.targetElement == CalendarElement.agenda) {
       final Meeting appointmentDetails = details.appointments![0];
       _subjectText = appointmentDetails.eventName;
+      _locationText = appointmentDetails.place;
       _dateText = DateFormat('MMMM dd, yyyy')
           .format(appointmentDetails.from)
           .toString();
@@ -153,50 +160,220 @@ class _TimeTableState extends State<TimeTable> {
       _endTimeText =
           DateFormat('hh:mm a').format(appointmentDetails.to).toString();
       _timeDetails = '$_startTimeText - $_endTimeText';
-    } else if (details.targetElement == CalendarElement.calendarCell) {
-      _subjectText = "You have tapped cell";
-      _dateText = DateFormat('MMMM dd, yyyy').format(details.date!).toString();
-      _timeDetails = '';
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Container(child: new Text('$_subjectText')),
+              content: Container(
+                height: 100,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          'Location: $_locationText',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          'Date: $_dateText',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      height: 20,
+                      child: Row(
+                        children: <Widget>[
+                          Text('Time: $_timeDetails',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400, fontSize: 15)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                new TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: new Text('Back'))
+              ],
+            );
+          });
     }
+  }
+
+  void eventTapped(CalendarTapDetails details) {
+    if (details.targetElement == CalendarElement.appointment ||
+        details.targetElement == CalendarElement.agenda) {
+      final Meeting appointmentDetails = details.appointments![0];
+      _eventId = appointmentDetails.eventId;
+      _subjectText = appointmentDetails.eventName;
+      _locationText = appointmentDetails.place;
+      _dateText = DateFormat('MMMM dd, yyyy')
+          .format(appointmentDetails.from)
+          .toString();
+      _startTimeText =
+          DateFormat('hh:mm a').format(appointmentDetails.from).toString();
+      _endTimeText =
+          DateFormat('hh:mm a').format(appointmentDetails.to).toString();
+      _timeDetails = '$_startTimeText - $_endTimeText';
+      print(appointmentDetails);
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Container(child: new Text('$_subjectText')),
+              content: Container(
+                height: 100,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          'Location: $_locationText',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          'Date: $_dateText',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      height: 20,
+                      child: Row(
+                        children: <Widget>[
+                          Text('Time: $_timeDetails',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400, fontSize: 15)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                new TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      showConfirm(_eventId!);
+                    },
+                    child: new Text('Cancel')),
+                new TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: new Text('Back'))
+              ],
+            );
+          });
+    }
+  }
+
+  void showConfirm(String eventId) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Container(child: new Text('$_subjectText')),
+            title: Container(child: new Text('Cancel Event')),
             content: Container(
-              height: 80,
+              height: 100,
               child: Column(
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Text(
-                        '$_dateText',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
+                      SizedBox(
+                        width: 250,
+                        child: Text(
+                          'Are you sure you want to cancel this event?',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          ),
                         ),
-                      ),
+                      )
                     ],
-                  ),
-                  Container(
-                    height: 40,
-                    child: Row(
-                      children: <Widget>[
-                        Text(_timeDetails!,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400, fontSize: 15)),
-                      ],
-                    ),
                   ),
                 ],
               ),
             ),
             actions: <Widget>[
-              new FlatButton(
+              new TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    showCancelSuccess(eventId);
+                  },
+                  child: new Text('Yes')),
+              new TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: new Text('Close'))
+                  child: new Text('No'))
+            ],
+          );
+        });
+  }
+
+  void showCancelSuccess(String eventId) {
+    events = events.where((element) => element.eventId != eventId).toList();
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Container(child: new Text('Cancel Event')),
+            content: Container(
+              height: 100,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 250,
+                        child: Text(
+                          'Event cancelled successfully!',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              new TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    setState(() {});
+                  },
+                  child: new Text('Ok'))
             ],
           );
         });
@@ -224,6 +401,14 @@ class MeetingDataSource extends CalendarDataSource {
     return appointments![index].eventName;
   }
 
+  String getPlace(int index) {
+    return appointments![index].place;
+  }
+
+  String getEventId(int index) {
+    return appointments![index].eventId;
+  }
+
   @override
   Color getColor(int index) {
     return appointments![index].background;
@@ -236,9 +421,11 @@ class MeetingDataSource extends CalendarDataSource {
 }
 
 class Meeting {
-  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
-
+  Meeting(this.eventId, this.eventName, this.place, this.from, this.to,
+      this.background, this.isAllDay);
+  String eventId;
   String eventName;
+  String place;
   DateTime from;
   DateTime to;
   Color background;
@@ -247,13 +434,15 @@ class Meeting {
 
 class EventDetails {
   EventDetails(
-      {required this.club,
+      {required this.eventId,
+      required this.club,
       required this.cover,
       required this.datetime,
       required this.description,
       required this.eventTitle,
       required this.place,
       required this.poster});
+  final String eventId;
   final String club;
   final String cover;
   final String datetime;
@@ -264,6 +453,7 @@ class EventDetails {
 
   Map<String, dynamic> toMap() {
     return {
+      'eventId': eventId,
       'club': club,
       'cover': cover,
       'datetime': datetime,

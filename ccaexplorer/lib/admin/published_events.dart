@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:ccaexplorer/admin_image_upload/event_detail_admin.dart';
 import 'package:ccaexplorer/admin/registration_list.dart';
 import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
@@ -253,6 +254,12 @@ class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(100.0)),
                             onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => admin_event_form(),
+                                ),
+                              );
                               //edit profile page
                             },
                             child: Center(

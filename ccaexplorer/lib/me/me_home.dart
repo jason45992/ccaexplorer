@@ -1,29 +1,9 @@
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../authentication.dart';
-import '../home_event_list/models/user_data_model.dart';
 import 'admin_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ccaexplorer/home_event_list/models/user_data_model.dart';
-import '../home_event_list/models/user_data_model.dart';
-
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(
-//     MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider(create: (_) => ApplicationState()),
-//         ChangeNotifierProvider(create: (_) => ApplicationUserDetailState()),
-//       ],
-//       child: MeHome(),
-//     ),
-//   );
-// }
 
 class MeHome extends StatefulWidget {
   MeHome();
@@ -34,16 +14,15 @@ class MeHome extends StatefulWidget {
 
 class _MeHomeState extends State<MeHome> {
   var storage = FirebaseStorage.instance;
-  late List<AssetImage> listOfImage;
-  bool clicked = false;
-  List<String?> listOfStr = [];
-  String? images;
-  bool isLoading = false;
+  List<ClubDetails> cLubList = [];
+  List<CLubLogoDetails> cLubLogoList = [];
+  List<CLubMemberDetails> cLubMemberList = [];
   User? user = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
     super.initState();
+    getData();
   }
 
   @override
@@ -62,23 +41,30 @@ class _MeHomeState extends State<MeHome> {
                 height: 20,
               ),
               Container(
-                padding: const EdgeInsets.only(top: 10, left: 25, right: 18),
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "My Club",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
-                    letterSpacing: 0.27,
-                    color: Color(0xFF17262A),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              getMyClubUI(),
+                  padding: const EdgeInsets.only(top: 10, left: 25, right: 18),
+                  alignment: Alignment.topLeft,
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "My Club",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                            letterSpacing: 0.27,
+                            color: Color(0xFF17262A),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      getMyClubUI(),
+                    ],
+                  )),
+
               SizedBox(
                 height: 10,
               ),
@@ -126,7 +112,7 @@ class _MeHomeState extends State<MeHome> {
               decoration: BoxDecoration(
                   color: Color(0xFFFFFFFF),
                   borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                  border: Border.all(color: Color(0xFF00B6F0))),
+                  border: Border.all(color: Color(0xFF3A5160))),
               width: 90,
               height: 35,
               child: Material(
@@ -145,7 +131,7 @@ class _MeHomeState extends State<MeHome> {
                         fontWeight: FontWeight.w600,
                         fontSize: 12,
                         letterSpacing: 0.27,
-                        color: Color(0xFF00B6F0),
+                        color: Color(0xFF3A5160),
                       ),
                     ),
                   ),
@@ -160,92 +146,30 @@ class _MeHomeState extends State<MeHome> {
 
   Widget getMyClubUI() {
     return Container(
-        width: MediaQuery.of(context).size.width * 0.9,
-        height: 150,
-        decoration: BoxDecoration(
-          color: Color(0xFFEDF0F0),
-          borderRadius: const BorderRadius.all(Radius.circular(32.0)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Color(0xFF3A5160).withOpacity(0.5),
-                offset: const Offset(0.8, 0.8),
-                blurRadius: 2.0),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              InkWell(
-                onTap: () {
-                  print("Container 1 clicked");
-                },
-                child: Column(children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    child: Image.asset('assets/images/userImage.png'),
-                  ),
-                  Text(
-                    "Club Name",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                      letterSpacing: 0.27,
-                      color: Color(0xFF17262A),
-                    ),
-                  )
-                ]),
-              ),
-              InkWell(
-                onTap: () {
-                  print("Container 2 clicked");
-                },
-                child: Column(children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    child: Image.asset('assets/images/userImage.png'),
-                  ),
-                  Text(
-                    "Club Name",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                      letterSpacing: 0.27,
-                      color: Color(0xFF17262A),
-                    ),
-                  )
-                ]),
-              ),
-              InkWell(
-                onTap: () {
-                  print("Container 3 clicked");
-                },
-                child: Column(children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    child: Image.asset('assets/images/userImage.png'),
-                  ),
-                  Text(
-                    "Club Name",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                      letterSpacing: 0.27,
-                      color: Color(0xFF17262A),
-                    ),
-                  )
-                ]),
-              ),
-            ],
-          ),
-        ));
+      // padding: const EdgeInsets.only(left: 28, right: 28),
+      height: 100,
+      child: Expanded(
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: cLubList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                  child: Card(
+                      semanticContainer: true,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      child: Image.network(
+                        '${cLubList[index].logoUrl}',
+                        fit: BoxFit.fill,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      elevation: 5,
+                      margin: EdgeInsets.all(10)));
+            }),
+      ),
+    );
   }
 
   Widget getSettingList() {
@@ -321,6 +245,7 @@ class _MeHomeState extends State<MeHome> {
   Widget getuserid() {
     CollectionReference users =
         FirebaseFirestore.instance.collection('useracc');
+
     return FutureBuilder<DocumentSnapshot>(
       future: users.doc(user!.uid).get(),
       builder:
@@ -351,4 +276,107 @@ class _MeHomeState extends State<MeHome> {
       },
     );
   }
+
+  Future<void> getData() async {
+    // for club list
+    CollectionReference _clubCollectionRef =
+        FirebaseFirestore.instance.collection('club');
+    // Get docs from collection reference
+    QuerySnapshot clubListQuerySnapshot = await _clubCollectionRef.get();
+
+    // Get data from docs and convert map to List
+    clubListQuerySnapshot.docs.forEach((document) {
+      cLubList.add(
+        ClubDetails(
+          category: document.get('category'),
+          description: document.get('description'),
+          id: document.get('id'),
+          invitationCode: '',
+          logoId: document.get('logo_id'),
+          name: document.get('name'),
+          logoUrl: '',
+        ),
+      );
+    });
+
+    // for club logo list
+    CollectionReference _fileCollectionRef =
+        FirebaseFirestore.instance.collection('file');
+    // Get docs from collection reference
+    QuerySnapshot clubLogoQuerySnapshot = await _fileCollectionRef.get();
+    clubLogoQuerySnapshot.docs.forEach((element) {
+      cLubLogoList
+          .add(CLubLogoDetails(id: element.get('id'), url: element.get('url')));
+    });
+
+    cLubList.forEach((clubDetail) {
+      cLubLogoList.forEach((logoDetail) {
+        if (logoDetail.id == clubDetail.logoId) {
+          clubDetail.logoUrl = logoDetail.url;
+        }
+      });
+    });
+
+    // for filter out myclub
+    CollectionReference _clubMemberCollectionRef =
+        FirebaseFirestore.instance.collection('club_member');
+    // Get docs from collection reference
+    QuerySnapshot clubMemberLogoQuerySnapshot =
+        await _clubMemberCollectionRef.get();
+    clubMemberLogoQuerySnapshot.docs.forEach((element) {
+      cLubMemberList.add(CLubMemberDetails(
+          clubId: element.get('club_id'), userId: element.get('user_id')));
+    });
+
+    cLubMemberList = cLubMemberList
+        .where((clubMemberDetail) => clubMemberDetail.userId == user!.uid)
+        .toList();
+
+    List<ClubDetails> tempCLubList = [];
+
+    cLubList.forEach((x) {
+      cLubMemberList.forEach((y) {
+        if (y.clubId == x.id) {
+          tempCLubList.add(x);
+        }
+      });
+    });
+
+    cLubList = tempCLubList;
+  }
+}
+
+class ClubDetails {
+  ClubDetails(
+      {required this.category,
+      required this.description,
+      required this.id,
+      required this.invitationCode,
+      required this.logoId,
+      required this.name,
+      required this.logoUrl});
+  final String category;
+  final String description;
+  final String id;
+  final String invitationCode;
+  final String logoId;
+  final String name;
+  String logoUrl;
+
+  @override
+  String toString() {
+    return 'name: ' + name + ' logoUrl: ' + logoUrl;
+  }
+}
+
+class CLubLogoDetails {
+  CLubLogoDetails({required this.id, required this.url});
+  final String id;
+  final String url;
+}
+
+class CLubMemberDetails {
+  CLubMemberDetails({required this.clubId, required this.userId});
+  final String clubId;
+  final String userId;
 }

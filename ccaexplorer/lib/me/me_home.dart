@@ -18,6 +18,7 @@ class _MeHomeState extends State<MeHome> {
   List<CLubLogoDetails> cLubLogoList = [];
   List<CLubMemberDetails> cLubMemberList = [];
   User? user = FirebaseAuth.instance.currentUser;
+  String username = '';
 
   @override
   void initState() {
@@ -28,63 +29,98 @@ class _MeHomeState extends State<MeHome> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFFFFFFFF),
+      // color: Color(0xFF3A5160),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/images/profile.png'),
+              fit: BoxFit.cover)),
       child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Column(
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).padding.top,
-              ),
-              getAppBarUI(),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                  padding: const EdgeInsets.only(top: 10, left: 25, right: 18),
-                  alignment: Alignment.topLeft,
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                getAppBarUI(),
+              ],
+            ),
+            Positioned(
+              top: (MediaQuery.of(context).size.width - 200),
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFFFFF),
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(32.0),
+                      topRight: Radius.circular(32.0)),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: Color(0xFF3A5160).withOpacity(0.5),
+                        offset: const Offset(1.1, 1.1),
+                        blurRadius: 10.0),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 8),
                   child: Column(
                     children: <Widget>[
+                      SizedBox(
+                        height: 30,
+                      ),
                       Align(
-                        alignment: Alignment.topLeft,
+                        alignment: Alignment.center,
                         child: Text(
                           "My Club",
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w400,
                             fontSize: 18,
                             letterSpacing: 0.27,
                             color: Color(0xFF17262A),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
                       getMyClubUI(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      getSettingList()
                     ],
-                  )),
-
-              SizedBox(
-                height: 10,
+                  ),
+                ),
               ),
-              getSettingList(),
-              // _offsetPopup()
-            ],
-          ),
-          floatingActionButton: getAdminUI()),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget getAppBarUI() {
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0, left: 18, right: 18),
+      padding: const EdgeInsets.only(top: 80.0, left: 18, right: 18),
       child: Row(
         children: <Widget>[
           Container(
+            decoration: BoxDecoration(
+                // border: Border.all(style: BorderStyle.solid),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(40),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(0.0, 1.0), //(x,y)
+                    blurRadius: 6.0,
+                  ),
+                ]),
             width: 80,
             height: 80,
-            child: Image.asset('assets/images/userImage.png'),
+            child: CircleAvatar(
+                radius: 30.0,
+                backgroundImage: AssetImage('assets/images/userImage.png'),
+                backgroundColor: Colors.transparent),
           ),
           Container(
             padding: const EdgeInsets.only(left: 10),
@@ -92,15 +128,24 @@ class _MeHomeState extends State<MeHome> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                getuserid(),
                 Text(
-                  'Matric Num',
+                  username,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 20,
+                    letterSpacing: 0.2,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF3293A45),
+                  ),
+                ),
+                Text(
+                  'U9205231W',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
-                    fontSize: 20,
+                    fontSize: 16,
                     letterSpacing: 0.27,
-                    color: Color(0xFF17262A),
+                    color: Color(0xFF22373D),
                   ),
                 ),
               ],
@@ -148,27 +193,27 @@ class _MeHomeState extends State<MeHome> {
     return Container(
       // padding: const EdgeInsets.only(left: 28, right: 28),
       height: 100,
-      child: Expanded(
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            itemCount: cLubList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                  child: Card(
-                      semanticContainer: true,
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: Image.network(
-                        '${cLubList[index].logoUrl}',
-                        fit: BoxFit.fill,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      elevation: 5,
-                      margin: EdgeInsets.all(10)));
-            }),
-      ),
+      width: MediaQuery.of(context).size.width * 0.8,
+
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: cLubList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+                child: Card(
+                    semanticContainer: true,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: Image.network(
+                      '${cLubList[index].logoUrl}',
+                      fit: BoxFit.fill,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    elevation: 5,
+                    margin: EdgeInsets.all(10)));
+          }),
     );
   }
 
@@ -242,48 +287,12 @@ class _MeHomeState extends State<MeHome> {
     );
   }
 
-  Widget getuserid() {
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('useracc');
-
-    return FutureBuilder<DocumentSnapshot>(
-      future: users.doc(user!.uid).get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text("Something went wrong");
-        }
-
-        if (snapshot.hasData && !snapshot.data!.exists) {
-          return Text("Document does not exist");
-        }
-
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
-          return Text(
-            data['Name'],
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 20,
-              letterSpacing: 0.2,
-              color: Color(0xFF3A5160),
-            ),
-          );
-        }
-
-        return Text("loading");
-      },
-    );
-  }
-
   Future<void> getData() async {
     // for club list
     CollectionReference _clubCollectionRef =
         FirebaseFirestore.instance.collection('club');
     // Get docs from collection reference
     QuerySnapshot clubListQuerySnapshot = await _clubCollectionRef.get();
-
     // Get data from docs and convert map to List
     clubListQuerySnapshot.docs.forEach((document) {
       cLubList.add(
@@ -308,7 +317,6 @@ class _MeHomeState extends State<MeHome> {
       cLubLogoList
           .add(CLubLogoDetails(id: element.get('id'), url: element.get('url')));
     });
-
     cLubList.forEach((clubDetail) {
       cLubLogoList.forEach((logoDetail) {
         if (logoDetail.id == clubDetail.logoId) {
@@ -327,13 +335,10 @@ class _MeHomeState extends State<MeHome> {
       cLubMemberList.add(CLubMemberDetails(
           clubId: element.get('club_id'), userId: element.get('user_id')));
     });
-
     cLubMemberList = cLubMemberList
         .where((clubMemberDetail) => clubMemberDetail.userId == user!.uid)
         .toList();
-
     List<ClubDetails> tempCLubList = [];
-
     cLubList.forEach((x) {
       cLubMemberList.forEach((y) {
         if (y.clubId == x.id) {
@@ -341,8 +346,16 @@ class _MeHomeState extends State<MeHome> {
         }
       });
     });
-
     cLubList = tempCLubList;
+
+    //for user
+    CollectionReference _userCollectionRef =
+        FirebaseFirestore.instance.collection('useracc');
+    QuerySnapshot userQuerySnapshot =
+        await _userCollectionRef.where('userid', isEqualTo: user!.uid).get();
+    username = userQuerySnapshot.docs.first.get('Name');
+
+    setState(() {});
   }
 }
 

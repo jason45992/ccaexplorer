@@ -1,6 +1,5 @@
 import 'package:ccaexplorer/me/setting.dart';
 import 'package:ccaexplorer/login/signup.dart';
-import 'package:ccaexplorer/pages/me_page.dart';
 import 'package:ccaexplorer/admin/club_management.dart';
 import 'package:ccaexplorer/admin/select_club.dart';
 import 'package:ccaexplorer/home_event_list/event_home_screen.dart';

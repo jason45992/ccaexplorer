@@ -1,4 +1,4 @@
-import 'package:ccaexplorer/pages/home_page.dart';
+import 'package:ccaexplorer/home_page.dart';
 import 'package:flutter/material.dart';
 // import '../../src/authentication.dart'; // new
 import '../../../main.dart';

@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/pages/home_page.dart';
 import 'package:flutter/material.dart';
 // import '../../src/authentication.dart'; // new
 import '../../../main.dart';
@@ -127,7 +128,7 @@ class _State extends State<SignIn> {
           .then((result) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MeHome()),
+          MaterialPageRoute(builder: (context) => HomePage()),
         );
       });
     } on FirebaseAuthException catch (e) {

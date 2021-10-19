@@ -1,3 +1,7 @@
+import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
+import 'package:ccaexplorer/me/edit_profile.dart';
+import 'package:ccaexplorer/me/favourates.dart';
+import 'package:ccaexplorer/me/setting.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +104,7 @@ class _MeHomeState extends State<MeHome> {
             child: Image.asset('assets/images/userImage.png'),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 18, right: 18),
+            padding: const EdgeInsets.only(left: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,7 +124,7 @@ class _MeHomeState extends State<MeHome> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 18, right: 0),
+            padding: const EdgeInsets.only(left: 60, right: 0),
             child: Container(
               decoration: BoxDecoration(
                   color: Color(0xFFFFFFFF),
@@ -133,9 +137,12 @@ class _MeHomeState extends State<MeHome> {
                 child: InkWell(
                   splashColor: Colors.white24,
                   borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                  onTap: () {
-                    //edit profile page
-                  },
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfile(),
+                    ),
+                  ),
                   child: Center(
                     child: Text(
                       "Edit Profile",
@@ -162,13 +169,13 @@ class _MeHomeState extends State<MeHome> {
         width: MediaQuery.of(context).size.width * 0.9,
         height: 150,
         decoration: BoxDecoration(
-          color: Color(0xFFEDF0F0),
-          borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+          color: Color(0xFF3A5160),
+          borderRadius: const BorderRadius.all(Radius.circular(28.0)),
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Color(0xFF3A5160).withOpacity(0.5),
+                color: Color(0xFF3A5160).withOpacity(0.7),
                 offset: const Offset(0.8, 0.8),
-                blurRadius: 2.0),
+                blurRadius: 5.0),
           ],
         ),
         child: Padding(
@@ -186,6 +193,7 @@ class _MeHomeState extends State<MeHome> {
                     height: 80,
                     child: Image.asset('assets/images/userImage.png'),
                   ),
+                  const SizedBox(height: 10),
                   Text(
                     "Club Name",
                     textAlign: TextAlign.left,
@@ -193,7 +201,7 @@ class _MeHomeState extends State<MeHome> {
                       fontWeight: FontWeight.w600,
                       fontSize: 12,
                       letterSpacing: 0.27,
-                      color: Color(0xFF17262A),
+                      color: Color(0xFFFFFFFF),
                     ),
                   )
                 ]),
@@ -208,6 +216,7 @@ class _MeHomeState extends State<MeHome> {
                     height: 80,
                     child: Image.asset('assets/images/userImage.png'),
                   ),
+                  const SizedBox(height: 10),
                   Text(
                     "Club Name",
                     textAlign: TextAlign.left,
@@ -215,7 +224,7 @@ class _MeHomeState extends State<MeHome> {
                       fontWeight: FontWeight.w600,
                       fontSize: 12,
                       letterSpacing: 0.27,
-                      color: Color(0xFF17262A),
+                      color: Color(0xFFFFFFFF),
                     ),
                   )
                 ]),
@@ -230,6 +239,7 @@ class _MeHomeState extends State<MeHome> {
                     height: 80,
                     child: Image.asset('assets/images/userImage.png'),
                   ),
+                  const SizedBox(height: 10),
                   Text(
                     "Club Name",
                     textAlign: TextAlign.left,
@@ -237,7 +247,7 @@ class _MeHomeState extends State<MeHome> {
                       fontWeight: FontWeight.w600,
                       fontSize: 12,
                       letterSpacing: 0.27,
-                      color: Color(0xFF17262A),
+                      color: Color(0xFFFFFFFF),
                     ),
                   )
                 ]),
@@ -253,48 +263,66 @@ class _MeHomeState extends State<MeHome> {
       padding: EdgeInsets.all(20),
       children: [
         Card(
+          elevation: 2,
+          shadowColor: EventAppTheme.grey.withOpacity(0.2),
           shape: RoundedRectangleBorder(
             side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: ListTile(
-            leading: Icon(Icons.settings),
+            leading: Icon(Icons.settings, color: EventAppTheme.grey),
             title: Text('Settings'),
-            onTap: () {
-              print("settings 1");
-            },
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Setting(),
+              ),
+            ),
           ),
         ),
         SizedBox(
-          height: 10,
+          height: 5,
         ),
         Card(
+          elevation: 2,
+          shadowColor: EventAppTheme.grey.withOpacity(0.2),
           shape: RoundedRectangleBorder(
             side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: ListTile(
-            leading: Icon(Icons.favorite),
+            leading: Icon(
+              Icons.favorite,
+              color: EventAppTheme.grey,
+            ),
             title: Text('My Favorites'),
-            onTap: () {
-              print("settings 2");
-            },
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AdminPublishedEvents(),
+              ),
+            ),
           ),
         ),
         SizedBox(
-          height: 10,
+          height: 5,
         ),
         Card(
+          elevation: 2,
+          shadowColor: EventAppTheme.grey.withOpacity(0.2),
           shape: RoundedRectangleBorder(
             side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: ListTile(
-            leading: Icon(Icons.phone),
+            leading: Icon(Icons.phone, color: EventAppTheme.grey),
             title: Text('Contact Us'),
-            onTap: () {
-              print("settings 3");
-            },
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Setting(),
+              ),
+            ),
           ),
         )
       ],

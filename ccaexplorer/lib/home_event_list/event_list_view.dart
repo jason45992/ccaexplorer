@@ -105,7 +105,7 @@ class CategoryView extends StatelessWidget {
               splashColor: Colors.transparent,
               onTap: callback,
               child: SizedBox(
-                height: 200,
+                height: 300,
                 child: Stack(
                   alignment: AlignmentDirectional.bottomCenter,
                   children: <Widget>[
@@ -117,7 +117,7 @@ class CategoryView extends StatelessWidget {
                               decoration: BoxDecoration(
                                 color: HexColor('#F8FAFB'),
                                 borderRadius: const BorderRadius.all(
-                                    Radius.circular(16.0)),
+                                    Radius.circular(20.0)),
                                 // border: new Border.all(
                                 //     color: DesignCourseAppTheme.notWhite),
                               ),
@@ -194,8 +194,8 @@ class CategoryView extends StatelessWidget {
                                 const BorderRadius.all(Radius.circular(16.0)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                  color: EventAppTheme.grey.withOpacity(0.2),
-                                  offset: const Offset(0.0, 0.0),
+                                  color: EventAppTheme.grey.withOpacity(0.5),
+                                  offset: const Offset(1, 1),
                                   blurRadius: 6.0),
                             ],
                           ),

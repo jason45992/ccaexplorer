@@ -58,7 +58,10 @@ class _ClubHomeScreenState extends State<ClubHomeScreen>
                       ],
                     ),
                   )),
-              getSearchBarUI(),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: getSearchBarUI(),
+              ),
               Container(
                 height: 45,
                 child: TabBar(
@@ -102,14 +105,18 @@ class _TabWidget extends StatelessWidget {
     return Opacity(
       opacity: selected ? 1 : 0.5,
       child: Card(
-        shadowColor: Colors.black54,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        color: selected ? EventAppTheme.grey : Colors.transparent,
+        shadowColor: EventAppTheme.grey.withOpacity(0.7),
         elevation: selected ? 3 : 0,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           child: Text(
             tabCategory.category.name,
             style: TextStyle(
-              color: Colors.blue,
+              color: selected ? Colors.white : EventAppTheme.grey,
               fontWeight: FontWeight.bold,
               fontSize: 13,
             ),
@@ -165,13 +172,13 @@ class _ClubItem extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: 100,
+                width: 75,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Image.asset(club.image),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 1),
                 child: Text(
@@ -195,19 +202,19 @@ class _ClubItem extends StatelessWidget {
 
 Widget getSearchBarUI() {
   return Padding(
-    padding: const EdgeInsets.only(top: 8.0, left: 18),
+    padding: const EdgeInsets.only(top: 8.0, left: 20, bottom: 10),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
-          width: 390,
+          width: 350,
           height: 64,
           child: Padding(
             padding: const EdgeInsets.only(top: 8, bottom: 8),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: HexColor('#F8FAFB'),
                 border: Border.all(color: HexColor('#B9BABC')),
                 borderRadius: const BorderRadius.only(
                   bottomRight: Radius.circular(25.0),

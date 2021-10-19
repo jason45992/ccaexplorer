@@ -1,5 +1,6 @@
 import 'package:ccaexplorer/club/club_list/club_list.dart';
 import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
+import 'package:ccaexplorer/me/me_home.dart';
 import 'package:ccaexplorer/pages/club_page.dart';
 import 'package:ccaexplorer/pages/me_page.dart';
 import 'package:ccaexplorer/pages/timetable_page.dart';
@@ -18,7 +19,7 @@ class _HomePageState extends State<HomePage> {
     EventlHomeScreen(),
     ClubHomeScreen(),
     TimetablePage(),
-    MePage()
+    MeHome()
   ];
 
   int _selectedIndex = 0;
@@ -47,49 +48,66 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              color: _selectedIndex == 0 ? Colors.purple : Colors.grey,
+              color: _selectedIndex == 0
+                  ? Color(0xFF3A5160)
+                  : Colors.grey.withOpacity(0.8),
             ),
             title: Text(
               'Home',
               style: TextStyle(
-                color: _selectedIndex == 0 ? Colors.purple : Colors.grey,
-              ),
+                  color: _selectedIndex == 0
+                      ? Color(0xFF3A5160)
+                      : Colors.grey.withOpacity(0.8),
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold),
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.grid_view,
-              color: _selectedIndex == 1 ? Colors.purple : Colors.grey,
+              color: _selectedIndex == 1
+                  ? Color(0xFF3A5160)
+                  : Colors.grey.withOpacity(0.8),
             ),
             title: Text(
               'Club',
               style: TextStyle(
-                color: _selectedIndex == 1 ? Colors.purple : Colors.grey,
-              ),
+                  color: _selectedIndex == 1
+                      ? Color(0xFF3A5160)
+                      : Colors.grey.withOpacity(0.8),
+                  fontWeight: FontWeight.bold),
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.event,
-              color: _selectedIndex == 2 ? Colors.purple : Colors.grey,
+              color: _selectedIndex == 2
+                  ? Color(0xFF3A5160)
+                  : Colors.grey.withOpacity(0.8),
             ),
             title: Text(
               'Timetable',
               style: TextStyle(
-                color: _selectedIndex == 2 ? Colors.purple : Colors.grey,
-              ),
+                  color: _selectedIndex == 2
+                      ? Color(0xFF3A5160)
+                      : Colors.grey.withOpacity(0.8),
+                  fontWeight: FontWeight.bold),
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
-              color: _selectedIndex == 3 ? Colors.purple : Colors.grey,
+              color: _selectedIndex == 3
+                  ? Color(0xFF3A5160)
+                  : Colors.grey.withOpacity(0.8),
             ),
             title: Text(
               'Me',
               style: TextStyle(
-                color: _selectedIndex == 3 ? Colors.purple : Colors.grey,
-              ),
+                  color: _selectedIndex == 3
+                      ? Color(0xFF3A5160)
+                      : Colors.grey.withOpacity(0.8),
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ],

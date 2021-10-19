@@ -11,6 +11,7 @@ import '../../common_method/common_method_authentication.dart';
 import 'dart:async';
 import '../../home_event_list/models/user_data_model.dart';
 import '../../home_event_list/models/event_data_model.dart';
+import '../home_event_list/event_app_theme.dart';
 
 // Widget _buildBody(BuildContext context) {
 //  return StreamBuilder<QuerySnapshot>(
@@ -45,11 +46,14 @@ class MyHomePageState extends State<TimetablePage> {
       length: myTabs.length,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.grey,
+          backgroundColor: EventAppTheme.grey,
           title: TabBar(
             tabs: myTabs,
             isScrollable: true,
+            labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             indicatorColor: Colors.white,
+            indicatorSize: TabBarIndicatorSize.label,
+            indicatorWeight: 2.0,
             labelColor: Colors.white,
           ),
         ),

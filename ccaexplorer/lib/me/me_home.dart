@@ -35,65 +35,65 @@ class _MeHomeState extends State<MeHome> {
               image: AssetImage('assets/images/profile.png'),
               fit: BoxFit.cover)),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                getAppBarUI(),
-              ],
-            ),
-            Positioned(
-              top: (MediaQuery.of(context).size.width - 200),
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(32.0),
-                      topRight: Radius.circular(32.0)),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                        color: Color(0xFF3A5160).withOpacity(0.5),
-                        offset: const Offset(1.1, 1.1),
-                        blurRadius: 10.0),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 8),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "My Club",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 18,
-                            letterSpacing: 0.27,
-                            color: Color(0xFF17262A),
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  getAppBarUI(),
+                ],
+              ),
+              Positioned(
+                top: (MediaQuery.of(context).size.width - 200),
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFFFFF),
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(32.0),
+                        topRight: Radius.circular(32.0)),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: Color(0xFF3A5160).withOpacity(0.5),
+                          offset: const Offset(1.1, 1.1),
+                          blurRadius: 10.0),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 8),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "My Club",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18,
+                              letterSpacing: 0.27,
+                              color: Color(0xFF17262A),
+                            ),
                           ),
                         ),
-                      ),
-                      getMyClubUI(),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      getSettingList()
-                    ],
+                        getMyClubUI(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        getSettingList(),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+          floatingActionButton: getAdminUI()),
     );
   }
 

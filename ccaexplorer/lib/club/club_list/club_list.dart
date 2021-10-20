@@ -164,8 +164,8 @@ class _ClubItem extends StatelessWidget {
                   ClubDetailPage(Detail.Club.generateClubs()[0])),
         ),
         child: Card(
-          elevation: 6,
-          shadowColor: Colors.black54,
+          elevation: 20,
+          shadowColor: Colors.black54.withOpacity(0.3),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),

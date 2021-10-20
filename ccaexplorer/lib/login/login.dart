@@ -1,17 +1,10 @@
 import 'package:ccaexplorer/home_page.dart';
 import 'package:flutter/material.dart';
-// import '../../src/authentication.dart'; // new
-import '../../../main.dart';
 import '../../login/signup.dart';
-import '../../login/admin_signup.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../src/authentication_state.dart';
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../src/widgets.dart';
-import '../../common_method/common_method_authentication.dart';
-import 'package:ccaexplorer/me/me_home.dart';
+import 'dart:ui';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -34,21 +27,38 @@ class _State extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(10),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/signIn.JPG"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        padding: EdgeInsets.all(20),
         child: ListView(
           children: <Widget>[
+            Container(
+              height: 375,
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      "CCA \nExplorer",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 50,
+                        letterSpacing: 0.27,
+                        color: Colors.white,
+                      ),
+                    ),
+                  )),
+            ),
             Container(
               alignment: Alignment.center,
               padding: EdgeInsets.all(10),
             ),
-            Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  'Sign in',
-                  style: TextStyle(fontSize: 20),
-                )),
             Container(
               padding: EdgeInsets.all(10),
               child: TextField(
@@ -70,50 +80,70 @@ class _State extends State<SignIn> {
                 ),
               ),
             ),
-            FlatButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SecondRoute()),
-                );
-                //forgot password screen
-              },
-              textColor: Colors.grey,
-              child: Text('Forgot Password'),
-            ),
             Container(
-              height: 50,
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: RaisedButton(
-                textColor: Colors.white,
-                color: Colors.grey,
-                child: Text('Login'),
-                onPressed: () {
-                  login();
-                },
-              ),
-            ),
-            Container(
+                padding: const EdgeInsets.only(
+                    top: 30, left: 11, right: 11, bottom: 11),
                 child: Row(
-              children: <Widget>[
-                Text(''),
-                FlatButton(
-                  textColor: Colors.grey,
-                  child: Text(
-                    'Do not have an account yet? Sign Up here',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUp()),
-                    );
-                    //signup screen
-                  },
-                )
-              ],
-              mainAxisAlignment: MainAxisAlignment.center,
-            ))
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text("Sign In",
+                          style: const TextStyle(
+                              fontSize: 30,
+                              color: Color(0xFF434852),
+                              fontWeight: FontWeight.bold)),
+                      Container(
+                        height: 70,
+                        child: MaterialButton(
+                            color: Color(0xFF434852),
+                            shape: CircleBorder(),
+                            onPressed: () {
+                              login();
+                            },
+                            child: Icon(FontAwesomeIcons.arrowRight,
+                                color: Colors.white)),
+                      ),
+                    ])),
+            Container(
+                padding: const EdgeInsets.all(5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SignUp()),
+                          );
+                          //signup screen
+                        },
+                        child: const Text('Sign Up',
+                            style: const TextStyle(color: Color(0xFF434852)))),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SecondRoute()),
+                        );
+                        //forgot password screen
+                      },
+                      child: const Text('Forgot Password',
+                          style: const TextStyle(color: Color(0xFF434852))),
+                    ),
+                  ],
+                ))
           ],
         ),
       ),

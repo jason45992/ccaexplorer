@@ -187,7 +187,7 @@ class _MeHomeState extends State<MeHome> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 80, right: 0),
+            padding: const EdgeInsets.only(left: 30, right: 10),
             child: Container(
               decoration: BoxDecoration(
                   color: Colors.transparent,

@@ -1,8 +1,6 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:ccaexplorer/authentication.dart';
-import '../../../main.dart';
 import '../../login/login.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -36,7 +34,15 @@ class a_State extends State<AdminSignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ModalProgressHUD(
+        body: Container(
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/signUpAdmin.jpeg"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: ModalProgressHUD(
         inAsyncCall: _isInAsyncCall,
         opacity: 0.5,
         progressIndicator: CircularProgressIndicator(),
@@ -49,18 +55,22 @@ class a_State extends State<AdminSignUp> {
                 padding: EdgeInsets.all(10),
               ),
               Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                  child: Text(
-                    'Sign Up',
-                    style: TextStyle(fontSize: 25),
-                  )),
-              FlatButton(
-                onPressed: () {
-                  //forgot password screen
-                },
-                textColor: Colors.grey,
-                child: Text('As Club Admin'),
+                height: 100,
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        "Welcome \nAdmin",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 40,
+                          letterSpacing: 0.27,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )),
               ),
               Form(
                 key: _formkey,
@@ -80,9 +90,19 @@ class a_State extends State<AdminSignUp> {
                           return null;
                         },
                         controller: emailController,
+                        style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.white, width: 1),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.white, width: 3),
+                          ),
                           border: OutlineInputBorder(),
                           labelText: 'NTU Email',
+                          labelStyle: new TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
@@ -96,9 +116,19 @@ class a_State extends State<AdminSignUp> {
                           return null;
                         },
                         controller: nameController,
+                        style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.white, width: 1),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.white, width: 3),
+                          ),
                           border: OutlineInputBorder(),
                           labelText: 'Name',
+                          labelStyle: new TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
@@ -113,9 +143,19 @@ class a_State extends State<AdminSignUp> {
                         },
                         obscureText: true,
                         controller: passwordController,
+                        style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.white, width: 1),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.white, width: 3),
+                          ),
                           border: OutlineInputBorder(),
                           labelText: 'Password',
+                          labelStyle: new TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
@@ -136,9 +176,19 @@ class a_State extends State<AdminSignUp> {
                         },
                         obscureText: true,
                         controller: repasswordController,
+                        style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.white, width: 1),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.white, width: 3),
+                          ),
                           border: OutlineInputBorder(),
-                          labelText: 'Re-enter Password',
+                          labelText: 'Re-enter Passwor',
+                          labelStyle: new TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
@@ -160,8 +210,17 @@ class a_State extends State<AdminSignUp> {
                         obscureText: true,
                         controller: clubverficationController,
                         decoration: InputDecoration(
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.white, width: 1),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.white, width: 3),
+                          ),
                           border: OutlineInputBorder(),
                           labelText: 'Club Verification Code',
+                          labelStyle: new TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
@@ -169,22 +228,33 @@ class a_State extends State<AdminSignUp> {
                 ),
               ),
               Container(
-                height: 50,
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: RaisedButton(
-                  textColor: Colors.white,
-                  color: Colors.grey,
-                  child: Text('Submit'),
-                  onPressed: () {
-                    submit();
-                  },
-                ),
-              ),
+                  padding: const EdgeInsets.only(
+                      top: 50, left: 11, right: 11, bottom: 11),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text("Sign Up",
+                            style: const TextStyle(
+                                fontSize: 30,
+                                color: Color(0xFF434852),
+                                fontWeight: FontWeight.bold)),
+                        Container(
+                          height: 70,
+                          child: MaterialButton(
+                              color: Color(0xFF434852),
+                              shape: CircleBorder(),
+                              onPressed: () {
+                                submit();
+                              },
+                              child: Icon(FontAwesomeIcons.arrowRight,
+                                  color: Colors.white)),
+                        ),
+                      ])),
             ],
           ),
         ),
       ),
-    );
+    ));
   }
 
   void submit() {

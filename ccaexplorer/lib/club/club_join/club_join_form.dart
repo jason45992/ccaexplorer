@@ -209,8 +209,8 @@ class ClubJoinPageState extends State<ClubJoinPage> {
                 },
                 style: ElevatedButton.styleFrom(
                   elevation: 6,
-                  shadowColor: Colors.purple.withOpacity(0.4),
-                  primary: Colors.purple,
+                  shadowColor: EventAppTheme.grey.withOpacity(0.4),
+                  primary: EventAppTheme.grey,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),

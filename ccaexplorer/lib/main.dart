@@ -34,6 +34,7 @@ import 'me/admin_menu.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'common_method/common_method_authentication.dart';
 import 'guest_book.dart';
+import 'me/favourates.dart';
 import 'me/edit_profile.dart';
 import 'me/member_list.dart';
 import 'admin/GridViewDemo.dart';
@@ -84,9 +85,10 @@ class App extends StatelessWidget {
       // home: AdminClubManagement(),
       // home: EventlHomeScreen(),
       // home: ClubRecruitmentDepartment(),
-      // home: SignIn(),
       home: HomePage(),
-      //home: ClubDetailPage(Club.generateClubs()[0]),
+      // home: EditProfile(),
+      //home: AdminEventForm(),
+      // home: ClubDetailPage(Club.generateClubs()[0]),
     );
   }
 }

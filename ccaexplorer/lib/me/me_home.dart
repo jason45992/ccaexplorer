@@ -1,4 +1,7 @@
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
+import 'package:ccaexplorer/me/edit_profile.dart';
+import 'package:ccaexplorer/me/favourates.dart';
+import 'package:ccaexplorer/me/setting.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'admin_menu.dart';
@@ -35,9 +38,8 @@ class _MeHomeState extends State<MeHome> {
               image: AssetImage('assets/images/profile.png'),
               fit: BoxFit.cover)),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: <Widget>[
+          backgroundColor: Colors.transparent,
+          body: Stack(children: <Widget>[
             Column(
               children: <Widget>[
                 getAppBarUI(),
@@ -62,26 +64,55 @@ class _MeHomeState extends State<MeHome> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 8),
+                  padding: const EdgeInsets.only(left: 24.0, right: 0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(
-                        height: 30,
+                        height: 50,
                       ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "My Club",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 18,
-                            letterSpacing: 0.27,
-                            color: Color(0xFF17262A),
+                      Container(
+                        width: double.maxFinite,
+                        height: 160,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF364A54),
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(36.0),
+                              bottomLeft: Radius.circular(36.0)),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: Color(0xFF3A5160).withOpacity(0.4),
+                                offset: const Offset(1.1, 1.1),
+                                blurRadius: 25.0),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 6.0),
+                                child: Text(
+                                  "My Club  (${cLubList.length})",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    // h6 -> title
+                                    fontFamily: 'WorkSans',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    letterSpacing: 0.18,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              getMyClubUI(),
+                            ],
                           ),
                         ),
                       ),
-                      getMyClubUI(),
                       SizedBox(
                         height: 30,
                       ),
@@ -91,15 +122,14 @@ class _MeHomeState extends State<MeHome> {
                 ),
               ),
             ),
-          ],
-        ),
-      ),
+          ]),
+          floatingActionButton: getAdminUI()),
     );
   }
 
   Widget getAppBarUI() {
     return Padding(
-      padding: const EdgeInsets.only(top: 80.0, left: 18, right: 18),
+      padding: const EdgeInsets.only(top: 80.0, left: 24, right: 24),
       child: Row(
         children: <Widget>[
           Container(
@@ -110,7 +140,7 @@ class _MeHomeState extends State<MeHome> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey,
+                    color: Colors.grey.withOpacity(0.7),
                     offset: Offset(0.0, 1.0), //(x,y)
                     blurRadius: 6.0,
                   ),
@@ -123,7 +153,7 @@ class _MeHomeState extends State<MeHome> {
                 backgroundColor: Colors.transparent),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 12),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,12 +162,15 @@ class _MeHomeState extends State<MeHome> {
                   username,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    fontSize: 20,
-                    letterSpacing: 0.2,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF3293A45),
+                    // h5 -> headline
+                    fontFamily: 'WorkSans',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    letterSpacing: 0.27,
+                    color: Color(0xFF17262A),
                   ),
                 ),
+                const SizedBox(height: 8),
                 Text(
                   'U9205231W',
                   textAlign: TextAlign.left,
@@ -152,33 +185,44 @@ class _MeHomeState extends State<MeHome> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 60, right: 0),
+            padding: const EdgeInsets.only(left: 30, right: 10),
             child: Container(
               decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
+                  color: Colors.transparent,
                   borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                  border: Border.all(color: Color(0xFF3A5160))),
-              width: 90,
+                  border: Border.all(color: Colors.white, width: 1.5)),
+              width: 100,
               height: 35,
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
                   splashColor: Colors.white24,
                   borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                  onTap: () {
-                    //edit profile page
-                  },
-                  child: Center(
-                    child: Text(
-                      "Edit Profile",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                        letterSpacing: 0.27,
-                        color: Color(0xFF3A5160),
-                      ),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfile(),
                     ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Edit Profile",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                          letterSpacing: 0.27,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Icon(
+                        Icons.mode_edit_rounded,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -209,9 +253,10 @@ class _MeHomeState extends State<MeHome> {
                       fit: BoxFit.fill,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.circular(40.0),
                     ),
-                    elevation: 5,
+                    elevation: 10,
+                    shadowColor: Color(0xFF17262A).withOpacity(0.4),
                     margin: EdgeInsets.all(10)));
           }),
     );
@@ -220,54 +265,109 @@ class _MeHomeState extends State<MeHome> {
   Widget getSettingList() {
     return Expanded(
         child: ListView(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(vertical: 20),
       children: [
         Card(
+          color: Colors.transparent,
+          elevation: 0,
+          shadowColor: EventAppTheme.grey.withOpacity(0),
           shape: RoundedRectangleBorder(
-            side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
-            borderRadius: BorderRadius.circular(5),
+            // side: BorderSide(color: Color(0xFFEDF0F2), width: 0),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: ListTile(
             leading: Icon(Icons.settings, color: EventAppTheme.grey),
-            title: Text('Settings'),
-            onTap: () {
-              print("settings 1");
-            },
+            title: Text('Settings',
+                style: TextStyle(
+                  // body1 -> body2
+                  fontFamily: 'WorkSans',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 18,
+                  letterSpacing: 0.2,
+                  color: Color(0xFF253840),
+                )),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Setting(),
+              ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios_outlined,
+              color: EventAppTheme.grey.withOpacity(0.7),
+              size: 24,
+            ),
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
+        // SizedBox(
+        //   height: 5,
+        // ),
         Card(
+          elevation: 0,
+          shadowColor: EventAppTheme.grey.withOpacity(0),
           shape: RoundedRectangleBorder(
-            side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
-            borderRadius: BorderRadius.circular(5),
+            //  side: BorderSide(color: Color(0xFFEDF0F2), width: 0),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: ListTile(
             leading: Icon(
               Icons.favorite,
               color: EventAppTheme.grey,
             ),
-            title: Text('My Favorites'),
-            onTap: () {
-              print("settings 2");
-            },
+            title: Text('My Favorites',
+                style: TextStyle(
+                  // body1 -> body2
+                  fontFamily: 'WorkSans',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 18,
+                  letterSpacing: 0.2,
+                  color: Color(0xFF253840),
+                )),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AdminPublishedEvents(),
+              ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios_outlined,
+              color: EventAppTheme.grey.withOpacity(0.7),
+              size: 24,
+            ),
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
+        // SizedBox(
+        //   height: 5,
+        // ),
         Card(
+          elevation: 0,
+          shadowColor: EventAppTheme.grey.withOpacity(0),
           shape: RoundedRectangleBorder(
-            side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
-            borderRadius: BorderRadius.circular(5),
+            // side: BorderSide(color: Color(0xFFEDF0F2), width: 0),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: ListTile(
             leading: Icon(Icons.phone, color: EventAppTheme.grey),
-            title: Text('Contact Us'),
-            onTap: () {
-              print("settings 3");
-            },
+            title: Text('Contact Us',
+                style: TextStyle(
+                  // body1 -> body2
+                  fontFamily: 'WorkSans',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 18,
+                  letterSpacing: 0.2,
+                  color: Color(0xFF253840),
+                )),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Setting(),
+              ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios_outlined,
+              color: EventAppTheme.grey.withOpacity(0.7),
+              size: 24,
+            ),
           ),
         )
       ],

@@ -21,21 +21,27 @@ class RedeemConfirmationScreen extends StatelessWidget {
             child: ListView.separated(
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-                    padding: EdgeInsets.only(top: 0, left: 20, right: 20),
+                    padding: EdgeInsets.only(top: 0, left: 30, right: 30),
                     height: 80,
                     child: GestureDetector(
                       onTap: () {
                         moveTo('${entries[index]}', context);
                       },
                       child: Card(
+                        margin: EdgeInsets.symmetric(vertical: 0),
                         shape: RoundedRectangleBorder(
                           side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        color: Color(0xFFD6D5D4),
+                        color: Color(0xFF3A5160),
                         child: Center(
                             child: Text(
                           '${entries[index]}',
+                          style: TextStyle(
+                            fontSize: 18,
+                            letterSpacing: 0.27,
+                            color: Colors.white,
+                          ),
                         )),
                       ),
                     ),
@@ -53,7 +59,7 @@ class RedeemConfirmationScreen extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               shape: CircleBorder(),
               padding: EdgeInsets.all(20),
-              primary: Colors.blue, // <-- Button color
+              primary: Color(0XFFCC541D), // <-- Button color
               onPrimary: Colors.red, // <-- Splash color
             ),
           )

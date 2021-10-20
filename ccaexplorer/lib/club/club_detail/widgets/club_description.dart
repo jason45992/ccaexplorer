@@ -1,4 +1,5 @@
 import 'package:ccaexplorer/club/club_detail/club_detail_data.dart';
+import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 
@@ -25,7 +26,7 @@ class ClubDescription extends StatelessWidget {
             child: ReadMoreText(
               club.desc,
               trimLines: 3,
-              colorClickableText: Colors.purple,
+              colorClickableText: EventAppTheme.nearlyBlack,
               trimMode: TrimMode.Line,
               textAlign: TextAlign.start,
               style: TextStyle(

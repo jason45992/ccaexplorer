@@ -1,5 +1,6 @@
 import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:flutter/material.dart';
+import 'package:ccaexplorer/event_details/event_detail.dart';
 
 class BannerListView extends StatefulWidget {
   const BannerListView({Key? key, this.callBack, required this.appState})
@@ -57,10 +58,12 @@ class _BannerListViewState extends State<BannerListView>
                       : widget.appState.eventDetailList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / count) * index, 1.0,
-                                  curve: Curves.fastOutSlowIn)));
+                    CurvedAnimation(
+                      parent: animationController!,
+                      curve: Interval((1 / count) * index, 1.0,
+                          curve: Curves.fastOutSlowIn),
+                    ),
+                  );
                   animationController?.forward();
 
                   return CategoryView(
@@ -105,7 +108,21 @@ class CategoryView extends StatelessWidget {
                 100 * (1.0 - animation!.value), 0.0, 0.0),
             child: InkWell(
               splashColor: Colors.transparent,
-              onTap: callback,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EventDetail(
+                      eventname: event!.eventTitle,
+                      datetime: event!.datetime,
+                      venue: event!.place,
+                      club: event!.club,
+                      description: event!.description,
+                      eventposter: event!.poster,
+                    ),
+                  ),
+                );
+              },
               child: SizedBox(
                 width: 275,
                 child: Stack(
@@ -120,8 +137,9 @@ class CategoryView extends StatelessWidget {
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(16.0)),
                               child: AspectRatio(
-                                  aspectRatio: 2.0,
-                                  child: Image.network(event!.cover)),
+                                aspectRatio: 2.0,
+                                child: Image.network(event!.cover),
+                              ),
                             )
                           ],
                         ),

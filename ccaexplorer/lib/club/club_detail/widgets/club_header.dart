@@ -8,46 +8,49 @@ class ClubHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Row(
-        children: [
-          Image.asset(club.icon, width: 80),
-          const SizedBox(width: 15),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                club.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                club.type,
-                style: TextStyle(
-                  color: Colors.grey.withOpacity(0.5),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  _buildIconText(
-                    club.score.toString(),
-                    Icons.star,
-                    Colors.amber,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            Image.network(club.icon, width: 80),
+            const SizedBox(width: 15),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  club.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
-                  const SizedBox(width: 30),
-                  _buildIconText(
-                    '534 memebers',
-                    Icons.people_alt_outlined,
-                    Colors.grey,
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  club.type,
+                  style: TextStyle(
+                    color: Colors.grey.withOpacity(0.5),
                   ),
-                ],
-              )
-            ],
-          )
-        ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    _buildIconText(
+                      club.score.toString(),
+                      Icons.star,
+                      Colors.amber,
+                    ),
+                    const SizedBox(width: 30),
+                    _buildIconText(
+                      '534 memebers',
+                      Icons.people_alt_outlined,
+                      Colors.grey,
+                    ),
+                  ],
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

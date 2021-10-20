@@ -55,7 +55,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ApplicationState()),
         ChangeNotifierProvider(create: (_) => ApplicationGuestBookState()),
         ChangeNotifierProvider(create: (_) => ApplicationUserDetailState()),
-        ChangeNotifierProvider(create: (_) => ApplicationEventDetailState())
+        ChangeNotifierProvider(create: (_) => ApplicationEventDetailState()),
       ],
       child: App(),
     ),
@@ -81,8 +81,10 @@ class App extends StatelessWidget {
       // home: AdminClubManagement(),
       // home: EventlHomeScreen(),
       // home: ClubRecruitmentDepartment(),
-      home: SignIn(),
-      // home: HomePage(),
+      home: HomePage(),
+
+      // home: EventDetail(),
+
       //home: ClubDetailPage(Club.generateClubs()[0]),
     );
   }

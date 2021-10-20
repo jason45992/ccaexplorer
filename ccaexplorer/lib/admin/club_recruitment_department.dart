@@ -3,6 +3,7 @@ import 'admin_theme.dart';
 import 'package:ccaexplorer/admin/admin_add_department.dart';
 import 'add_department_position.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ccaexplorer/event_details/event_detail.dart';
 
 class ClubRecruitmentDepartment extends StatefulWidget {
   const ClubRecruitmentDepartment({Key? key}) : super(key: key);
@@ -34,12 +35,14 @@ class _ClubRecruitmentDepartmentState extends State<ClubRecruitmentDepartment> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        body: Column(
-          children: [
-            getAppBarUI(),
-            const SizedBox(height: 10),
-            UserInformation(),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              getAppBarUI(),
+              const SizedBox(height: 10),
+              UserInformation(),
+            ],
+          ),
         ),
       ),
     );
@@ -124,8 +127,10 @@ class UserInformation extends StatefulWidget {
 }
 
 class _UserInformationState extends State<UserInformation> {
-  final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('club_department').snapshots();
+  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+      .collection('club_department')
+      .where('club_id', isEqualTo: 'PBoqbzvNy2PUehOzpIPO')
+      .snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -162,16 +167,18 @@ class _UserInformationState extends State<UserInformation> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DepartmentPosition()),
+                              builder: (context) => DepartmentPosition(
+                                    departmentid: data['name'],
+                                  )),
                         );
                       },
                     )
                   ],
                 ),
                 children: <Widget>[
-                  positiondetail(
-                    data['department_id'],
-                  ),
+                  PositionDetails(
+                    departmentid: data['department_id'],
+                  )
                 ],
               ),
             );
@@ -180,11 +187,17 @@ class _UserInformationState extends State<UserInformation> {
       },
     );
   }
+}
 
-  Widget positiondetail(String eventid) {
+class PositionDetails extends StatelessWidget {
+  final departmentid;
+  const PositionDetails({Key? key, this.departmentid}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
         .collection('club_role')
-        .where('department_id', isEqualTo: eventid)
+        .where('department_id', isEqualTo: departmentid)
         .snapshots();
     return StreamBuilder<QuerySnapshot>(
       stream: _usersStream,

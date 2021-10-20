@@ -2,6 +2,7 @@ import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:ccaexplorer/main.dart';
 import 'package:flutter/material.dart';
 import 'models/event_data_model.dart';
+import 'package:ccaexplorer/event_details/event_detail.dart';
 
 class EventListView extends StatefulWidget {
   const EventListView({Key? key, this.callBack, required this.appState})
@@ -103,7 +104,21 @@ class CategoryView extends StatelessWidget {
                 0.0, 50 * (1.0 - animation!.value), 0.0),
             child: InkWell(
               splashColor: Colors.transparent,
-              onTap: callback,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EventDetail(
+                      eventname: eventDetails!.eventTitle,
+                      datetime: eventDetails!.datetime,
+                      venue: eventDetails!.place,
+                      club: eventDetails!.club,
+                      description: eventDetails!.description,
+                      eventposter: eventDetails!.poster,
+                    ),
+                  ),
+                );
+              },
               child: SizedBox(
                 height: 200,
                 child: Stack(

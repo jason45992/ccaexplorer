@@ -210,7 +210,7 @@ class __State extends State<SignUp> {
                                 print("UnSuccessfull");
                               }
                             },
-                            child: Icon(FontAwesomeIcons.check,
+                            child: Icon(FontAwesomeIcons.arrowRight,
                                 color: Colors.white)),
                       ),
                     ])),

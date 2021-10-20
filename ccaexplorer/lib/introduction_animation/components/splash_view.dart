@@ -45,7 +45,7 @@ class _SplashViewState extends State<SplashView> {
             Padding(
               padding: EdgeInsets.only(left: 64, right: 64),
               child: Text(
-                "CCA EXPORER can help you explore all CCA communities in NTU",
+                "CCA Explorer can help you explore all CCA communities in NTU",
                 textAlign: TextAlign.center,
               ),
             ),

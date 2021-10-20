@@ -78,8 +78,12 @@ class App extends StatelessWidget {
       ),
       // home: GridViewDemo(title: 'Grid View Demo'),
       // home: AdminClubManagement(),
-      // home: EventlHomeScreen(),
+      //home: EventlHomeScreen(),
       // home: ClubRecruitmentDepartment(),
+      // home: SignIn(),
+      // home: ClubHomeScreen(),
+
+      // home: HomePage(),
       home: IntroductionAnimationScreen(),
       // home: HomePage(),
       //home: ClubDetailPage(Club.generateClubs()[0]),

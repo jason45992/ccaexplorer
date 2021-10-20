@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/introduction_animation/introduction_animation_screen.dart';
 import 'package:ccaexplorer/me/setting.dart';
 import 'package:ccaexplorer/login/signup.dart';
 import 'package:ccaexplorer/admin/club_management.dart';
@@ -79,7 +80,7 @@ class App extends StatelessWidget {
       // home: AdminClubManagement(),
       // home: EventlHomeScreen(),
       // home: ClubRecruitmentDepartment(),
-      home: SignIn(),
+      home: IntroductionAnimationScreen(),
       // home: HomePage(),
       //home: ClubDetailPage(Club.generateClubs()[0]),
     );

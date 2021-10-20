@@ -1,10 +1,7 @@
 import 'package:ccaexplorer/club/club_list/club_list.dart';
 import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
 import 'package:ccaexplorer/me/me_home.dart';
-import 'package:ccaexplorer/pages/club_page.dart';
-import 'package:ccaexplorer/pages/me_page.dart';
-import 'package:ccaexplorer/pages/timetable_page.dart';
-import 'package:ccaexplorer/pages/event_page.dart';
+import 'package:ccaexplorer/time_table/time_table.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _screen = [
     EventlHomeScreen(),
     ClubHomeScreen(),
-    TimetablePage(),
+    TimeTable(),
     MeHome()
   ];
 

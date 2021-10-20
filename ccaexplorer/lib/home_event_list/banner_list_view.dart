@@ -50,7 +50,7 @@ class _BannerListViewState extends State<BannerListView>
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: widget.appState.eventDetailList.length,
+                itemCount: 4,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
                   final int count = widget.appState.eventDetailList.length > 10

@@ -370,7 +370,7 @@ updateListByKeyWord(
 updateListByCategory(CategoryType categoryType,
     ApplicationEventDetailState appState, List<EventDetails> tempEventList) {
   if (categoryType == CategoryType.all) {
-    // appState.init();
+    appState.init();
   } else if (categoryType == CategoryType.latest) {
     List<EventDetails> tempList = tempEventList
         .where((map) => ((new DateFormat("yyyy-MM-dd hh:mm:ss")

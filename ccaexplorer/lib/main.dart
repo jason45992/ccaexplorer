@@ -80,7 +80,7 @@ class App extends StatelessWidget {
       // home: AdminClubManagement(),
       // home: EventlHomeScreen(),
       // home: ClubRecruitmentDepartment(),
-      home: IntroductionAnimationScreen(),
+      home: HomePage(),
       // home: HomePage(),
       //home: ClubDetailPage(Club.generateClubs()[0]),
     );

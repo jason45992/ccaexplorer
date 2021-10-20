@@ -1,14 +1,9 @@
-import 'dart:math';
-
-import 'package:ccaexplorer/event_details/event_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:ccaexplorer/authentication.dart'; // new
-import '../../../main.dart';
 import '../../login/login.dart';
 import '../../login/admin_signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -35,8 +30,14 @@ class __State extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(10),
+      body: Container(
+        padding: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/signUp.jpeg"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: ListView(
           children: <Widget>[
             Container(
@@ -44,12 +45,22 @@ class __State extends State<SignUp> {
               padding: EdgeInsets.all(10),
             ),
             Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(10),
-              child: Text(
-                'Sign Up',
-                style: TextStyle(fontSize: 20),
-              ),
+              height: 200,
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      "Create \nAccount",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 45,
+                        letterSpacing: 0.27,
+                        color: Colors.white,
+                      ),
+                    ),
+                  )),
             ),
             Form(
               key: _formkey,
@@ -69,9 +80,19 @@ class __State extends State<SignUp> {
                         return null;
                       },
                       controller: emailController,
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.white, width: 1),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.white, width: 3),
+                        ),
                         border: OutlineInputBorder(),
                         labelText: 'NTU Email',
+                        labelStyle: new TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
@@ -85,9 +106,19 @@ class __State extends State<SignUp> {
                         return null;
                       },
                       controller: nameController,
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.white, width: 1),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.white, width: 3),
+                        ),
                         border: OutlineInputBorder(),
                         labelText: 'Name',
+                        labelStyle: new TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
@@ -102,9 +133,19 @@ class __State extends State<SignUp> {
                       },
                       obscureText: true,
                       controller: passwordController,
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.white, width: 1),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.white, width: 3),
+                        ),
                         border: OutlineInputBorder(),
                         labelText: 'Password',
+                        labelStyle: new TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
@@ -125,65 +166,90 @@ class __State extends State<SignUp> {
                       },
                       obscureText: true,
                       controller: repasswordController,
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.white, width: 1),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.white, width: 3),
+                        ),
                         border: OutlineInputBorder(),
                         labelText: 'Re-enter Password',
+                        labelStyle: new TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            FlatButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AdminSignUp()),
-                );
-                //forgot password screen
-              },
-              textColor: Colors.grey,
-              child: Text('If you are a club Admin ...'),
-            ),
             Container(
-              height: 50,
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: RaisedButton(
-                textColor: Colors.white,
-                color: Colors.grey,
-                child: Text('Submit'),
-                onPressed: () {
-                  if (_formkey.currentState!.validate()) {
-                    print("successful");
-                    registration();
-                    return;
-                  } else {
-                    print("UnSuccessfull");
-                  }
-                },
-              ),
-            ),
-            Container(
+                padding: const EdgeInsets.only(
+                    top: 30, left: 11, right: 11, bottom: 11),
                 child: Row(
-              children: <Widget>[
-                Text(''),
-                FlatButton(
-                  textColor: Colors.grey,
-                  child: Text(
-                    'Already had an account? Sign in here.',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignIn()),
-                    );
-                    //signup screen
-                  },
-                )
-              ],
-              mainAxisAlignment: MainAxisAlignment.center,
-            ))
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text("Sign Up",
+                          style: const TextStyle(
+                              fontSize: 30,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
+                      Container(
+                        height: 70,
+                        child: MaterialButton(
+                            color: Color(0xFF434852),
+                            shape: CircleBorder(),
+                            onPressed: () {
+                              if (_formkey.currentState!.validate()) {
+                                print("successful");
+                                registration();
+                                return;
+                              } else {
+                                print("UnSuccessfull");
+                              }
+                            },
+                            child: Icon(FontAwesomeIcons.check,
+                                color: Colors.white)),
+                      ),
+                    ])),
+            Container(
+                padding: const EdgeInsets.all(5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    TextButton(
+                      child: Text('Sign in',
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.white,
+                              decoration: TextDecoration.underline)),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignIn()),
+                        );
+                        //signup screen
+                      },
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AdminSignUp()),
+                        );
+                        //forgot password screen
+                      },
+                      child: Text('Club Admin?',
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Color(0xFF434852),
+                              decoration: TextDecoration.underline)),
+                    ),
+                  ],
+                ))
           ],
         ),
       ),

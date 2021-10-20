@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
+import 'package:ccaexplorer/club/event_app_theme.dart';
 
 class ClubJoinPage extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -133,60 +133,34 @@ class ClubJoinPageState extends State<ClubJoinPage> {
                   ),
                 ],
               ),
-
-              SizedBox(height: 100),
-              // SizedBox(
-              //   width: double.maxFinite,
-              //   height: 44,
-              //   child: ElevatedButton(
-              //     onPressed: () {
-              //       showAlertDialog(context);
-              //     },
-              //     style: ElevatedButton.styleFrom(
-              //       elevation: 6,
-              //       shadowColor: Colors.purple.withOpacity(0.4),
-              //       primary: Colors.purple,
-              //       shape: RoundedRectangleBorder(
-              //         borderRadius: BorderRadius.circular(30),
-              //       ),
-              //     ),
-              //     child: const Text(
-              //       'Submit',
-              //       style: TextStyle(
-              //         color: Colors.white,
-              //         fontSize: 18,
-              //       ),
-              //     ),
-              //   ),
-              // ),
+              Container(
+                // padding: EdgeInsets.only(bottom: 48.0),
+                child: SizedBox(
+                  width: double.maxFinite,
+                  height: 44,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      showAlertDialog(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      elevation: 6,
+                      shadowColor: EventAppTheme.grey.withOpacity(0.4),
+                      primary: EventAppTheme.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: SizedBox(
-          width: double.maxFinite,
-          height: 44,
-          child: ElevatedButton(
-            onPressed: () {
-              showAlertDialog(context);
-            },
-            style: ElevatedButton.styleFrom(
-              elevation: 6,
-              shadowColor: Colors.purple.withOpacity(0.4),
-              primary: Colors.purple,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-            child: const Text(
-              'Submit',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
-            ),
           ),
         ),
       ),

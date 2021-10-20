@@ -228,10 +228,10 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
                   color: HexColor('#F8FAFB'),
                   border: Border.all(color: HexColor('#B9BABC')),
                   borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(13.0),
-                    bottomLeft: Radius.circular(13.0),
-                    topLeft: Radius.circular(13.0),
-                    topRight: Radius.circular(13.0),
+                    bottomRight: Radius.circular(30.0),
+                    bottomLeft: Radius.circular(30.0),
+                    topLeft: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0),
                   ),
                 ),
                 child: Row(

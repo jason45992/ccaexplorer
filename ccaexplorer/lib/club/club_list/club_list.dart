@@ -313,7 +313,7 @@ class SingleClubDetails extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return Text("");
         }
 
         return SingleChildScrollView(
@@ -369,7 +369,7 @@ class FinalWidget extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return Text("");
         }
 
         return SingleChildScrollView(

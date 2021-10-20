@@ -38,7 +38,7 @@ class _TimeTableState extends State<TimeTable> {
       length: myTabs.length,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: EventAppTheme.grey,
+          backgroundColor: EventAppTheme.light_grey,
           title: TabBar(
             tabs: myTabs,
             isScrollable: true,

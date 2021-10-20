@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/introduction_animation/introduction_animation_screen.dart';
 import 'package:ccaexplorer/me/setting.dart';
 import 'package:ccaexplorer/login/signup.dart';
 import 'package:ccaexplorer/admin/club_management.dart';
@@ -5,7 +6,6 @@ import 'package:ccaexplorer/admin/select_club.dart';
 import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
 import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:ccaexplorer/me/me_home.dart';
-import 'package:ccaexplorer/pages/timetable_page.dart';
 import 'package:ccaexplorer/club/club_detail/club_detail.dart';
 import 'package:ccaexplorer/club/club_detail/club_detail_data.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ import 'event_details/event_detail.dart';
 // import 'src/event_details/event_detail.dart';
 import 'club/club_join/club_join_form.dart';
 // import 'src/login/login.dart';
-import 'package:ccaexplorer/pages/home_page.dart';
+import 'package:ccaexplorer/home_page.dart';
 import 'package:ccaexplorer/club/club_list/club_list.dart';
 import 'src/authentication_state.dart'; // new
 import 'src/widgets.dart';
@@ -80,7 +80,7 @@ class App extends StatelessWidget {
       // home: AdminClubManagement(),
       // home: EventlHomeScreen(),
       // home: ClubRecruitmentDepartment(),
-      home: SignIn(),
+      home: IntroductionAnimationScreen(),
       // home: HomePage(),
       //home: ClubDetailPage(Club.generateClubs()[0]),
     );

@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,123 +27,112 @@ class EditProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        shadowColor: Colors.transparent,
         leading: new IconButton(
+          color: EventAppTheme.darkerText,
           icon: new Icon(Icons.arrow_back_ios),
           onPressed: () => {Navigator.of(context).pop()},
         ),
-        title: Text("Personal Profile"),
+        title: Text(
+          "Edit Profile",
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 20,
+            letterSpacing: 0.27,
+            color: EventAppTheme.darkerText,
+          ),
+        ),
       ),
-      body: Column(
-        //padding: EdgeInsets.symmetric(horizontal: 10),
-        children: [
-          SizedBox(height: 20),
-          Center(
-            child: CircleAvatar(
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(height: 30),
+            CircleAvatar(
               backgroundImage: NetworkImage(
                 'https://media-exp1.licdn.com/dms/image/C5103AQHvImFr-w_S5A/profile-displayphoto-shrink_800_800/0/1544141617554?e=1632355200&v=beta&t=0CS8wJHW3c2J94wEWFg4EDL_xkFb_mmamtlT1eWefhk',
               ),
               radius: 52,
             ),
-          ),
-          SizedBox(height: 10),
-          Text(
-            'NAME',
-            style: TextStyle(
-                fontSize: 20,
-                //fontFamily: "Courier",
-                fontWeight: FontWeight.bold),
-          ),
-          Container(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            decoration: BoxDecoration(
-                color: Color(0xffb0b4b8),
-                borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                border: Border.all(color: Color(0xffb0b4b8))),
-            height: 30,
-            width: 150,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                splashColor: Colors.white24,
-                borderRadius: const BorderRadius.all(Radius.circular(100.0)),
-                onTap: () {
-                  //edit profile page
-                },
-                child: Center(
-                  child: Text(
-                    "Contact Information",
-                    textAlign: TextAlign.left,
+            SizedBox(height: 15),
+            Text(
+              'NAME',
+              style: TextStyle(
+                  fontSize: 20,
+                  //fontFamily: "Courier",
+                  fontWeight: FontWeight.bold),
+            ),
+            Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 30.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text.rich(TextSpan(children: [
+                        TextSpan(
+                            text: "Matric No.: ",
+                            style: TextStyle(fontSize: 16)),
+                        TextSpan(
+                          text: "U1923123E",
+                          style: TextStyle(color: Colors.grey, fontSize: 16),
+                        ),
+                      ])),
+                      const SizedBox(height: 10),
+                      Text.rich(TextSpan(children: [
+                        TextSpan(
+                            text: "Email: ", style: TextStyle(fontSize: 16)),
+                        TextSpan(
+                          text: "XIEM0011@e.ntu.edu.sg",
+                          style: TextStyle(color: Colors.grey, fontSize: 16),
+                        ),
+                      ])),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: TextField(
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      labelText: "Remark",
+                      hintText: "e.g. Vegeterin etc.",
+                      prefixIcon: Icon(Icons.message),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 50),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: SizedBox(
+                width: double.maxFinite,
+                height: 44,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    elevation: 6,
+                    shadowColor: EventAppTheme.grey.withOpacity(0.4),
+                    primary: EventAppTheme.grey,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  child: const Text(
+                    'Save',
                     style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                      letterSpacing: 0.27,
                       color: Colors.white,
+                      fontSize: 18,
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
-          Text.rich(TextSpan(children: [
-            TextSpan(text: "Phone "),
-            TextSpan(
-              text: "88841361",
-              style: TextStyle(color: Colors.grey),
-            ),
-          ])),
-          Column(),
-          Container(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            decoration: BoxDecoration(
-                color: Color(0xffb0b4b8),
-                borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                border: Border.all(color: Color(0xffb0b4b8))),
-            height: 30,
-            width: 150,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                splashColor: Colors.white24,
-                borderRadius: const BorderRadius.all(Radius.circular(100.0)),
-                onTap: () {
-                  //edit profile page
-                },
-                child: Center(
-                  child: Text(
-                    "Private Information",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                      letterSpacing: 0.27,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Text.rich(TextSpan(children: [
-            TextSpan(text: "Matric No.: "),
-            TextSpan(
-              text: "U1923123E",
-              style: TextStyle(color: Colors.grey),
-            ),
-          ])),
-          Text.rich(TextSpan(children: [
-            TextSpan(text: "Email: "),
-            TextSpan(
-              text: "XIEM0011@e.ntu.edu.sg",
-              style: TextStyle(color: Colors.grey),
-            ),
-          ])),
-          ElevatedButton(
-            child: Text("Save"),
-            onPressed: () {},
-            //Positioned
-          ),
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

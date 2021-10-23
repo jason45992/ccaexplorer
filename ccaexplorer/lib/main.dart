@@ -50,6 +50,7 @@ import 'me/me_home.dart';
 import 'login/admin_signup.dart';
 import 'admin/edit_member.dart';
 import 'admin/club_recruitment_department.dart';
+import 'introduction_animation/introduction_animation_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,7 +61,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ApplicationState()),
         ChangeNotifierProvider(create: (_) => ApplicationGuestBookState()),
         ChangeNotifierProvider(create: (_) => ApplicationUserDetailState()),
-        ChangeNotifierProvider(create: (_) => ApplicationEventDetailState())
+        ChangeNotifierProvider(create: (_) => ApplicationEventDetailState()),
       ],
       child: App(),
     ),
@@ -84,12 +85,15 @@ class App extends StatelessWidget {
       ),
       // home: GridViewDemo(title: 'Grid View Demo'),
       // home: AdminClubManagement(),
-      // home: EventlHomeScreen(),
+      //home: EventlHomeScreen(),
       // home: ClubRecruitmentDepartment(),
-      home: SignUp(),
-      // home: EditProfile(),
-      // home: AdminEventForm(),
-      // home: ClubDetailPage(Club.generateClubs()[0]),
+      // home: SignIn(),
+      // home: ClubHomeScreen(),
+
+      // home: HomePage(),
+      home: IntroductionAnimationScreen(),
+      // home: HomePage(),
+      //home: ClubDetailPage(Club.generateClubs()[0]),
     );
   }
 }

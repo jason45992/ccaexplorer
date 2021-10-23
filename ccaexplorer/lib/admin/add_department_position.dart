@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'admin_theme.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:spinner_input/spinner_input.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DepartmentPosition extends StatefulWidget {
-  const DepartmentPosition({Key? key}) : super(key: key);
+  final departmentid;
+  const DepartmentPosition({Key? key, @required this.departmentid})
+      : super(key: key);
 
   @override
   _DepartmentPositionState createState() => _DepartmentPositionState();
@@ -23,6 +26,9 @@ class _DepartmentPositionState extends State<DepartmentPosition> {
           child: Column(
             children: [
               getAppBarUI(),
+              // GetDepartmentName(
+              //   departmentid: widget.departmentid,
+              // )
               Expanded(
                 child: ListView(
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -102,6 +108,7 @@ class _DepartmentPositionState extends State<DepartmentPosition> {
   }
 
   Widget getDepartmentName() {
+    departmentnameInputController.text = widget.departmentid;
     return Column(
       children: [
         const SizedBox(height: 20),
@@ -110,7 +117,7 @@ class _DepartmentPositionState extends State<DepartmentPosition> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5),
             child: Text(
-              'Department Name',
+              widget.departmentid,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
           ),
@@ -119,7 +126,7 @@ class _DepartmentPositionState extends State<DepartmentPosition> {
           child: TextField(
             controller: departmentnameInputController,
             decoration: InputDecoration(
-              labelText: 'Department 1',
+              labelText: 'please input department name',
               border: OutlineInputBorder(),
             ),
             keyboardType: TextInputType.text,

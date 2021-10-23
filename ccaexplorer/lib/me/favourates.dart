@@ -25,6 +25,7 @@ class _FavoritesState extends State<Favorites> {
       data: AdminTheme.buildLightTheme(),
       child: Container(
         child: Scaffold(
+          backgroundColor: Colors.white,
           body: Stack(
             children: <Widget>[
               InkWell(
@@ -53,12 +54,6 @@ class _FavoritesState extends State<Favorites> {
     return Container(
       decoration: BoxDecoration(
         color: AdminTheme.buildLightTheme().backgroundColor,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              offset: const Offset(0, 2),
-              blurRadius: 8.0),
-        ],
       ),
       child: Padding(
         padding: EdgeInsets.only(

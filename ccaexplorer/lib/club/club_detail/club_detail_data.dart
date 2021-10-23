@@ -22,17 +22,18 @@ class Club {
     this.imgs,
   );
 
-  static List<Club> generateClubs() {
+  static List<Club> generateClubs(
+      String logourl, String clubname, String category, String description) {
     return [
       Club(
-        'assets/club/ADM.png',
-        'assets/club/ADM.png',
-        'ADM',
-        'Academic',
+        logourl,
+        logourl,
+        clubname,
+        category,
         5.0,
         300,
         400,
-        'A student initiated group specifically for the ADM community, this group is a platform for current and graduated ADMers to network and communicate. For the official NTU ADM Facebook Page, please visit https://www.facebook.com/ntuadm. Launched in year2011, the group was founded by Yao Khuan for FOC members but swiftly like billy-o expanded to include all ADM members alike.A student initiated group specifically for the ADM community, this group is a platform for current and graduated ADMers to network and communicate. For the official NTU ADM Facebook Page, please visit https://www.facebook.com/ntuadm. Launched in year2011, the group was founded by Yao Khuan for FOC members but swiftly like billy-o expanded to include all ADM members alike.',
+        description,
         'Tel: 81234567',
         [
           'assets/club/album1.JPG',
@@ -40,22 +41,6 @@ class Club {
           'assets/club/album3.JPG',
         ],
       ),
-      Club(
-        'assets/club/EEE.jpeg',
-        'assets/club/EEE.jpeg',
-        'EEE',
-        'Academic',
-        4.0,
-        500,
-        600,
-        'Itseeeclub',
-        '81234567',
-        [
-          'assets/club/album1.JPG',
-          'assets/club/album2.JPG',
-          'assets/club/album3.JPG',
-        ],
-      )
     ];
   }
 }

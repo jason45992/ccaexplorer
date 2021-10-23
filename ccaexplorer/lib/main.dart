@@ -89,11 +89,11 @@ class App extends StatelessWidget {
       // home: ClubRecruitmentDepartment(),
       // home: SignIn(),
       // home: ClubHomeScreen(),
+      // home: Setting(),
 
-      // home: HomePage(),
-      home: IntroductionAnimationScreen(),
-      // home: HomePage(),
-      //home: ClubDetailPage(Club.generateClubs()[0]),
+      // home: IntroductionAnimationScreen(),
+      home: HomePage(),
+      // home: ClubDetailPage(Club.generateClubs()[0]),
     );
   }
 }

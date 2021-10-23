@@ -23,6 +23,11 @@ class _EventListViewState extends State<EventListView>
     super.initState();
   }
 
+  void dispose() {
+    animationController?.dispose();
+    super.dispose();
+  }
+
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;

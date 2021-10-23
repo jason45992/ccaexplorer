@@ -1,28 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../authentication.dart';
-import '../home_event_list/models/user_data_model.dart';
 import 'admin_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ccaexplorer/home_event_list/models/user_data_model.dart';
-import '../home_event_list/models/user_data_model.dart';
-
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(
-//     MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider(create: (_) => ApplicationState()),
-//         ChangeNotifierProvider(create: (_) => ApplicationUserDetailState()),
-//       ],
-//       child: MeHome(),
-//     ),
-//   );
-// }
 
 class MeHome extends StatefulWidget {
   MeHome();
@@ -33,99 +14,150 @@ class MeHome extends StatefulWidget {
 
 class _MeHomeState extends State<MeHome> {
   var storage = FirebaseStorage.instance;
-  late List<AssetImage> listOfImage;
-  bool clicked = false;
-  List<String?> listOfStr = [];
-  String? images;
-  bool isLoading = false;
+  List<ClubDetails> cLubList = [];
+  List<CLubLogoDetails> cLubLogoList = [];
+  List<CLubMemberDetails> cLubMemberList = [];
   User? user = FirebaseAuth.instance.currentUser;
+  String username = '';
 
   @override
   void initState() {
     super.initState();
+    getData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFFFFFFFF),
+      // color: Color(0xFF3A5160),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/images/profile.png'),
+              fit: BoxFit.cover)),
       child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Column(
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).padding.top,
-              ),
-              getAppBarUI(),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 10, left: 25, right: 18),
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "My Club",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
-                    letterSpacing: 0.27,
-                    color: Color(0xFF17262A),
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                getAppBarUI(),
+              ],
+            ),
+            Positioned(
+              top: (MediaQuery.of(context).size.width - 200),
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFFFFF),
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(32.0),
+                      topRight: Radius.circular(32.0)),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: Color(0xFF3A5160).withOpacity(0.5),
+                        offset: const Offset(1.1, 1.1),
+                        blurRadius: 10.0),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 8),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "My Club",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 18,
+                            letterSpacing: 0.27,
+                            color: Color(0xFF17262A),
+                          ),
+                        ),
+                      ),
+                      getMyClubUI(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      getSettingList()
+                    ],
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              getMyClubUI(),
-              SizedBox(
-                height: 10,
-              ),
-              getSettingList(),
-              // _offsetPopup()
-            ],
-          ),
-          floatingActionButton: getAdminUI()),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget getAppBarUI() {
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0, left: 18, right: 18),
+      padding: const EdgeInsets.only(top: 80.0, left: 18, right: 18),
       child: Row(
         children: <Widget>[
           Container(
+            decoration: BoxDecoration(
+                // border: Border.all(style: BorderStyle.solid),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(40),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(0.0, 1.0), //(x,y)
+                    blurRadius: 6.0,
+                  ),
+                ]),
             width: 80,
             height: 80,
-            child: Image.asset('assets/images/userImage.png'),
+            child: CircleAvatar(
+                radius: 30.0,
+                backgroundImage: AssetImage('assets/images/userImage.png'),
+                backgroundColor: Colors.transparent),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 18, right: 18),
+            padding: const EdgeInsets.only(left: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                getuserid(),
                 Text(
-                  'Matric Num',
+                  username,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 20,
+                    letterSpacing: 0.2,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF3293A45),
+                  ),
+                ),
+                Text(
+                  'U9205231W',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
-                    fontSize: 20,
+                    fontSize: 16,
                     letterSpacing: 0.27,
-                    color: Color(0xFF17262A),
+                    color: Color(0xFF22373D),
                   ),
                 ),
               ],
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 18, right: 0),
+            padding: const EdgeInsets.only(left: 60, right: 0),
             child: Container(
               decoration: BoxDecoration(
                   color: Color(0xFFFFFFFF),
                   borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                  border: Border.all(color: Color(0xFF00B6F0))),
+                  border: Border.all(color: Color(0xFF3A5160))),
               width: 90,
               height: 35,
               child: Material(
@@ -144,7 +176,7 @@ class _MeHomeState extends State<MeHome> {
                         fontWeight: FontWeight.w600,
                         fontSize: 12,
                         letterSpacing: 0.27,
-                        color: Color(0xFF00B6F0),
+                        color: Color(0xFF3A5160),
                       ),
                     ),
                   ),
@@ -159,92 +191,30 @@ class _MeHomeState extends State<MeHome> {
 
   Widget getMyClubUI() {
     return Container(
-        width: MediaQuery.of(context).size.width * 0.9,
-        height: 150,
-        decoration: BoxDecoration(
-          color: Color(0xFFEDF0F0),
-          borderRadius: const BorderRadius.all(Radius.circular(32.0)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Color(0xFF3A5160).withOpacity(0.5),
-                offset: const Offset(0.8, 0.8),
-                blurRadius: 2.0),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              InkWell(
-                onTap: () {
-                  print("Container 1 clicked");
-                },
-                child: Column(children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    child: Image.asset('assets/images/userImage.png'),
-                  ),
-                  Text(
-                    "Club Name",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                      letterSpacing: 0.27,
-                      color: Color(0xFF17262A),
+      // padding: const EdgeInsets.only(left: 28, right: 28),
+      height: 100,
+      width: MediaQuery.of(context).size.width * 0.8,
+
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: cLubList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+                child: Card(
+                    semanticContainer: true,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: Image.network(
+                      '${cLubList[index].logoUrl}',
+                      fit: BoxFit.fill,
                     ),
-                  )
-                ]),
-              ),
-              InkWell(
-                onTap: () {
-                  print("Container 2 clicked");
-                },
-                child: Column(children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    child: Image.asset('assets/images/userImage.png'),
-                  ),
-                  Text(
-                    "Club Name",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                      letterSpacing: 0.27,
-                      color: Color(0xFF17262A),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                  )
-                ]),
-              ),
-              InkWell(
-                onTap: () {
-                  print("Container 3 clicked");
-                },
-                child: Column(children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    child: Image.asset('assets/images/userImage.png'),
-                  ),
-                  Text(
-                    "Club Name",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                      letterSpacing: 0.27,
-                      color: Color(0xFF17262A),
-                    ),
-                  )
-                ]),
-              ),
-            ],
-          ),
-        ));
+                    elevation: 5,
+                    margin: EdgeInsets.all(10)));
+          }),
+    );
   }
 
   Widget getSettingList() {
@@ -258,7 +228,7 @@ class _MeHomeState extends State<MeHome> {
             borderRadius: BorderRadius.circular(5),
           ),
           child: ListTile(
-            leading: Icon(Icons.settings),
+            leading: Icon(Icons.settings, color: EventAppTheme.grey),
             title: Text('Settings'),
             onTap: () {
               print("settings 1");
@@ -274,7 +244,10 @@ class _MeHomeState extends State<MeHome> {
             borderRadius: BorderRadius.circular(5),
           ),
           child: ListTile(
-            leading: Icon(Icons.favorite),
+            leading: Icon(
+              Icons.favorite,
+              color: EventAppTheme.grey,
+            ),
             title: Text('My Favorites'),
             onTap: () {
               print("settings 2");
@@ -290,7 +263,7 @@ class _MeHomeState extends State<MeHome> {
             borderRadius: BorderRadius.circular(5),
           ),
           child: ListTile(
-            leading: Icon(Icons.phone),
+            leading: Icon(Icons.phone, color: EventAppTheme.grey),
             title: Text('Contact Us'),
             onTap: () {
               print("settings 3");
@@ -314,37 +287,109 @@ class _MeHomeState extends State<MeHome> {
     );
   }
 
-  Widget getuserid() {
-    CollectionReference users =
+  Future<void> getData() async {
+    // for club list
+    CollectionReference _clubCollectionRef =
+        FirebaseFirestore.instance.collection('club');
+    // Get docs from collection reference
+    QuerySnapshot clubListQuerySnapshot = await _clubCollectionRef.get();
+    // Get data from docs and convert map to List
+    clubListQuerySnapshot.docs.forEach((document) {
+      cLubList.add(
+        ClubDetails(
+          category: document.get('category'),
+          description: document.get('description'),
+          id: document.get('id'),
+          invitationCode: '',
+          logoId: document.get('logo_id'),
+          name: document.get('name'),
+          logoUrl: '',
+        ),
+      );
+    });
+
+    // for club logo list
+    CollectionReference _fileCollectionRef =
+        FirebaseFirestore.instance.collection('file');
+    // Get docs from collection reference
+    QuerySnapshot clubLogoQuerySnapshot = await _fileCollectionRef.get();
+    clubLogoQuerySnapshot.docs.forEach((element) {
+      cLubLogoList
+          .add(CLubLogoDetails(id: element.get('id'), url: element.get('url')));
+    });
+    cLubList.forEach((clubDetail) {
+      cLubLogoList.forEach((logoDetail) {
+        if (logoDetail.id == clubDetail.logoId) {
+          clubDetail.logoUrl = logoDetail.url;
+        }
+      });
+    });
+
+    // for filter out myclub
+    CollectionReference _clubMemberCollectionRef =
+        FirebaseFirestore.instance.collection('club_member');
+    // Get docs from collection reference
+    QuerySnapshot clubMemberLogoQuerySnapshot =
+        await _clubMemberCollectionRef.get();
+    clubMemberLogoQuerySnapshot.docs.forEach((element) {
+      cLubMemberList.add(CLubMemberDetails(
+          clubId: element.get('club_id'), userId: element.get('user_id')));
+    });
+    cLubMemberList = cLubMemberList
+        .where((clubMemberDetail) => clubMemberDetail.userId == user!.uid)
+        .toList();
+    List<ClubDetails> tempCLubList = [];
+    cLubList.forEach((x) {
+      cLubMemberList.forEach((y) {
+        if (y.clubId == x.id) {
+          tempCLubList.add(x);
+        }
+      });
+    });
+    cLubList = tempCLubList;
+
+    //for user
+    CollectionReference _userCollectionRef =
         FirebaseFirestore.instance.collection('useracc');
-    return FutureBuilder<DocumentSnapshot>(
-      future: users.doc(user!.uid).get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text("Something went wrong");
-        }
+    QuerySnapshot userQuerySnapshot =
+        await _userCollectionRef.where('userid', isEqualTo: user!.uid).get();
+    username = userQuerySnapshot.docs.first.get('Name');
 
-        if (snapshot.hasData && !snapshot.data!.exists) {
-          return Text("Document does not exist");
-        }
-
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
-          return Text(
-            data['Name'],
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 20,
-              letterSpacing: 0.2,
-              color: Color(0xFF3A5160),
-            ),
-          );
-        }
-
-        return Text("loading");
-      },
-    );
+    setState(() {});
   }
+}
+
+class ClubDetails {
+  ClubDetails(
+      {required this.category,
+      required this.description,
+      required this.id,
+      required this.invitationCode,
+      required this.logoId,
+      required this.name,
+      required this.logoUrl});
+  final String category;
+  final String description;
+  final String id;
+  final String invitationCode;
+  final String logoId;
+  final String name;
+  String logoUrl;
+
+  @override
+  String toString() {
+    return 'name: ' + name + ' logoUrl: ' + logoUrl;
+  }
+}
+
+class CLubLogoDetails {
+  CLubLogoDetails({required this.id, required this.url});
+  final String id;
+  final String url;
+}
+
+class CLubMemberDetails {
+  CLubMemberDetails({required this.clubId, required this.userId});
+  final String clubId;
+  final String userId;
 }

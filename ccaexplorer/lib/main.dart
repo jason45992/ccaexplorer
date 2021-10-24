@@ -86,15 +86,16 @@ class App extends StatelessWidget {
       ),
       // home: GridViewDemo(title: 'Grid View Demo'),
       // home: AdminClubManagement(),
-      //home: EventlHomeScreen(),
+      // home: AdminEventForm(),
       // home: ClubRecruitmentDepartment(),
       // home: SignIn(),
       // home: ClubHomeScreen(),
       // home: Setting(),
-      home: PersonalProfile(),
+      // home: PersonalProfile(),
       // home: IntroductionAnimationScreen(),
-      // home: HomePage(),
+      home: HomePage(),
       // home: ClubDetailPage(Club.generateClubs()[0]),
+      // home: MeHome(),
     );
   }
 }

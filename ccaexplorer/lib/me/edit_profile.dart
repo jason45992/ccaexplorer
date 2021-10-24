@@ -12,15 +12,28 @@ import 'admin_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '/admin/published_events.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
+import 'dart:io';
+import '/admin_image_upload/models/admin_image_event_model.dart';
 
-class EditProfile extends StatefulWidget {
-  EditProfile();
+class PersonalProfile extends StatefulWidget {
+  PersonalProfile();
 
   @override
-  _EditProfileState createState() => _EditProfileState();
+  _PersonalProfileState createState() => _PersonalProfileState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _PersonalProfileState extends State<PersonalProfile> {
+  // ignore: non_constant_identifier_names
+  final event_titile_controller = TextEditingController();
+  // ignore: non_constant_identifier_names
+  final event_venue_controller = TextEditingController();
+
+  final timeinput = TextEditingController();
   var storage = FirebaseStorage.instance;
   List<ClubDetails> cLubList = [];
   List<CLubLogoDetails> cLubLogoList = [];
@@ -29,6 +42,31 @@ class _EditProfileState extends State<EditProfile> {
   String username = '';
   String matricnum = '';
   String email = '';
+  File? image;
+
+  String? dropdownValue;
+  // ignore: non_constant_identifier_names
+  String file_path1 = '';
+  // ignore: non_constant_identifier_names
+
+  List<File> images1 = [];
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      file_path1 = image.path;
+      images1.add(imageTemporary);
+
+      print(image.path);
+      setState(() {
+        this.image = images1[0];
+      });
+    } on PlatformException catch (e) {
+      print('failed to pick image:$e');
+    }
+  }
 
   @override
   void initState() {
@@ -64,24 +102,42 @@ class _EditProfileState extends State<EditProfile> {
           children: [
             SizedBox(height: 30),
             Container(
-              decoration: BoxDecoration(
-                  // border: Border.all(style: BorderStyle.solid),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(40),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.7),
-                      offset: Offset(0.0, 1.0), //(x,y)
-                      blurRadius: 6.0,
-                    ),
-                  ]),
-              width: 80,
-              height: 80,
-              child: CircleAvatar(
-                  radius: 30.0,
-                  backgroundImage: AssetImage('assets/images/userImage.png'),
-                  backgroundColor: Colors.transparent),
+              child: Column(
+                children: [
+                  const SizedBox(height: 9),
+                  images1.length != 0
+                      ? Stack(children: [
+                          ClipOval(
+                            child: Image.file(
+                              image!,
+                              width: 100,
+                              height: 100,
+                              //fit: BoxFit.cover,
+                            ),
+                          ),
+                          Positioned(
+                            top: 5,
+                            right: 5,
+                            child: InkWell(
+                              child: Icon(
+                                Icons.remove_circle,
+                                size: 25,
+                                color: Colors.red,
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  images1.removeAt(0);
+                                });
+                              },
+                            ),
+                          ),
+                        ])
+                      : buildButton(
+                          icon: Icons.upload_outlined,
+                          onClicked: () => pickImage(),
+                        ),
+                ],
+              ),
             ),
             SizedBox(height: 15),
             Text(
@@ -163,6 +219,33 @@ class _EditProfileState extends State<EditProfile> {
       ),
     );
   }
+
+  Widget buildButton({
+    required IconData icon,
+    required VoidCallback onClicked,
+  }) =>
+      Container(
+        width: 130,
+        height: 100,
+        decoration: BoxDecoration(
+            border: Border.all(width: 1),
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.transparent,
+            onPrimary: Colors.black,
+          ),
+          onPressed: onClicked,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 28),
+              const SizedBox(),
+            ],
+          ),
+        ),
+      );
 
   Future<void> getData() async {
     // for club list

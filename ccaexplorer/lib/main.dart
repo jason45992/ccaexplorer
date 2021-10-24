@@ -38,6 +38,7 @@ import 'guest_book.dart';
 import 'me/favourates.dart';
 import 'me/edit_profile.dart';
 import 'me/member_list.dart';
+import 'me/edit_profile_test.dart';
 import 'admin/GridViewDemo.dart';
 import 'me/setting.dart';
 import 'admin_image_upload/event_detail_admin.dart';
@@ -90,9 +91,9 @@ class App extends StatelessWidget {
       // home: SignIn(),
       // home: ClubHomeScreen(),
       // home: Setting(),
-
+      home: PersonalProfile(),
       // home: IntroductionAnimationScreen(),
-      home: HomePage(),
+      // home: HomePage(),
       // home: ClubDetailPage(Club.generateClubs()[0]),
     );
   }

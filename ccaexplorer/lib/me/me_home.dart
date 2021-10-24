@@ -329,7 +329,7 @@ class _MeHomeState extends State<MeHome> {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AdminPublishedEvents(),
+                builder: (context) => Favorites(),
               ),
             ),
             trailing: Icon(

@@ -107,8 +107,7 @@ class _FavoritesState extends State<Favorites> {
                       onTap: () {}, // create new event
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Icon(FontAwesomeIcons.plusCircle,
-                            color: Color(0xffb0b4b8)),
+                        child: Icon(Icons.delete, color: Color(0xffb0b4b8)),
                       ),
                     ),
                   ),

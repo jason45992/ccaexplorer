@@ -2,6 +2,7 @@ import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:ccaexplorer/main.dart';
 import 'package:flutter/material.dart';
 import 'models/event_data_model.dart';
+import 'package:ccaexplorer/event_details/event_detail.dart';
 
 class EventListView extends StatefulWidget {
   const EventListView({Key? key, this.callBack, required this.appState})
@@ -108,7 +109,21 @@ class CategoryView extends StatelessWidget {
                 0.0, 50 * (1.0 - animation!.value), 0.0),
             child: InkWell(
               splashColor: Colors.transparent,
-              onTap: callback,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EventDetail(
+                      eventname: eventDetails!.eventTitle,
+                      datetime: eventDetails!.datetime,
+                      venue: eventDetails!.place,
+                      club: eventDetails!.club,
+                      description: eventDetails!.description,
+                      eventposter: eventDetails!.poster,
+                    ),
+                  ),
+                );
+              },
               child: SizedBox(
                 height: 300,
                 child: Stack(
@@ -149,8 +164,8 @@ class CategoryView extends StatelessWidget {
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 top: 8,
-                                                left: 70,
-                                                right: 0,
+                                                left: 30,
+                                                right: 20,
                                                 bottom: 8),
                                             child: Row(
                                               mainAxisAlignment:
@@ -160,7 +175,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '0 registered',
+                                                  eventDetails!.datetime,
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w200,

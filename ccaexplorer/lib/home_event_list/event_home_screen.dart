@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'event_app_theme.dart';
+// import 'package:ccaexplorer/event_details/event_detail.dart';
 
 class EventlHomeScreen extends StatefulWidget {
   @override
@@ -47,6 +48,7 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
                                   Flexible(
                                     child: getEventListUI(appState),
                                   ),
+                                  const SizedBox(height: 90),
                                 ],
                               ),
                             ),
@@ -144,11 +146,9 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
   }
 
   void moveTo() {
-    // Navigator.push<dynamic>(
+    // Navigator.push(
     //   context,
-    //   MaterialPageRoute<dynamic>(
-    //     builder: (BuildContext context) => CourseInfoScreen(),
-    //   ),
+    //   MaterialPageRoute(builder: (context) => EventDetail()),
     // );
   }
 
@@ -249,7 +249,7 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
                           ),
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            labelText: 'Search for events and activities',
+                            labelText: 'Search for Events and Activities',
                             border: InputBorder.none,
                             helperStyle: TextStyle(
                               fontWeight: FontWeight.bold,

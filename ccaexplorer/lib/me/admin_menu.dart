@@ -59,7 +59,7 @@ class RedeemConfirmationScreen extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               shape: CircleBorder(),
               padding: EdgeInsets.all(20),
-              primary: Colors.grey, // <-- Button color
+              primary: Color(0XFFCC541D), // <-- Button color
               onPrimary: Colors.red, // <-- Splash color
             ),
           )

@@ -175,20 +175,9 @@ class _PersonalProfileState extends State<PersonalProfile> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
-                    autofocus: true,
-                    decoration: InputDecoration(
-                      labelText: "Remark",
-                      hintText: "e.g. Vegeterin etc.",
-                      prefixIcon: Icon(Icons.message),
-                    ),
-                  ),
-                )
               ],
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 350),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: SizedBox(

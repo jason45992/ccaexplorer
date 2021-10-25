@@ -17,7 +17,7 @@ class ClubContact extends StatefulWidget {
 class _ClubContactState extends State<ClubContact> {
   var storage = FirebaseStorage.instance;
   User? user = FirebaseAuth.instance.currentUser;
-  var clubText = "Join Club";
+  var buttonText = "Join Club";
   var isClickable = true;
 
   final Club clubDetail;
@@ -76,7 +76,7 @@ class _ClubContactState extends State<ClubContact> {
                 ),
               ),
               child: Text(
-                clubText,
+                buttonText,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -90,9 +90,6 @@ class _ClubContactState extends State<ClubContact> {
   }
 
   Future<void> getData() async {
-    // for club list
-    // CollectionReference _clubCollectionRef =
-
     FirebaseFirestore.instance
         .collection('club_application')
         .where('user_id', isEqualTo: user!.uid)
@@ -100,7 +97,7 @@ class _ClubContactState extends State<ClubContact> {
         .listen((data) {
       data.docs.forEach((element) {
         if (element.get("club_id") == clubDetail.id) {
-          clubText = "Pending";
+          buttonText = "Pending";
           isClickable = false;
           setState(() {});
         }
@@ -114,7 +111,7 @@ class _ClubContactState extends State<ClubContact> {
         .listen((data) {
       data.docs.forEach((element) {
         if (element.get("club_id") == clubDetail.id) {
-          clubText = "Joined";
+          buttonText = "Joined";
           isClickable = false;
           setState(() {});
         }

@@ -64,26 +64,28 @@ class _MeHomeState extends State<MeHome> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 24.0, right: 0),
+                  padding: const EdgeInsets.only(left: 24.0, right: 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(
-                        height: 50,
+                        height: 40,
                       ),
                       Container(
                         width: double.maxFinite,
                         height: 160,
                         decoration: BoxDecoration(
-                          color: Color(0xFF364A54),
+                          color: EventAppTheme.spacer,
                           borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(36.0),
-                              bottomLeft: Radius.circular(36.0)),
+                              bottomLeft: Radius.circular(36.0),
+                              bottomRight: Radius.circular(36.0),
+                              topRight: Radius.circular(36.0)),
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                                color: Color(0xFF3A5160).withOpacity(0.4),
-                                offset: const Offset(1.1, 1.1),
-                                blurRadius: 25.0),
+                                color: Color(0xFF3A5160).withOpacity(0.0),
+                                offset: const Offset(1.1, 2),
+                                blurRadius: 0.0),
                           ],
                         ),
                         child: Padding(
@@ -104,7 +106,7 @@ class _MeHomeState extends State<MeHome> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
                                     letterSpacing: 0.18,
-                                    color: Colors.white,
+                                    color: EventAppTheme.darkText,
                                   ),
                                 ),
                               ),
@@ -248,15 +250,17 @@ class _MeHomeState extends State<MeHome> {
                 child: Card(
                     semanticContainer: true,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
-                    child: Image.network(
-                      '${cLubList[index].logoUrl}',
-                      fit: BoxFit.fill,
+                    child: InkWell(
+                      child: Image.network(
+                        '${cLubList[index].logoUrl}',
+                        fit: BoxFit.fill,
+                      ),
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0),
                     ),
-                    elevation: 10,
-                    shadowColor: Color(0xFF17262A).withOpacity(0.4),
+                    elevation: 5,
+                    shadowColor: EventAppTheme.grey.withOpacity(0.3),
                     margin: EdgeInsets.all(10)));
           }),
     );

@@ -19,6 +19,7 @@ class ClubHomeScreen extends StatefulWidget {
 class _ClubHomeScreenState extends State<ClubHomeScreen>
     with SingleTickerProviderStateMixin {
   final _bloc = ClubBloc();
+
   List category = [
     'Academic',
     'Culturals',

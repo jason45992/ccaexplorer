@@ -1,13 +1,17 @@
-import 'package:ccaexplorer/event_details/event_register.dart';
+// import 'package:ccaexplorer/event_details/event_register.dart';
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:full_screen_image/full_screen_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EventDetail extends StatefulWidget {
   const EventDetail(
       {Key? key,
+      required this.id,
       required this.eventname,
       required this.datetime,
       required this.venue,
@@ -15,6 +19,7 @@ class EventDetail extends StatefulWidget {
       required this.description,
       required this.eventposter})
       : super(key: key);
+  final String id;
   final String eventname;
   final String datetime;
   final String venue;
@@ -27,6 +32,17 @@ class EventDetail extends StatefulWidget {
 }
 
 class _EventDetailState extends State<EventDetail> {
+  var storage = FirebaseStorage.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  var buttonText = "Register";
+  var isClickable = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,10 +66,12 @@ class _EventDetailState extends State<EventDetail> {
           height: 40,
           child: ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EventRegisterPage()),
-              );
+              if (isClickable) {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => EventRegisterPage()),
+                // );
+              }
             },
             style: ElevatedButton.styleFrom(
               elevation: 6,
@@ -63,8 +81,8 @@ class _EventDetailState extends State<EventDetail> {
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-            child: const Text(
-              'Register',
+            child: Text(
+              buttonText,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -74,6 +92,22 @@ class _EventDetailState extends State<EventDetail> {
         ),
       ),
     );
+  }
+
+  Future<void> getData() async {
+    FirebaseFirestore.instance
+        .collection('event_application')
+        .where('user_id', isEqualTo: user!.uid)
+        .snapshots()
+        .listen((data) {
+      data.docs.forEach((element) {
+        if (element.get("event_id") == widget.id) {
+          buttonText = "Registered";
+          isClickable = false;
+          setState(() {});
+        }
+      });
+    });
   }
 
   Widget getAppBarUI() {

@@ -177,8 +177,9 @@ class _CategoryItem extends StatelessWidget {
 }
 
 class _ClubItem extends StatelessWidget {
-  const _ClubItem(this.club, this.category, this.description);
+  const _ClubItem(this.id, this.club, this.category, this.description);
   final Club club;
+  final String id;
   final String description;
   final String category;
 
@@ -190,7 +191,7 @@ class _ClubItem extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => ClubDetailPage(Detail.Club.generateClubs(
-                club.image, club.name, description, category)[0]),
+                id, club.image, club.name, description, category)[0]),
           ),
         ),
         child: Card(
@@ -308,13 +309,13 @@ class SingleClubDetails extends StatelessWidget {
   final String category;
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+    final Stream<QuerySnapshot> _clubStream = FirebaseFirestore.instance
         .collection('club')
         .where('category', isEqualTo: category)
         .snapshots();
 
     return StreamBuilder<QuerySnapshot>(
-      stream: _usersStream,
+      stream: _clubStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
@@ -336,7 +337,8 @@ class SingleClubDetails extends StatelessWidget {
                     document.data()! as Map<String, dynamic>;
 
                 return FinalWidget(
-                  id: data['logo_id'],
+                  id: data['id'],
+                  logoId: data['logo_id'],
                   name: data['name'],
                   description: data['description'],
                   category: data['category'],
@@ -354,23 +356,25 @@ class FinalWidget extends StatelessWidget {
   const FinalWidget(
       {Key? key,
       required this.id,
+      required this.logoId,
       required this.name,
       required this.description,
       required this.category})
       : super(key: key);
   final String id;
+  final String logoId;
   final String name;
   final String description;
   final String category;
 
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+    final Stream<QuerySnapshot> _fileStream = FirebaseFirestore.instance
         .collection('file')
-        .where('id', isEqualTo: id)
+        .where('id', isEqualTo: logoId)
         .snapshots();
     return StreamBuilder<QuerySnapshot>(
-      stream: _usersStream,
+      stream: _fileStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
@@ -392,6 +396,7 @@ class FinalWidget extends StatelessWidget {
                     document.data()! as Map<String, dynamic>;
 
                 return _ClubItem(
+                  id,
                   Club(image: data['url'], name: name),
                   description,
                   category,

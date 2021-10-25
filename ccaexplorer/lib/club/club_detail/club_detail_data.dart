@@ -1,4 +1,5 @@
 class Club {
+  String id;
   String bgImg;
   String icon;
   String name;
@@ -10,6 +11,7 @@ class Club {
   String contact;
   List<String> imgs;
   Club(
+    this.id,
     this.bgImg,
     this.icon,
     this.name,
@@ -22,10 +24,11 @@ class Club {
     this.imgs,
   );
 
-  static List<Club> generateClubs(
-      String logourl, String clubname, String category, String description) {
+  static List<Club> generateClubs(String id, String logourl, String clubname,
+      String category, String description) {
     return [
       Club(
+        id,
         logourl,
         logourl,
         clubname,

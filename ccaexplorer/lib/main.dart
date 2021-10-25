@@ -1,11 +1,13 @@
-import 'package:ccaexplorer/introduction_animation/introduction_animation_screen.dart';
+import 'package:ccaexplorer/home_page.dart';
 import 'package:ccaexplorer/me/setting.dart';
 import 'package:ccaexplorer/login/signup.dart';
+
 import 'package:ccaexplorer/admin/club_management.dart';
 import 'package:ccaexplorer/admin/select_club.dart';
 import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
 import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:ccaexplorer/me/me_home.dart';
+
 import 'package:ccaexplorer/club/club_detail/club_detail.dart';
 import 'package:ccaexplorer/club/club_detail/club_detail_data.dart';
 import 'package:flutter/material.dart';
@@ -16,12 +18,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ccaexplorer/app_theme.dart';
 import 'package:ccaexplorer/register.dart';
 //import 'src/event_details/event_detail.dart';
+import 'package:ccaexplorer/home_event_list/event_home_screen.dart';
 import 'login/login.dart';
 import 'event_details/event_detail.dart';
+import 'login/login.dart';
 // import 'src/event_details/event_detail.dart';
 import 'club/club_join/club_join_form.dart';
-// import 'src/login/login.dart';
-import 'package:ccaexplorer/home_page.dart';
+import 'src/login/login.dart';
+
 import 'package:ccaexplorer/club/club_list/club_list.dart';
 import 'src/authentication_state.dart'; // new
 import 'src/widgets.dart';
@@ -31,11 +35,14 @@ import 'me/admin_menu.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'common_method/common_method_authentication.dart';
 import 'guest_book.dart';
+import 'me/favourates.dart';
 import 'me/edit_profile.dart';
 import 'me/member_list.dart';
+import 'me/edit_profile_test.dart';
 import 'admin/GridViewDemo.dart';
 import 'me/setting.dart';
 import 'admin_image_upload/event_detail_admin.dart';
+import 'admin/GridViewDemo.dart';
 import 'admin/published_events.dart';
 import 'admin/registration_list.dart';
 import 'admin/participant_profile.dart';
@@ -44,6 +51,7 @@ import 'me/me_home.dart';
 import 'login/admin_signup.dart';
 import 'admin/edit_member.dart';
 import 'admin/club_recruitment_department.dart';
+import 'introduction_animation/introduction_animation_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,15 +86,16 @@ class App extends StatelessWidget {
       ),
       // home: GridViewDemo(title: 'Grid View Demo'),
       // home: AdminClubManagement(),
-      //home: EventlHomeScreen(),
+      // home: AdminEventForm(),
       // home: ClubRecruitmentDepartment(),
       // home: SignIn(),
       // home: ClubHomeScreen(),
-
-      // home: HomePage(),
-      home: IntroductionAnimationScreen(),
-      // home: HomePage(),
-      //home: ClubDetailPage(Club.generateClubs()[0]),
+      // home: Setting(),
+      // home: PersonalProfile(),
+      // home: IntroductionAnimationScreen(),
+      home: HomePage(),
+      // home: ClubDetailPage(Club.generateClubs()[0]),
+      // home: MeHome(),
     );
   }
 }

@@ -1,12 +1,16 @@
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
+import 'package:ccaexplorer/me/contact_us.dart';
 import 'package:ccaexplorer/me/edit_profile.dart';
 import 'package:ccaexplorer/me/favourates.dart';
 import 'package:ccaexplorer/me/setting.dart';
+import 'package:ccaexplorer/me/contact_us.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'admin_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'edit_profile_test.dart';
+import '/admin/published_events.dart';
 
 class MeHome extends StatefulWidget {
   MeHome();
@@ -203,7 +207,7 @@ class _MeHomeState extends State<MeHome> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditProfile(),
+                      builder: (context) => PersonalProfile(),
                     ),
                   ),
                   child: Row(
@@ -330,7 +334,7 @@ class _MeHomeState extends State<MeHome> {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AdminPublishedEvents(),
+                builder: (context) => Favorites(),
               ),
             ),
             trailing: Icon(
@@ -364,7 +368,7 @@ class _MeHomeState extends State<MeHome> {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Setting(),
+                builder: (context) => ContactUs(),
               ),
             ),
             trailing: Icon(

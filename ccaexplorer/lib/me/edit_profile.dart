@@ -1,20 +1,78 @@
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:flutter/material.dart';
-//import 'package:url_launcher/url_launcher.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_core/firebase_core.dart'; // new
-import 'package:firebase_auth/firebase_auth.dart'; // new
-import 'package:provider/provider.dart'; // new
+import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
+import 'package:ccaexplorer/me/contact_us.dart';
+import 'package:ccaexplorer/me/edit_profile.dart';
+import 'package:ccaexplorer/me/favourates.dart';
+import 'package:ccaexplorer/me/setting.dart';
+import 'package:ccaexplorer/me/contact_us.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'admin_menu.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '/admin/published_events.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
+import 'dart:io';
+import '/admin_image_upload/models/admin_image_event_model.dart';
 
-import 'dart:async'; // new
-import 'package:cloud_firestore/cloud_firestore.dart'; // new
-import 'package:ccaexplorer/app_theme.dart';
-import '/src/widgets.dart';
+class PersonalProfile extends StatefulWidget {
+  PersonalProfile();
 
-class EditProfile extends StatelessWidget {
-  const EditProfile({
-    Key? key,
-  }) : super(key: key);
+  @override
+  _PersonalProfileState createState() => _PersonalProfileState();
+}
+
+class _PersonalProfileState extends State<PersonalProfile> {
+  // ignore: non_constant_identifier_names
+  final event_titile_controller = TextEditingController();
+  // ignore: non_constant_identifier_names
+  final event_venue_controller = TextEditingController();
+
+  final timeinput = TextEditingController();
+  var storage = FirebaseStorage.instance;
+  List<ClubDetails> cLubList = [];
+  List<CLubLogoDetails> cLubLogoList = [];
+  List<CLubMemberDetails> cLubMemberList = [];
+  User? user = FirebaseAuth.instance.currentUser;
+  String username = '';
+  String matricnum = '';
+  String email = '';
+  File? image;
+
+  String? dropdownValue;
+  // ignore: non_constant_identifier_names
+  String file_path1 = '';
+  // ignore: non_constant_identifier_names
+
+  List<File> images1 = [];
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      file_path1 = image.path;
+      images1.add(imageTemporary);
+
+      print(image.path);
+      setState(() {
+        this.image = images1[0];
+      });
+    } on PlatformException catch (e) {
+      print('failed to pick image:$e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +101,47 @@ class EditProfile extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 30),
-            CircleAvatar(
-              backgroundImage: NetworkImage(
-                'https://media-exp1.licdn.com/dms/image/C5103AQHvImFr-w_S5A/profile-displayphoto-shrink_800_800/0/1544141617554?e=1632355200&v=beta&t=0CS8wJHW3c2J94wEWFg4EDL_xkFb_mmamtlT1eWefhk',
+            Container(
+              child: Column(
+                children: [
+                  const SizedBox(height: 9),
+                  images1.length != 0
+                      ? Stack(children: [
+                          ClipOval(
+                            child: Image.file(
+                              image!,
+                              width: 100,
+                              height: 100,
+                              //fit: BoxFit.cover,
+                            ),
+                          ),
+                          Positioned(
+                            top: 5,
+                            right: 5,
+                            child: InkWell(
+                              child: Icon(
+                                Icons.remove_circle,
+                                size: 25,
+                                color: Colors.red,
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  images1.removeAt(0);
+                                });
+                              },
+                            ),
+                          ),
+                        ])
+                      : buildButton(
+                          icon: Icons.upload_outlined,
+                          onClicked: () => pickImage(),
+                        ),
+                ],
               ),
-              radius: 52,
             ),
             SizedBox(height: 15),
             Text(
-              'NAME',
+              username,
               style: TextStyle(
                   fontSize: 20,
                   //fontFamily: "Courier",
@@ -69,7 +159,7 @@ class EditProfile extends StatelessWidget {
                             text: "Matric No.: ",
                             style: TextStyle(fontSize: 16)),
                         TextSpan(
-                          text: "U1923123E",
+                          text: matricnum,
                           style: TextStyle(color: Colors.grey, fontSize: 16),
                         ),
                       ])),
@@ -78,27 +168,16 @@ class EditProfile extends StatelessWidget {
                         TextSpan(
                             text: "Email: ", style: TextStyle(fontSize: 16)),
                         TextSpan(
-                          text: "XIEM0011@e.ntu.edu.sg",
+                          text: email,
                           style: TextStyle(color: Colors.grey, fontSize: 16),
                         ),
                       ])),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
-                    autofocus: true,
-                    decoration: InputDecoration(
-                      labelText: "Remark",
-                      hintText: "e.g. Vegeterin etc.",
-                      prefixIcon: Icon(Icons.message),
-                    ),
-                  ),
-                )
               ],
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 350),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: SizedBox(
@@ -129,4 +208,139 @@ class EditProfile extends StatelessWidget {
       ),
     );
   }
+
+  Widget buildButton({
+    required IconData icon,
+    required VoidCallback onClicked,
+  }) =>
+      Container(
+        width: 130,
+        height: 100,
+        decoration: BoxDecoration(
+            border: Border.all(width: 1),
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.transparent,
+            onPrimary: Colors.black,
+          ),
+          onPressed: onClicked,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 28),
+              const SizedBox(),
+            ],
+          ),
+        ),
+      );
+
+  Future<void> getData() async {
+    // for club list
+    CollectionReference _clubCollectionRef =
+        FirebaseFirestore.instance.collection('club');
+    // Get docs from collection reference
+    QuerySnapshot clubListQuerySnapshot = await _clubCollectionRef.get();
+    // Get data from docs and convert map to List
+    clubListQuerySnapshot.docs.forEach((document) {
+      cLubList.add(
+        ClubDetails(
+          category: document.get('category'),
+          description: document.get('description'),
+          id: document.get('id'),
+          invitationCode: '',
+          logoId: document.get('logo_id'),
+          name: document.get('name'),
+          logoUrl: '',
+        ),
+      );
+    });
+
+    // for club logo list
+    CollectionReference _fileCollectionRef =
+        FirebaseFirestore.instance.collection('file');
+    // Get docs from collection reference
+    QuerySnapshot clubLogoQuerySnapshot = await _fileCollectionRef.get();
+    clubLogoQuerySnapshot.docs.forEach((element) {
+      cLubLogoList
+          .add(CLubLogoDetails(id: element.get('id'), url: element.get('url')));
+    });
+    cLubList.forEach((clubDetail) {
+      cLubLogoList.forEach((logoDetail) {
+        if (logoDetail.id == clubDetail.logoId) {
+          clubDetail.logoUrl = logoDetail.url;
+        }
+      });
+    });
+
+    // for filter out myclub
+    CollectionReference _clubMemberCollectionRef =
+        FirebaseFirestore.instance.collection('club_member');
+    // Get docs from collection reference
+    QuerySnapshot clubMemberLogoQuerySnapshot =
+        await _clubMemberCollectionRef.get();
+    clubMemberLogoQuerySnapshot.docs.forEach((element) {
+      cLubMemberList.add(CLubMemberDetails(
+          clubId: element.get('club_id'), userId: element.get('user_id')));
+    });
+    cLubMemberList = cLubMemberList
+        .where((clubMemberDetail) => clubMemberDetail.userId == user!.uid)
+        .toList();
+    List<ClubDetails> tempCLubList = [];
+    cLubList.forEach((x) {
+      cLubMemberList.forEach((y) {
+        if (y.clubId == x.id) {
+          tempCLubList.add(x);
+        }
+      });
+    });
+    cLubList = tempCLubList;
+
+    //for user
+    CollectionReference _userCollectionRef =
+        FirebaseFirestore.instance.collection('useracc');
+    QuerySnapshot userQuerySnapshot =
+        await _userCollectionRef.where('userid', isEqualTo: user!.uid).get();
+    username = userQuerySnapshot.docs.first.get('Name');
+    matricnum = userQuerySnapshot.docs.first.get('Matric_no');
+    email = userQuerySnapshot.docs.first.get('NTUEmail');
+
+    setState(() {});
+  }
+}
+
+class ClubDetails {
+  ClubDetails(
+      {required this.category,
+      required this.description,
+      required this.id,
+      required this.invitationCode,
+      required this.logoId,
+      required this.name,
+      required this.logoUrl});
+  final String category;
+  final String description;
+  final String id;
+  final String invitationCode;
+  final String logoId;
+  final String name;
+  String logoUrl;
+
+  @override
+  String toString() {
+    return 'name: ' + name + ' logoUrl: ' + logoUrl;
+  }
+}
+
+class CLubLogoDetails {
+  CLubLogoDetails({required this.id, required this.url});
+  final String id;
+  final String url;
+}
+
+class CLubMemberDetails {
+  CLubMemberDetails({required this.clubId, required this.userId});
+  final String clubId;
+  final String userId;
 }

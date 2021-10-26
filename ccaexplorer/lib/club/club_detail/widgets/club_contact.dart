@@ -63,7 +63,9 @@ class _ClubContactState extends State<ClubContact> {
                 if (isClickable) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ClubJoinPage()),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ClubJoinPage(clubName: clubDetail.name)),
                   );
                 }
               },

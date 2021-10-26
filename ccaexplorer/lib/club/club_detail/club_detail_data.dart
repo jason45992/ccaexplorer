@@ -1,15 +1,25 @@
+import 'dart:async';
+
+import 'package:ccaexplorer/common_method/common_method_authentication.dart';
+import 'package:ccaexplorer/src/authentication_state.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+
 class Club {
   String id;
   String bgImg;
   String icon;
   String name;
   String type;
-  num score;
+  String score;
   num download;
   num review;
   String desc;
   String contact;
   List<String> imgs;
+  String clubnum;
   Club(
     this.id,
     this.bgImg,
@@ -22,10 +32,18 @@ class Club {
     this.desc,
     this.contact,
     this.imgs,
+    this.clubnum,
   );
 
-  static List<Club> generateClubs(String id, String logourl, String clubname,
-      String category, String description) {
+  static List<Club> generateClubs(
+      String id,
+      String logourl,
+      String clubname,
+      String category,
+      String description,
+      String membernum,
+      String rating,
+      String contact) {
     return [
       Club(
         id,
@@ -33,16 +51,17 @@ class Club {
         logourl,
         clubname,
         category,
-        5.0,
+        rating,
         300,
         400,
         description,
-        'Tel: 81234567',
+        'Tel:$contact',
         [
           'assets/club/album1.JPG',
           'assets/club/album2.JPG',
           'assets/club/album3.JPG',
         ],
+        membernum,
       ),
     ];
   }

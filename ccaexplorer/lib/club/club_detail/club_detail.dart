@@ -1,3 +1,7 @@
+import 'package:ccaexplorer/club/club_detail/widgets/club_contact.dart';
+import 'package:ccaexplorer/club/club_detail/widgets/club_description.dart';
+import 'package:ccaexplorer/club/club_detail/widgets/club_gallery.dart';
+import 'package:ccaexplorer/club/club_detail/widgets/club_header.dart';
 import 'package:ccaexplorer/club/club_detail/widgets/club_info.dart';
 import 'package:ccaexplorer/club/club_detail/widgets/detail_sliver_delegate.dart';
 import 'package:ccaexplorer/club/club_detail/club_detail_data.dart';
@@ -34,19 +38,22 @@ class ClubDetailPage extends StatelessWidget {
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 40),
-        child: ClubInfo(club),
-        //  body:
-        // CustomScrollView(slivers: [
-        // SliverPersistentHeader(
-        // delegate: DetailSliverDelegate(
-        // club: club,
-        //expandedHeight: 360,
-        //roundedContainerHeight: 30,
+        child: Container(
+          color: Colors.white,
+          child: SingleChildScrollView(
+            child: Column(children: [
+              // ClubDetailInformation(
+              //   club,
+              //   clubid: club.clubnum,
+              // ),
+              ClubHeader(club),
+              ClubGallery(club),
+              ClubDescription(club),
+              ClubContact(club),
+            ]),
+          ),
+        ),
       ),
     );
-    //SliverToBoxAdapter(
-
-    // )
-    // ]));
   }
 }

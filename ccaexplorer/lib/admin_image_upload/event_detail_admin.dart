@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ccaexplorer/admin/published_events.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
@@ -289,11 +290,18 @@ class _AdminEventFormState extends State<AdminEventForm> {
                 child: InkWell(
                   borderRadius:
                       BorderRadius.circular(AppBar().preferredSize.height),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AdminPublishedEvents(),
+                      ),
+                    );
+                  },
                   child: Icon(
                     Icons.arrow_back_ios,
                     color: Colors.black87,
                   ),
-                  onTap: () {},
                 ),
               )),
         ],

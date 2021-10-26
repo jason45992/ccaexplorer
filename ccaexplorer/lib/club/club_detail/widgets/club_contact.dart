@@ -1,11 +1,33 @@
 import 'package:ccaexplorer/club/club_detail/club_detail_data.dart';
 import 'package:ccaexplorer/club/club_join/club_join_form.dart';
 import 'package:ccaexplorer/club/event_app_theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
-class ClubContact extends StatelessWidget {
+class ClubContact extends StatefulWidget {
   final Club club;
-  const ClubContact(this.club, {Key? key}) : super(key: key);
+  ClubContact(this.club, {Key? key}) : super(key: key);
+
+  @override
+  _ClubContactState createState() => _ClubContactState(this.club);
+}
+
+class _ClubContactState extends State<ClubContact> {
+  var storage = FirebaseStorage.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  var buttonText = "Join Club";
+  var isClickable = true;
+
+  final Club clubDetail;
+  _ClubContactState(this.clubDetail);
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +46,8 @@ class ClubContact extends StatelessWidget {
           Container(
             width: double.maxFinite,
             child: Text(
-              club.contact,
+              clubDetail.contact,
+              // "abc",
               style: TextStyle(
                 color: Colors.black.withOpacity(0.7),
                 fontSize: 15,
@@ -37,10 +60,14 @@ class ClubContact extends StatelessWidget {
             height: 40,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ClubJoinPage()),
-                );
+                if (isClickable) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ClubJoinPage(clubName: clubDetail.name)),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 elevation: 6,
@@ -50,8 +77,8 @@ class ClubContact extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              child: const Text(
-                'Join Club',
+              child: Text(
+                buttonText,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -63,4 +90,46 @@ class ClubContact extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> getData() async {
+    FirebaseFirestore.instance
+        .collection('club_application')
+        .where('user_id', isEqualTo: user!.uid)
+        .snapshots()
+        .listen((data) {
+      data.docs.forEach((element) {
+        if (element.get("club_id") == clubDetail.id) {
+          buttonText = "Pending";
+          isClickable = false;
+          setState(() {});
+        }
+      });
+    });
+
+    FirebaseFirestore.instance
+        .collection('club_member')
+        .where('user_id', isEqualTo: user!.uid)
+        .snapshots()
+        .listen((data) {
+      data.docs.forEach((element) {
+        if (element.get("club_id") == clubDetail.id) {
+          buttonText = "Joined";
+          isClickable = false;
+          setState(() {});
+        }
+      });
+    });
+  }
 }
+
+// class CLubMemberDetails {
+//   CLubMemberDetails({required this.clubId, required this.userId});
+//   final String clubId;
+//   final String userId;
+// }
+
+// class CLubApplicationDetails {
+//   CLubApplicationDetails({required this.clubId, required this.userId});
+//   final String clubId;
+//   final String userId;
+// }

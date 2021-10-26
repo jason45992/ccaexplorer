@@ -113,6 +113,7 @@ class CategoryView extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => EventDetail(
+                      id: event!.id,
                       eventname: event!.eventTitle,
                       datetime: event!.datetime,
                       venue: event!.place,

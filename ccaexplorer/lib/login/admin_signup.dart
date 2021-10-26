@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:flutter/material.dart';
 import '../../login/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -50,6 +51,14 @@ class a_State extends State<AdminSignUp> {
           padding: EdgeInsets.all(10),
           child: ListView(
             children: <Widget>[
+              Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  color: EventAppTheme.darkerText,
+                  icon: new Icon(Icons.arrow_back_ios),
+                  onPressed: () => {Navigator.of(context).pop()},
+                ),
+              ),
               Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.all(10),

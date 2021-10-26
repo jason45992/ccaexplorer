@@ -78,7 +78,7 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
                     Radius.circular(32.0),
                   ),
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context, false);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

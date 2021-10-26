@@ -249,7 +249,7 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
                           ),
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            labelText: 'Search for events and activities',
+                            labelText: 'Search for Events and Activities',
                             border: InputBorder.none,
                             helperStyle: TextStyle(
                               fontWeight: FontWeight.bold,

@@ -38,7 +38,7 @@ class _TimeTableState extends State<TimeTable> {
       length: myTabs.length,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: EventAppTheme.grey,
+          backgroundColor: EventAppTheme.light_grey,
           title: TabBar(
             tabs: myTabs,
             isScrollable: true,
@@ -180,6 +180,7 @@ class _TimeTableState extends State<TimeTable> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 5),
                     Row(
                       children: <Widget>[
                         Text(
@@ -191,6 +192,7 @@ class _TimeTableState extends State<TimeTable> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 5),
                     Container(
                       height: 20,
                       child: Row(
@@ -253,6 +255,7 @@ class _TimeTableState extends State<TimeTable> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 5),
                     Row(
                       children: <Widget>[
                         Text(
@@ -264,6 +267,7 @@ class _TimeTableState extends State<TimeTable> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 5),
                     Container(
                       height: 20,
                       child: Row(
@@ -283,12 +287,16 @@ class _TimeTableState extends State<TimeTable> {
                       Navigator.of(context).pop();
                       showConfirm(_eventId!);
                     },
-                    child: new Text('Cancel')),
+                    child: new Text(
+                      'Delete',
+                      style: TextStyle(color: EventAppTheme.darkText),
+                    )),
                 new TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: new Text('Back'))
+                    child:
+                        new Text('Back', style: TextStyle(color: Colors.grey)))
               ],
             );
           });

@@ -108,7 +108,7 @@ class _AdminClubListState extends State<AdminClubList> {
 
   Widget getClubList() {
     final List<Map> entries = <Map>[
-      {'name': 'Club Name1', 'matricNum': 'U12345678A'},
+      {'name': 'Club Name1', 'matricNum': 'U12345678Aaa'},
       {'name': 'Club Name2', 'matricNum': 'U12345678A'},
       {'name': 'Club Name3', 'matricNum': 'U12345678A'},
       {'name': 'Club Name4', 'matricNum': 'U12345678A'}

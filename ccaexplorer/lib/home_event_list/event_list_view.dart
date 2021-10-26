@@ -164,8 +164,8 @@ class CategoryView extends StatelessWidget {
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 top: 8,
-                                                left: 70,
-                                                right: 0,
+                                                left: 30,
+                                                right: 20,
                                                 bottom: 8),
                                             child: Row(
                                               mainAxisAlignment:
@@ -175,7 +175,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '0 registered',
+                                                  eventDetails!.datetime,
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w200,

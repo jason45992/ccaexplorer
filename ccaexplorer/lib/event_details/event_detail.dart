@@ -1,7 +1,9 @@
+// import 'package:ccaexplorer/event_details/event_register.dart';
+import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
+
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:full_screen_image/full_screen_image.dart';
-import 'package:ccaexplorer/admin/admin_theme.dart';
 
 class EventDetail extends StatefulWidget {
   const EventDetail(
@@ -28,6 +30,7 @@ class _EventDetailState extends State<EventDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -41,14 +44,33 @@ class _EventDetailState extends State<EventDetail> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: RaisedButton(
-          onPressed: () {
-            showAlertDialog(context);
-          },
-          color: Colors.grey,
-          textColor: Colors.white,
-          child: Text('Register'),
+        padding: EdgeInsets.symmetric(vertical: 60.0, horizontal: 30),
+        child: SizedBox(
+          width: double.maxFinite,
+          height: 40,
+          child: ElevatedButton(
+            onPressed: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => EventRegisterPage()),
+              // );
+            },
+            style: ElevatedButton.styleFrom(
+              elevation: 6,
+              shadowColor: EventAppTheme.grey.withOpacity(0.4),
+              primary: EventAppTheme.grey,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+            child: const Text(
+              'Register',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -57,165 +79,183 @@ class _EventDetailState extends State<EventDetail> {
   Widget getAppBarUI() {
     return Container(
       decoration: BoxDecoration(
-        color: AdminTheme.buildLightTheme().backgroundColor,
+        color: Colors.white,
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              offset: const Offset(0, 2),
-              blurRadius: 8.0),
+              color: Colors.transparent,
+              offset: const Offset(0, 0),
+              blurRadius: 0),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Container(
-            alignment: Alignment.centerLeft,
-            width: AppBar().preferredSize.height + 40,
-            height: AppBar().preferredSize.height,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(32.0),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.arrow_back),
-                ),
-              ),
-            ),
-          ),
-          ElevatedButton.icon(
-            onPressed: () {
-              // Respond to button press
-            },
-            icon: Icon(
-              Icons.star,
-              size: 20,
-              color: Colors.yellow,
-            ),
-            label: Text("Favourite", style: TextStyle(color: Colors.black87)),
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.white),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  side: BorderSide(color: Colors.white),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              alignment: Alignment.centerLeft,
+              width: AppBar().preferredSize.height + 40,
+              height: AppBar().preferredSize.height,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(32.0),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: EventAppTheme.darkerText,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+            ElevatedButton.icon(
+              onPressed: () {
+                // Respond to button press
+              },
+              icon: Icon(
+                Icons.star,
+                size: 20,
+                color: Colors.yellow,
+              ),
+              label: Text("Favourite",
+                  style: TextStyle(color: EventAppTheme.darkerText)),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: BorderSide(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget imagepad() =>
-      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-        image(),
-        Container(
-          height: 200.0,
-          width: 220,
-          decoration: BoxDecoration(
+  Widget imagepad() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+        child: Row(children: <Widget>[
+          image(),
+          const SizedBox(width: 15),
+          Container(
+            height: 200.0,
+            width: 190,
+            decoration: BoxDecoration(
               color: Colors.transparent,
-              borderRadius: BorderRadius.circular(4.0)),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(4.0),
-            child: Padding(padding: EdgeInsets.all(7), child: text()),
-          ),
-        )
-      ]);
+            ),
+            child: ClipRRect(
+              child: Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 8),
+                  child: text()),
+            ),
+          )
+        ]),
+      );
 
   Widget image() => Container(
-        height: 170.0,
-        width: 150,
+        height: 180.0,
+        width: 180,
         decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(4.0)),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(4.0),
-          child: FullScreenWidget(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                widget.eventposter,
-              ),
+          color: Colors.transparent,
+        ),
+        child: FullScreenWidget(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.network(
+              widget.eventposter,
             ),
           ),
         ),
       );
 
-  Widget text() => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Icon(
-                Icons.event_available_rounded,
-                color: Colors.black87,
+  Widget text() => Padding(
+        padding: const EdgeInsets.all(0.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.eventname,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
               ),
-              VerticalDivider(),
-              Text(widget.eventname, style: titlestyle)
-            ],
-          ),
-          Row(
-            children: [
-              Icon(
-                Icons.access_time_outlined,
-                color: Colors.black87,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              widget.club,
+              style: TextStyle(
+                color: Colors.grey.withOpacity(0.9),
+                fontSize: 16,
               ),
-              VerticalDivider(),
-              Expanded(child: Text(widget.datetime, style: titlestyle))
-            ],
-          ),
-          Row(
-            children: [
-              Icon(
-                Icons.location_on_sharp,
-                color: Colors.black87,
-              ),
-              VerticalDivider(),
-              Text(widget.venue, style: titlestyle)
-            ],
-          ),
-          Row(
-            children: [
-              Icon(
-                Icons.groups_rounded,
-                color: Colors.black87,
-              ),
-              VerticalDivider(),
-              Expanded(
-                child: Text(widget.club, style: titlestyle),
-              )
-            ],
-          ),
-        ],
+            ),
+            const SizedBox(height: 30),
+            Row(
+              children: [
+                Icon(
+                  Icons.date_range,
+                  color: EventAppTheme.grey,
+                  size: 25,
+                ),
+                VerticalDivider(),
+                Expanded(
+                  child: Text(widget.datetime, style: TextStyle(fontSize: 15)),
+                )
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Icon(
+                  Icons.location_on_sharp,
+                  color: EventAppTheme.grey,
+                  size: 25,
+                ),
+                VerticalDivider(),
+                Text(widget.venue, style: TextStyle(fontSize: 15))
+              ],
+            ),
+          ],
+        ),
       );
 
   static const TextStyle titlestyle = TextStyle(
       color: Colors.black87, fontSize: 13.0, fontWeight: FontWeight.bold);
 
-  Widget desciption_title() => Container(
-        alignment: Alignment.topLeft,
-        margin: EdgeInsets.all(5),
-        child: Text(
-          'Description',
-          style: TextStyle(
-              color: Colors.black87, fontSize: 25, fontWeight: FontWeight.bold),
+  Widget desciption_title() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+        child: Container(
+          alignment: Alignment.topLeft,
+          margin: EdgeInsets.all(5),
+          child: Text(
+            'Description',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
         ),
       );
 
-  Widget desciption_body() => Container(
-        alignment: Alignment.center,
-        margin: EdgeInsets.all(5),
-        child: Text(
-          widget.description,
-          style: TextStyle(fontSize: 20, fontStyle: FontStyle.normal),
+  Widget desciption_body() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 2),
+        child: Container(
+          alignment: Alignment.center,
+          margin: EdgeInsets.all(5),
+          child: Text(
+            widget.description,
+            style: TextStyle(
+                fontSize: 16, fontStyle: FontStyle.normal, height: 1.6),
+          ),
         ),
       );
   showAlertDialog(BuildContext context) {

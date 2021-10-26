@@ -1,4 +1,5 @@
 import 'package:ccaexplorer/club/event_app_theme.dart';
+import 'package:ccaexplorer/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +10,7 @@ import '/src/widgets.dart'; // new
 import 'dart:async'; // new
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:ccaexplorer/app_theme.dart';
+import 'about_us.dart';
 
 class Setting extends StatelessWidget {
   const Setting({
@@ -51,9 +53,15 @@ class Setting extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: ListTile(
-                    leading: Icon(Icons.info, color: EventAppTheme.grey),
-                    title: Text('About Us'),
-                    onTap: () {}),
+                  leading: Icon(Icons.info, color: EventAppTheme.grey),
+                  title: Text('About Us'),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AboutUs(),
+                    ),
+                  ),
+                ),
               ),
               Card(
                 elevation: 2,
@@ -92,7 +100,12 @@ class Setting extends StatelessWidget {
                   width: double.maxFinite,
                   height: 44,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SignIn(),
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
                       elevation: 6,
                       shadowColor: EventAppTheme.grey.withOpacity(0.4),

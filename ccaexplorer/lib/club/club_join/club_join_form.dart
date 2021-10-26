@@ -133,34 +133,34 @@ class ClubJoinPageState extends State<ClubJoinPage> {
                   ),
                 ],
               ),
-              Container(
-                // padding: EdgeInsets.only(bottom: 48.0),
-                child: SizedBox(
-                  width: double.maxFinite,
-                  height: 44,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      showAlertDialog(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      elevation: 6,
-                      shadowColor: EventAppTheme.grey.withOpacity(0.4),
-                      primary: EventAppTheme.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    child: const Text(
-                      'Submit',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
             ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.symmetric(vertical: 100.0, horizontal: 30),
+        child: SizedBox(
+          width: double.maxFinite,
+          height: 40,
+          child: ElevatedButton(
+            onPressed: () {
+              showAlertDialog(context);
+            },
+            style: ElevatedButton.styleFrom(
+              elevation: 6,
+              shadowColor: EventAppTheme.grey.withOpacity(0.4),
+              primary: EventAppTheme.grey,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+            child: const Text(
+              'Submit',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
           ),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:ccaexplorer/club/event_app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart'; // new
 import 'package:firebase_auth/firebase_auth.dart'; // new
@@ -28,7 +29,7 @@ class Setting extends StatelessWidget {
             onPressed: () => {Navigator.of(context).pop()},
           ),
           title: Text(
-            "Setting",
+            "Settings",
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 20,
@@ -64,7 +65,13 @@ class Setting extends StatelessWidget {
                 child: ListTile(
                     leading: Icon(Icons.password, color: EventAppTheme.grey),
                     title: Text('Password'),
-                    onTap: () {}),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ManagePassWord()),
+                      );
+                    }),
               ),
               Card(
                 elevation: 2,
@@ -107,5 +114,168 @@ class Setting extends StatelessWidget {
             ],
           ),
         ));
+  }
+}
+
+class ManagePassWord extends StatefulWidget {
+  const ManagePassWord({Key? key}) : super(key: key);
+
+  @override
+  _ManagePassWordState createState() => _ManagePassWordState();
+}
+
+class _ManagePassWordState extends State<ManagePassWord> {
+  TextEditingController oldpasswordController = TextEditingController();
+  TextEditingController newpasswordController = TextEditingController();
+  TextEditingController reenternewpasswordController = TextEditingController();
+
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  bool checkCurrentPasswordValid = true;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Change Password"),
+      ),
+      body: Center(
+        child: Form(
+          key: _formkey,
+          child: Column(children: [
+            const SizedBox(
+              height: 50,
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'This field is compulsory!';
+                  }
+                  return null;
+                },
+                obscureText: true,
+                controller: oldpasswordController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Please Enter Your Old Password',
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'This field is compulsory!';
+                  }
+                  return null;
+                },
+                obscureText: true,
+                controller: newpasswordController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Please Enter Your New Password',
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please re-enter new  password';
+                  }
+
+                  if (newpasswordController.text !=
+                      reenternewpasswordController.text) {
+                    return "Password does not match with your new password";
+                  }
+                  return null;
+                },
+                obscureText: true,
+                controller: reenternewpasswordController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Please Re-Enter Your New Password',
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                if (_formkey.currentState!.validate()) {
+                  _changePassword(
+                      oldpasswordController.text, newpasswordController.text);
+                }
+              },
+              child: const Text('Save'),
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
+
+  void _changePassword(String currentPassword, String newPassword) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    String? email = user!.email;
+    if (email != null) {
+      AuthCredential cred =
+          EmailAuthProvider.credential(email: email, password: currentPassword);
+      user.reauthenticateWithCredential(cred).then((value) {
+        user.updatePassword(newPassword).then((_) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Success'),
+                  content: Text('Your Password had changed sucessfully'),
+                  actions: [
+                    TextButton(
+                      child: Text("Ok"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              });
+        }).catchError((error) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Error'),
+                  content: Text(error.code),
+                  actions: [
+                    TextButton(
+                      child: Text("Ok"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              });
+        });
+      }).catchError((err) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Error'),
+                content: Text(err.code),
+                actions: [
+                  TextButton(
+                    child: Text("Ok"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            });
+      });
+    }
   }
 }

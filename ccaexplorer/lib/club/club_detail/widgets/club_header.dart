@@ -41,7 +41,7 @@ class ClubHeader extends StatelessWidget {
                     ),
                     const SizedBox(width: 30),
                     _buildIconText(
-                      '534 memebers',
+                      '${club.clubnum}',
                       Icons.people_alt_outlined,
                       Colors.grey,
                     ),

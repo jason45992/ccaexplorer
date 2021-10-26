@@ -11,9 +11,7 @@ class ClubDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.all(25),
-        child: Expanded(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
             'Club Description',
             style: TextStyle(
@@ -37,6 +35,6 @@ class ClubDescription extends StatelessWidget {
               trimExpandedText: 'less',
             ),
           )
-        ])));
+        ]));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/club/club_list/club_data.dart';
 import 'package:ccaexplorer/introduction_animation/introduction_animation_screen.dart';
 import 'package:ccaexplorer/me/setting.dart';
 import 'package:ccaexplorer/login/signup.dart';
@@ -55,6 +56,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ApplicationGuestBookState()),
         ChangeNotifierProvider(create: (_) => ApplicationUserDetailState()),
         ChangeNotifierProvider(create: (_) => ApplicationEventDetailState()),
+        ChangeNotifierProvider(create: (_) => ApplicationClubDetailState()),
       ],
       child: App(),
     ),
@@ -84,8 +86,7 @@ class App extends StatelessWidget {
       // home: ClubHomeScreen(),
 
       // home: HomePage(),
-      home: IntroductionAnimationScreen(),
-      // home: HomePage(),
+      home: IntroductionAnimationScreen(), // home: HomePage(),
       //home: ClubDetailPage(Club.generateClubs()[0]),
     );
   }

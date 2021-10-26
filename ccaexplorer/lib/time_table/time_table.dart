@@ -81,32 +81,9 @@ class _TimeTableState extends State<TimeTable> {
     );
   }
 
-  CollectionReference _collectionRef =
-      FirebaseFirestore.instance.collection('event');
-
   Future<void> getData() async {
     events = [];
-
-    // Get docs from collection reference
-    QuerySnapshot querySnapshot = await _collectionRef.get();
-
-    // Get data from docs and convert map to List
-    List<EventDetails> _eventDetailList = [];
-    _eventDetailList = [];
-    querySnapshot.docs.forEach((document) {
-      _eventDetailList.add(
-        EventDetails(
-          eventId: document.get('eventid'),
-          club: document.get('club'),
-          cover: document.get('cover'),
-          datetime: document.get('datetime'),
-          description: document.get('description'),
-          eventTitle: document.get('event_title'),
-          place: document.get('place'),
-          poster: document.get('poster'),
-        ),
-      );
-    });
+    List<String> myEventList = [];
 
     List<int> colorCode = [
       0xFF4a4e4d,
@@ -126,15 +103,51 @@ class _TimeTableState extends State<TimeTable> {
       0xFF0fe8a71
     ];
 
-    _eventDetailList.asMap().forEach((index, element) {
-      final String eventTitle = element.eventTitle;
-      final String eventId = element.eventId;
-      final String place = element.place;
-      final DateTime startTime =
-          new DateFormat("yyyy-MM-dd hh:mm:ss").parse(element.datetime);
-      final DateTime endTime = startTime.add(const Duration(hours: 2));
-      events.add(Meeting(eventId, eventTitle, place, startTime, endTime,
-          Color(colorCode[index]), false));
+    FirebaseFirestore.instance
+        .collection('event_application')
+        .where('user_id', isEqualTo: user!.uid)
+        .snapshots()
+        .listen((data) {
+      if (data.docs.isNotEmpty) {
+        data.docs.forEach((element) {
+          myEventList.add(element.get('event_id'));
+        });
+      }
+    });
+
+    List<EventDetails> _eventDetailList = [];
+    FirebaseFirestore.instance.collection('event').snapshots().listen((data) {
+      if (data.docs.isNotEmpty) {
+        data.docs.forEach((document) {
+          if (myEventList.contains(document.get('eventid'))) {
+            _eventDetailList.add(
+              EventDetails(
+                eventId: document.get('eventid'),
+                club: document.get('club'),
+                cover: document.get('cover'),
+                datetime: document.get('datetime'),
+                description: document.get('description'),
+                eventTitle: document.get('event_title'),
+                place: document.get('place'),
+                poster: document.get('poster'),
+              ),
+            );
+          }
+        });
+
+        _eventDetailList.asMap().forEach((index, element) {
+          final String eventTitle = element.eventTitle;
+          final String eventId = element.eventId;
+          final String place = element.place;
+          final DateTime startTime =
+              new DateFormat("yyyy-MM-dd hh:mm:ss").parse(element.datetime);
+          final DateTime endTime = startTime.add(const Duration(hours: 2));
+          events.add(Meeting(eventId, eventTitle, place, startTime, endTime,
+              Color(colorCode[index]), false));
+        });
+
+        setState(() {});
+      }
     });
   }
 

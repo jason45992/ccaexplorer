@@ -1,3 +1,5 @@
+import 'package:ccaexplorer/club/club_detail/club_detail.dart';
+import 'package:ccaexplorer/club/club_list/club_data.dart';
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:ccaexplorer/me/contact_us.dart';
 import 'package:ccaexplorer/me/edit_profile.dart';
@@ -25,6 +27,7 @@ class _MeHomeState extends State<MeHome> {
   List<CLubLogoDetails> cLubLogoList = [];
   List<CLubMemberDetails> cLubMemberList = [];
   User? user = FirebaseAuth.instance.currentUser;
+
   String username = '';
 
   @override
@@ -135,7 +138,7 @@ class _MeHomeState extends State<MeHome> {
 
   Widget getAppBarUI() {
     return Padding(
-      padding: const EdgeInsets.only(top: 80.0, left: 24, right: 24),
+      padding: const EdgeInsets.only(top: 80.0, left: 24, right: 10),
       child: Row(
         children: <Widget>[
           Container(
@@ -171,12 +174,12 @@ class _MeHomeState extends State<MeHome> {
                     // h5 -> headline
                     fontFamily: 'WorkSans',
                     fontWeight: FontWeight.bold,
-                    fontSize: 24,
+                    fontSize: 20,
                     letterSpacing: 0.27,
                     color: Color(0xFF17262A),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 5),
                 Text(
                   'U9205231W',
                   textAlign: TextAlign.left,
@@ -255,6 +258,7 @@ class _MeHomeState extends State<MeHome> {
                     semanticContainer: true,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: InkWell(
+                      onTap: () {},
                       child: Image.network(
                         '${cLubList[index].logoUrl}',
                         fit: BoxFit.fill,

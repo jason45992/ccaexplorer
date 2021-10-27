@@ -177,13 +177,13 @@ class _EventDetailState extends State<EventDetail> {
   }
 
   Widget imagepad() => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
         child: Row(children: <Widget>[
           image(),
           const SizedBox(width: 15),
           Container(
-            height: 200.0,
-            width: 190,
+            height: 160.0,
+            width: 160,
             decoration: BoxDecoration(
               color: Colors.transparent,
             ),
@@ -197,8 +197,8 @@ class _EventDetailState extends State<EventDetail> {
       );
 
   Widget image() => Container(
-        height: 180.0,
-        width: 180,
+        height: 160.0,
+        width: 160,
         decoration: BoxDecoration(
           color: Colors.transparent,
         ),
@@ -221,10 +221,10 @@ class _EventDetailState extends State<EventDetail> {
               widget.eventname,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 24,
+                fontSize: 22,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Text(
               widget.club,
               style: TextStyle(
@@ -232,18 +232,23 @@ class _EventDetailState extends State<EventDetail> {
                 fontSize: 16,
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 14),
             Row(
               children: [
                 Icon(
                   Icons.date_range,
                   color: EventAppTheme.grey,
-                  size: 25,
+                  size: 20,
                 ),
-                VerticalDivider(),
+                const SizedBox(width: 6),
                 Expanded(
-                  child: Text(widget.datetime, style: TextStyle(fontSize: 15)),
-                )
+                    child: Text(
+                  widget.datetime,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
+                ))
               ],
             ),
             const SizedBox(height: 10),
@@ -252,10 +257,14 @@ class _EventDetailState extends State<EventDetail> {
                 Icon(
                   Icons.location_on_sharp,
                   color: EventAppTheme.grey,
-                  size: 25,
+                  size: 20,
                 ),
-                VerticalDivider(),
-                Text(widget.venue, style: TextStyle(fontSize: 15))
+                const SizedBox(width: 6),
+                Text(widget.venue,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                    ))
               ],
             ),
           ],
@@ -281,7 +290,7 @@ class _EventDetailState extends State<EventDetail> {
       );
 
   Widget desciption_body() => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 2),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
         child: Container(
           alignment: Alignment.center,
           margin: EdgeInsets.all(5),

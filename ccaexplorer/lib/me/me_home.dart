@@ -26,6 +26,7 @@ class _MeHomeState extends State<MeHome> {
   User? user = FirebaseAuth.instance.currentUser;
 
   String username = '';
+  String matricNum = '';
 
   @override
   void initState() {
@@ -178,7 +179,7 @@ class _MeHomeState extends State<MeHome> {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  'U9205231W',
+                  matricNum,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
@@ -484,6 +485,7 @@ class _MeHomeState extends State<MeHome> {
     QuerySnapshot userQuerySnapshot =
         await _userCollectionRef.where('userid', isEqualTo: user!.uid).get();
     username = userQuerySnapshot.docs.first.get('Name');
+    matricNum = userQuerySnapshot.docs.first.get('Matric_no');
 
     setState(() {});
   }

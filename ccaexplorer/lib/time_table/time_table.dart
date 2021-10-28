@@ -252,7 +252,10 @@ class _TimeTableState extends State<TimeTable> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Container(child: new Text('$_subjectText')),
+              title: Container(
+                  child: new Text(
+                '$_subjectText',
+              )),
               content: Container(
                 height: 100,
                 child: Column(
@@ -349,12 +352,15 @@ class _TimeTableState extends State<TimeTable> {
                     Navigator.of(context).pop();
                     showCancelSuccess(eventId);
                   },
-                  child: new Text('Yes')),
+                  child: new Text(
+                    'Yes',
+                    style: TextStyle(color: EventAppTheme.darkText),
+                  )),
               new TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: new Text('No'))
+                  child: new Text('No', style: TextStyle(color: Colors.grey)))
             ],
           );
         });

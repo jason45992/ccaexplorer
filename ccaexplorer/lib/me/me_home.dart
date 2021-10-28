@@ -3,14 +3,11 @@ import 'package:ccaexplorer/me/contact_us.dart';
 import 'package:ccaexplorer/me/edit_profile.dart';
 import 'package:ccaexplorer/me/favourates.dart';
 import 'package:ccaexplorer/me/setting.dart';
-import 'package:ccaexplorer/me/contact_us.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'admin_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'edit_profile_test.dart';
-import '/admin/published_events.dart';
 
 class MeHome extends StatefulWidget {
   MeHome();
@@ -25,6 +22,7 @@ class _MeHomeState extends State<MeHome> {
   List<CLubLogoDetails> cLubLogoList = [];
   List<CLubMemberDetails> cLubMemberList = [];
   User? user = FirebaseAuth.instance.currentUser;
+
   String username = '';
 
   @override
@@ -135,7 +133,7 @@ class _MeHomeState extends State<MeHome> {
 
   Widget getAppBarUI() {
     return Padding(
-      padding: const EdgeInsets.only(top: 80.0, left: 24, right: 24),
+      padding: const EdgeInsets.only(top: 80.0, left: 24, right: 10),
       child: Row(
         children: <Widget>[
           Container(
@@ -171,12 +169,12 @@ class _MeHomeState extends State<MeHome> {
                     // h5 -> headline
                     fontFamily: 'WorkSans',
                     fontWeight: FontWeight.bold,
-                    fontSize: 24,
+                    fontSize: 20,
                     letterSpacing: 0.27,
                     color: Color(0xFF17262A),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 5),
                 Text(
                   'U9205231W',
                   textAlign: TextAlign.left,
@@ -255,6 +253,7 @@ class _MeHomeState extends State<MeHome> {
                     semanticContainer: true,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: InkWell(
+                      onTap: () {},
                       child: Image.network(
                         '${cLubList[index].logoUrl}',
                         fit: BoxFit.fill,

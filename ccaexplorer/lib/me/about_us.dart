@@ -41,35 +41,18 @@ class AboutUs extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 30),
-            SizedBox(height: 15),
             Column(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text.rich(TextSpan(children: [
-                        TextSpan(
-                            text: "Contact No.: ",
-                            style: TextStyle(fontSize: 16)),
-                        TextSpan(
-                          text: "+86 10086",
-                          style: TextStyle(color: Colors.grey, fontSize: 16),
-                        ),
-                      ])),
-                      const SizedBox(height: 10),
-                      Text.rich(TextSpan(children: [
-                        TextSpan(
-                            text: "Email: ", style: TextStyle(fontSize: 16)),
-                        TextSpan(
-                          text: "ccaexplorer_support@gmail.com",
-                          style: TextStyle(color: Colors.grey, fontSize: 16),
-                        ),
-                      ])),
-                    ],
-                  ),
-                ),
+                    padding: const EdgeInsets.symmetric(vertical: 0.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Text(
+                        'We are a group of NTU EEE students who is working on a DIP project about SmartApp "CCA EXPLORER". \nWe aim to provide a platform for NTU students to enjoy their CCA life online.',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(fontSize: 14, height: 1.6),
+                      ),
+                    )),
               ],
             ),
           ],

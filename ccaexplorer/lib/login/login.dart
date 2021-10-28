@@ -135,7 +135,7 @@ class _State extends State<SignIn> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SecondRoute()),
+                              builder: (context) => ResetPassword()),
                         );
                         //forgot password screen
                       },
@@ -184,6 +184,137 @@ class _State extends State<SignIn> {
   }
 }
 
+class ResetPassword extends StatefulWidget {
+  const ResetPassword({Key? key}) : super(key: key);
+
+  @override
+  _ResetPasswordState createState() => _ResetPasswordState();
+}
+
+class _ResetPasswordState extends State<ResetPassword> {
+  TextEditingController resetemailController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Reset Password"),
+      ),
+      body: Center(
+        child: Column(children: [
+          Container(
+            padding: EdgeInsets.all(10),
+            child: TextField(
+              controller: resetemailController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Please Enter Your Email Address',
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              checkIfEmailInUse(resetemailController.text);
+            },
+            child: const Text('Send Request'),
+          ),
+        ]),
+      ),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "A password reset link had sent to ${resetemailController.text}",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showErrorAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Invalid Email!! Please try again",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  Future<bool> checkIfEmailInUse(String emailAddress) async {
+    try {
+      // Fetch sign-in methods for the email address
+      final list =
+          await FirebaseAuth.instance.fetchSignInMethodsForEmail(emailAddress);
+
+      // In case list is not empty
+      if (list.isNotEmpty) {
+        FirebaseAuth.instance
+            .sendPasswordResetEmail(email: resetemailController.text);
+
+        return showAlertDialog(context);
+      } else {
+        // Return false because email adress is not in use
+        return showErrorAlertDialog(context);
+      }
+    } catch (error) {
+      // Handle error
+      // ...
+      return true;
+    }
+  }
+}
+
 class SecondRoute extends StatelessWidget {
   const SecondRoute({Key? key}) : super(key: key);
 
@@ -196,6 +327,7 @@ class SecondRoute extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
+            Navigator.pop(context);
             Navigator.pop(context);
           },
           child: const Text('Go back!'),

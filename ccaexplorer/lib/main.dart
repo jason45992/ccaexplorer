@@ -1,15 +1,13 @@
-import 'package:ccaexplorer/home_page.dart';
+import 'package:ccaexplorer/club/club_list/club_data.dart';
+import 'package:ccaexplorer/introduction_animation/introduction_animation_screen.dart';
 import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'introduction_animation/introduction_animation_screen.dart';
-import 'src/authentication_state.dart';
-import 'src/widgets.dart';
 import 'authentication.dart';
 import 'home_event_list/models/user_data_model.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'common_method/common_method_authentication.dart';
 import 'guest_book.dart';
 
 void main() async {
@@ -22,6 +20,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ApplicationGuestBookState()),
         ChangeNotifierProvider(create: (_) => ApplicationUserDetailState()),
         ChangeNotifierProvider(create: (_) => ApplicationEventDetailState()),
+        ChangeNotifierProvider(create: (_) => ApplicationClubDetailState()),
       ],
       child: App(),
     ),

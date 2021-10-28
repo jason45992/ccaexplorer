@@ -1,32 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ccaexplorer/club/event_app_theme.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
-class ClubJoinPage extends StatefulWidget {
-  const ClubJoinPage({Key? key, required this.clubName});
-
-  final String clubName;
-
-  @override
+class EventRegisterPage extends StatefulWidget {
   State<StatefulWidget> createState() {
-    return ClubJoinPageState();
+    return EventRegisterPageState();
   }
 }
 
-class ClubJoinPageState extends State<ClubJoinPage> {
-  var storage = FirebaseStorage.instance;
-  User? user = FirebaseAuth.instance.currentUser;
-  UserDetails currentUser =
-      UserDetails(fullName: "", email: "", matricNum: "", phone: 0);
-
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
-
+class EventRegisterPageState extends State<EventRegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -34,7 +15,7 @@ class ClubJoinPageState extends State<ClubJoinPage> {
         shadowColor: Colors.white.withOpacity(0),
         backgroundColor: Colors.white,
         title: Text(
-          'Join Club',
+          'Register Event',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w600,
@@ -59,12 +40,12 @@ class ClubJoinPageState extends State<ClubJoinPage> {
             children: [
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(
-                  'Club Name',
+                  'Event',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  widget.clubName,
+                  'event name',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black.withOpacity(0.6),
@@ -74,50 +55,17 @@ class ClubJoinPageState extends State<ClubJoinPage> {
               const SizedBox(height: 30),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(
-                  'Departments',
+                  'Time',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                DropdownButton(
-                  dropdownColor: Colors.white,
-                  isExpanded: true,
-                  elevation: 1,
-                  value: selected1,
-                  items: Department.map(
-                          (e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
-                  onChanged: (String? val) {
-                    setState(() {
-                      if (val != null) {
-                        selected1 = val;
-                      }
-                    });
-                  },
-                ),
-              ]),
-              const SizedBox(height: 30),
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(
-                  'Positions',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                DropdownButton(
-                  isExpanded: true,
-                  dropdownColor: Colors.white,
-                  elevation: 1,
-                  value: selected2,
-                  items: Position.map(
-                          (e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
-                  onChanged: (String? val) {
-                    setState(() {
-                      if (val != null) {
-                        selected2 = val;
-                      }
-                    });
-                  },
-                ),
+                  'Date & Time',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black.withOpacity(0.6),
+                  ),
+                )
               ]),
               const SizedBox(height: 30),
               Column(
@@ -157,7 +105,7 @@ class ClubJoinPageState extends State<ClubJoinPage> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(vertical: 100.0, horizontal: 30),
+        padding: EdgeInsets.symmetric(vertical: 60.0, horizontal: 30),
         child: SizedBox(
           width: double.maxFinite,
           height: 40,
@@ -186,23 +134,6 @@ class ClubJoinPageState extends State<ClubJoinPage> {
     );
   }
 
-  Future<void> getData() async {
-    FirebaseFirestore.instance
-        .collection('useracc')
-        .where('userid', isEqualTo: user!.uid)
-        .snapshots()
-        .listen((data) {
-      data.docs.forEach((element) {
-        currentUser = UserDetails(
-            fullName: element.get('Name'),
-            email: element.get('NTUEmail'),
-            matricNum: element.get('Matric_no'),
-            phone: element.get('phone'));
-        setState(() {});
-      });
-    });
-  }
-
   showAlertDialog(BuildContext context) {
     // set up the button
     Widget okButton = TextButton(
@@ -219,7 +150,7 @@ class ClubJoinPageState extends State<ClubJoinPage> {
       elevation: 2,
       buttonPadding: EdgeInsets.symmetric(vertical: 20),
       content: Text(
-        "Application submitted successfully.",
+        "Event successfully registered.",
         style: TextStyle(
           color: Colors.black.withOpacity(0.6),
         ),
@@ -300,7 +231,7 @@ class ClubJoinPageState extends State<ClubJoinPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          currentUser.fullName,
+          'Dylan Wong',
           style: TextStyle(
             fontSize: 16,
             color: Colors.black.withOpacity(0.6),
@@ -308,7 +239,7 @@ class ClubJoinPageState extends State<ClubJoinPage> {
         ),
         const SizedBox(height: 8),
         Text(
-          currentUser.matricNum,
+          'U19201234',
           style: TextStyle(
             fontSize: 16,
             color: Colors.black.withOpacity(0.6),
@@ -316,7 +247,7 @@ class ClubJoinPageState extends State<ClubJoinPage> {
         ),
         const SizedBox(height: 8),
         Text(
-          currentUser.email,
+          'dylanwong@e.ntu.edu.sg',
           style: TextStyle(
             fontSize: 16,
             color: Colors.black.withOpacity(0.6),
@@ -324,7 +255,7 @@ class ClubJoinPageState extends State<ClubJoinPage> {
         ),
         const SizedBox(height: 8),
         Text(
-          currentUser.phone.toString(),
+          '81234567',
           style: TextStyle(
             fontSize: 16,
             color: Colors.black.withOpacity(0.6),
@@ -333,17 +264,4 @@ class ClubJoinPageState extends State<ClubJoinPage> {
       ],
     );
   }
-}
-
-class UserDetails {
-  UserDetails({
-    required this.fullName,
-    required this.email,
-    required this.matricNum,
-    required this.phone,
-  });
-  final String fullName;
-  final String email;
-  final String matricNum;
-  final int phone;
 }

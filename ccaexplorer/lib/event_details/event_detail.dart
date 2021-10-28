@@ -1,4 +1,4 @@
-// import 'package:ccaexplorer/event_details/event_register.dart';
+import 'package:ccaexplorer/event_details/event_register.dart';
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 
 import 'package:flutter/material.dart';
@@ -67,10 +67,14 @@ class _EventDetailState extends State<EventDetail> {
           child: ElevatedButton(
             onPressed: () {
               if (isClickable) {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => EventRegisterPage()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EventRegisterPage(
+                            eventName: widget.eventname,
+                            eventDateTime: widget.datetime,
+                          )),
+                );
               }
             },
             style: ElevatedButton.styleFrom(

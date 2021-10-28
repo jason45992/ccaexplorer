@@ -1,13 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:ccaexplorer/club/event_app_theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class EventRegisterPage extends StatefulWidget {
+  const EventRegisterPage(
+      {Key? key, required this.eventName, required this.eventDateTime});
+  final String eventName;
+  final String eventDateTime;
+
   State<StatefulWidget> createState() {
     return EventRegisterPageState();
   }
 }
 
 class EventRegisterPageState extends State<EventRegisterPage> {
+  var storage = FirebaseStorage.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  UserDetails currentUser =
+      UserDetails(fullName: "", email: "", matricNum: "", phone: 0);
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -45,7 +64,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'event name',
+                  widget.eventName,
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black.withOpacity(0.6),
@@ -60,7 +79,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'Date & Time',
+                  widget.eventDateTime,
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black.withOpacity(0.6),
@@ -132,6 +151,23 @@ class EventRegisterPageState extends State<EventRegisterPage> {
         ),
       ),
     );
+  }
+
+  Future<void> getData() async {
+    FirebaseFirestore.instance
+        .collection('useracc')
+        .where('userid', isEqualTo: user!.uid)
+        .snapshots()
+        .listen((data) {
+      data.docs.forEach((element) {
+        currentUser = UserDetails(
+            fullName: element.get('Name'),
+            email: element.get('NTUEmail'),
+            matricNum: element.get('Matric_no'),
+            phone: element.get('phone'));
+        setState(() {});
+      });
+    });
   }
 
   showAlertDialog(BuildContext context) {
@@ -231,7 +267,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Dylan Wong',
+          currentUser.fullName,
           style: TextStyle(
             fontSize: 16,
             color: Colors.black.withOpacity(0.6),
@@ -239,7 +275,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
         ),
         const SizedBox(height: 8),
         Text(
-          'U19201234',
+          currentUser.matricNum,
           style: TextStyle(
             fontSize: 16,
             color: Colors.black.withOpacity(0.6),
@@ -247,7 +283,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
         ),
         const SizedBox(height: 8),
         Text(
-          'dylanwong@e.ntu.edu.sg',
+          currentUser.email,
           style: TextStyle(
             fontSize: 16,
             color: Colors.black.withOpacity(0.6),
@@ -255,7 +291,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
         ),
         const SizedBox(height: 8),
         Text(
-          '81234567',
+          currentUser.phone.toString(),
           style: TextStyle(
             fontSize: 16,
             color: Colors.black.withOpacity(0.6),
@@ -264,4 +300,17 @@ class EventRegisterPageState extends State<EventRegisterPage> {
       ],
     );
   }
+}
+
+class UserDetails {
+  UserDetails({
+    required this.fullName,
+    required this.email,
+    required this.matricNum,
+    required this.phone,
+  });
+  final String fullName;
+  final String email;
+  final String matricNum;
+  final int phone;
 }

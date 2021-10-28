@@ -3,6 +3,7 @@ import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'introduction_animation/introduction_animation_screen.dart';
 import 'src/authentication_state.dart';
 import 'src/widgets.dart';
 import 'authentication.dart';
@@ -42,8 +43,8 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      // home: IntroductionAnimationScreen(),
-      home: HomePage(),
+      home: IntroductionAnimationScreen(),
+      // home: HomePage(),
     );
   }
 }

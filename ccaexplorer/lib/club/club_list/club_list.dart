@@ -199,7 +199,8 @@ class _ClubItem1 extends StatelessWidget {
                     club.description,
                     club.clubmembernum,
                     club.rating,
-                    club.contact)[0]),
+                    club.contact,
+                    false)[0]),
               ),
             );
           },

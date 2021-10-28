@@ -61,12 +61,16 @@ class _ClubContactState extends State<ClubContact> {
             child: ElevatedButton(
               onPressed: () {
                 if (isClickable) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ClubJoinPage(clubName: clubDetail.name)),
-                  );
+                  if (clubDetail.isMember) {
+                    //club member list
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ClubJoinPage(clubName: clubDetail.name)),
+                    );
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -92,33 +96,38 @@ class _ClubContactState extends State<ClubContact> {
   }
 
   Future<void> getData() async {
-    FirebaseFirestore.instance
-        .collection('club_application')
-        .where('user_id', isEqualTo: user!.uid)
-        .snapshots()
-        .listen((data) {
-      data.docs.forEach((element) {
-        if (element.get("club_id") == clubDetail.id) {
-          buttonText = "Pending";
-          isClickable = false;
-          setState(() {});
-        }
+    if (this.clubDetail.isMember) {
+      buttonText = "Member List";
+      isClickable = true;
+    } else {
+      FirebaseFirestore.instance
+          .collection('club_application')
+          .where('user_id', isEqualTo: user!.uid)
+          .snapshots()
+          .listen((data) {
+        data.docs.forEach((element) {
+          if (element.get("club_id") == clubDetail.id) {
+            buttonText = "Pending";
+            isClickable = false;
+            setState(() {});
+          }
+        });
       });
-    });
 
-    FirebaseFirestore.instance
-        .collection('club_member')
-        .where('user_id', isEqualTo: user!.uid)
-        .snapshots()
-        .listen((data) {
-      data.docs.forEach((element) {
-        if (element.get("club_id") == clubDetail.id) {
-          buttonText = "Joined";
-          isClickable = false;
-          setState(() {});
-        }
+      FirebaseFirestore.instance
+          .collection('club_member')
+          .where('user_id', isEqualTo: user!.uid)
+          .snapshots()
+          .listen((data) {
+        data.docs.forEach((element) {
+          if (element.get("club_id") == clubDetail.id) {
+            buttonText = "Joined";
+            isClickable = false;
+            setState(() {});
+          }
+        });
       });
-    });
+    }
   }
 }
 

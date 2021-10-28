@@ -1,8 +1,10 @@
+import 'package:ccaexplorer/club/club_detail/club_detail.dart';
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:ccaexplorer/me/contact_us.dart';
 import 'package:ccaexplorer/me/edit_profile.dart';
 import 'package:ccaexplorer/me/favourates.dart';
 import 'package:ccaexplorer/me/setting.dart';
+import 'package:ccaexplorer/club/club_detail/club_detail_data.dart' as Detail;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'admin_menu.dart';
@@ -253,7 +255,25 @@ class _MeHomeState extends State<MeHome> {
                     semanticContainer: true,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        print("${cLubList[index].name}");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ClubDetailPage(
+                                Detail.Club.generateClubs(
+                                    cLubList[index].id,
+                                    cLubList[index].logoUrl,
+                                    cLubList[index].name,
+                                    cLubList[index].category,
+                                    cLubList[index].description,
+                                    cLubList[index].membernum,
+                                    cLubList[index].rating,
+                                    cLubList[index].contact,
+                                    true)[0]),
+                          ),
+                        );
+                      },
                       child: Image.network(
                         '${cLubList[index].logoUrl}',
                         fit: BoxFit.fill,
@@ -404,14 +424,17 @@ class _MeHomeState extends State<MeHome> {
     clubListQuerySnapshot.docs.forEach((document) {
       cLubList.add(
         ClubDetails(
-          category: document.get('category'),
-          description: document.get('description'),
-          id: document.get('id'),
-          invitationCode: '',
-          logoId: document.get('logo_id'),
-          name: document.get('name'),
-          logoUrl: '',
-        ),
+            category: document.get('category'),
+            description: document.get('description'),
+            id: document.get('id'),
+            invitationCode: '',
+            logoId: document.get('logo_id'),
+            name: document.get('name'),
+            logoUrl: '',
+            contact: document.get('contact').toString(),
+            rating: document.get('club_score').toString(),
+            membernum: '',
+            isMember: false),
       );
     });
 
@@ -474,7 +497,11 @@ class ClubDetails {
       required this.invitationCode,
       required this.logoId,
       required this.name,
-      required this.logoUrl});
+      required this.logoUrl,
+      required this.membernum,
+      required this.rating,
+      required this.contact,
+      required this.isMember});
   final String category;
   final String description;
   final String id;
@@ -482,6 +509,10 @@ class ClubDetails {
   final String logoId;
   final String name;
   String logoUrl;
+  final String membernum;
+  final String rating;
+  final String contact;
+  bool isMember;
 
   @override
   String toString() {

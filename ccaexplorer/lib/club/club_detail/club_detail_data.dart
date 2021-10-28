@@ -20,20 +20,21 @@ class Club {
   String contact;
   List<String> imgs;
   String clubnum;
+  bool isMember;
   Club(
-    this.id,
-    this.bgImg,
-    this.icon,
-    this.name,
-    this.type,
-    this.score,
-    this.download,
-    this.review,
-    this.desc,
-    this.contact,
-    this.imgs,
-    this.clubnum,
-  );
+      this.id,
+      this.bgImg,
+      this.icon,
+      this.name,
+      this.type,
+      this.score,
+      this.download,
+      this.review,
+      this.desc,
+      this.contact,
+      this.imgs,
+      this.clubnum,
+      this.isMember);
 
   static List<Club> generateClubs(
       String id,
@@ -43,7 +44,8 @@ class Club {
       String description,
       String membernum,
       String rating,
-      String contact) {
+      String contact,
+      bool isMember) {
     return [
       Club(
         id,
@@ -62,6 +64,7 @@ class Club {
           'assets/club/album3.JPG',
         ],
         membernum,
+        isMember,
       ),
     ];
   }

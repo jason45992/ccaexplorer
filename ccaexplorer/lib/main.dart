@@ -44,11 +44,6 @@ class App extends StatelessWidget {
       ),
       home: IntroductionAnimationScreen(),
       // home: HomePage(),
-<<<<<<< HEAD
-      home: EditMember(), // home: HomePage(),
-      //home: ClubDetailPage(Club.generateClubs()[0]),
-=======
->>>>>>> caf0baf90e1e332df016124eba0b93acdf39bdff
     );
   }
 }

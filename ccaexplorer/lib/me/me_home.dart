@@ -4,17 +4,14 @@ import 'package:ccaexplorer/me/contact_us.dart';
 import 'package:ccaexplorer/me/edit_profile.dart';
 import 'package:ccaexplorer/me/favourates.dart';
 import 'package:ccaexplorer/me/setting.dart';
-import 'package:ccaexplorer/club/club_detail/club_detail_data.dart' as Detail;
+import 'package:ccaexplorer/me/contact_us.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'admin_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-<<<<<<< HEAD
 import 'package:ccaexplorer/club/club_detail/club_detail_data.dart' as Detail;
 import '/admin/published_events.dart';
-=======
->>>>>>> caf0baf90e1e332df016124eba0b93acdf39bdff
 
 class MeHome extends StatefulWidget {
   MeHome();
@@ -31,9 +28,7 @@ class _MeHomeState extends State<MeHome> {
 
   List<CLubMemberDetails> cLubMemberList = [];
   User? user = FirebaseAuth.instance.currentUser;
-
   String username = '';
-  String matricNum = '';
 
   @override
   void initState() {
@@ -143,7 +138,7 @@ class _MeHomeState extends State<MeHome> {
 
   Widget getAppBarUI() {
     return Padding(
-      padding: const EdgeInsets.only(top: 80.0, left: 24, right: 10),
+      padding: const EdgeInsets.only(top: 80.0, left: 24, right: 24),
       child: Row(
         children: <Widget>[
           Container(
@@ -179,14 +174,14 @@ class _MeHomeState extends State<MeHome> {
                     // h5 -> headline
                     fontFamily: 'WorkSans',
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 24,
                     letterSpacing: 0.27,
                     color: Color(0xFF17262A),
                   ),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 8),
                 Text(
-                  matricNum,
+                  'U9205231W',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
@@ -263,25 +258,6 @@ class _MeHomeState extends State<MeHome> {
                     semanticContainer: true,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: InkWell(
-                      onTap: () {
-                        print("${cLubList[index].name}");
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ClubDetailPage(
-                                Detail.Club.generateClubs(
-                                    cLubList[index].id,
-                                    cLubList[index].logoUrl,
-                                    cLubList[index].name,
-                                    cLubList[index].category,
-                                    cLubList[index].description,
-                                    cLubList[index].membernum,
-                                    cLubList[index].rating,
-                                    cLubList[index].contact,
-                                    true)[0]),
-                          ),
-                        );
-                      },
                       child: Image.network(
                         '${cLubList[index].logoUrl}',
                         fit: BoxFit.fill,
@@ -292,13 +268,15 @@ class _MeHomeState extends State<MeHome> {
                           MaterialPageRoute(
                             builder: (context) => ClubDetailPage(
                                 Detail.Club.generateClubs(
+                                    cLubList[index].id,
                                     cLubList[index].logoUrl,
                                     cLubList[index].name,
                                     cLubList[index].category,
                                     cLubList[index].description,
                                     cLubList[index].clubmemnum,
                                     cLubList[index].rating,
-                                    cLubList[index].contact)[0]),
+                                    cLubList[index].contact,
+                                    false)[0]),
                           ),
                         );
                       },
@@ -455,16 +433,9 @@ class _MeHomeState extends State<MeHome> {
             logoId: document.get('logo_id'),
             name: document.get('name'),
             logoUrl: '',
-<<<<<<< HEAD
             rating: document.get('club_score').toString(),
             contact: document.get('contact').toString(),
             clubmemnum: '0'),
-=======
-            contact: document.get('contact').toString(),
-            rating: document.get('club_score').toString(),
-            membernum: '',
-            isMember: false),
->>>>>>> caf0baf90e1e332df016124eba0b93acdf39bdff
       );
     });
 
@@ -547,7 +518,6 @@ class _MeHomeState extends State<MeHome> {
     QuerySnapshot userQuerySnapshot =
         await _userCollectionRef.where('userid', isEqualTo: user!.uid).get();
     username = userQuerySnapshot.docs.first.get('Name');
-    matricNum = userQuerySnapshot.docs.first.get('Matric_no');
 
     setState(() {});
   }
@@ -562,16 +532,9 @@ class ClubDetails {
       required this.logoId,
       required this.name,
       required this.logoUrl,
-<<<<<<< HEAD
       required this.rating,
       required this.contact,
       required this.clubmemnum});
-=======
-      required this.membernum,
-      required this.rating,
-      required this.contact,
-      required this.isMember});
->>>>>>> caf0baf90e1e332df016124eba0b93acdf39bdff
   final String category;
   final String description;
   final String id;
@@ -579,16 +542,9 @@ class ClubDetails {
   final String logoId;
   final String name;
   String logoUrl;
-<<<<<<< HEAD
   final String rating;
   final String contact;
   String clubmemnum;
-=======
-  final String membernum;
-  final String rating;
-  final String contact;
-  bool isMember;
->>>>>>> caf0baf90e1e332df016124eba0b93acdf39bdff
 
   @override
   String toString() {

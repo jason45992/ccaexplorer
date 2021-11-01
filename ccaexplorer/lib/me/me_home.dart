@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/club/club_detail/club_detail.dart';
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:ccaexplorer/me/contact_us.dart';
 import 'package:ccaexplorer/me/edit_profile.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'admin_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:ccaexplorer/club/club_detail/club_detail_data.dart' as Detail;
 import '/admin/published_events.dart';
 
 class MeHome extends StatefulWidget {
@@ -23,6 +24,8 @@ class _MeHomeState extends State<MeHome> {
   var storage = FirebaseStorage.instance;
   List<ClubDetails> cLubList = [];
   List<CLubLogoDetails> cLubLogoList = [];
+  List<ClubMemberNumberList> cLubmemnoList = [];
+
   List<CLubMemberDetails> cLubMemberList = [];
   User? user = FirebaseAuth.instance.currentUser;
   String username = '';
@@ -259,6 +262,22 @@ class _MeHomeState extends State<MeHome> {
                         '${cLubList[index].logoUrl}',
                         fit: BoxFit.fill,
                       ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ClubDetailPage(
+                                Detail.Club.generateClubs(
+                                    cLubList[index].logoUrl,
+                                    cLubList[index].name,
+                                    cLubList[index].category,
+                                    cLubList[index].description,
+                                    cLubList[index].clubmemnum,
+                                    cLubList[index].rating,
+                                    cLubList[index].contact)[0]),
+                          ),
+                        );
+                      },
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0),
@@ -405,14 +424,16 @@ class _MeHomeState extends State<MeHome> {
     clubListQuerySnapshot.docs.forEach((document) {
       cLubList.add(
         ClubDetails(
-          category: document.get('category'),
-          description: document.get('description'),
-          id: document.get('id'),
-          invitationCode: '',
-          logoId: document.get('logo_id'),
-          name: document.get('name'),
-          logoUrl: '',
-        ),
+            category: document.get('category'),
+            description: document.get('description'),
+            id: document.get('id'),
+            invitationCode: '',
+            logoId: document.get('logo_id'),
+            name: document.get('name'),
+            logoUrl: '',
+            rating: document.get('club_score').toString(),
+            contact: document.get('contact').toString(),
+            clubmemnum: '0'),
       );
     });
 
@@ -432,6 +453,39 @@ class _MeHomeState extends State<MeHome> {
         }
       });
     });
+    // for club logo list
+
+    // Get docs from collection reference
+    for (int i = 0; i < cLubList.length; i++) {
+      FirebaseFirestore.instance
+          .collection('club_member')
+          .where('club_id', isEqualTo: cLubList[i].id)
+          .snapshots()
+          .listen((user) {
+        cLubmemnoList.add(
+          ClubMemberNumberList(
+              id: cLubList[i].id, clubmemberno: user.size.toString()),
+        );
+        cLubList.forEach((clubDetail) {
+          cLubmemnoList.forEach((cLubmemnodetail) {
+            if (cLubmemnodetail.id == clubDetail.id) {
+              clubDetail.clubmemnum = cLubmemnodetail.clubmemberno;
+            }
+          });
+        });
+      });
+    }
+    // cLubList.forEach((element) {
+    //   String number = FirebaseFirestore.instance
+    //       .collection('club_member')
+    //       .where('club_id', isEqualTo: element.id)
+    //       .snapshots()
+    //       .length
+    //       .toString();
+    //   cLubmemnoList.add(
+    //     ClubMemberNumberList(id: element.id, clubmemberno: number),
+    //   );
+    // });
 
     // for filter out myclub
     CollectionReference _clubMemberCollectionRef =
@@ -475,7 +529,10 @@ class ClubDetails {
       required this.invitationCode,
       required this.logoId,
       required this.name,
-      required this.logoUrl});
+      required this.logoUrl,
+      required this.rating,
+      required this.contact,
+      required this.clubmemnum});
   final String category;
   final String description;
   final String id;
@@ -483,6 +540,9 @@ class ClubDetails {
   final String logoId;
   final String name;
   String logoUrl;
+  final String rating;
+  final String contact;
+  String clubmemnum;
 
   @override
   String toString() {
@@ -494,6 +554,12 @@ class CLubLogoDetails {
   CLubLogoDetails({required this.id, required this.url});
   final String id;
   final String url;
+}
+
+class ClubMemberNumberList {
+  ClubMemberNumberList({required this.id, required this.clubmemberno});
+  final String id;
+  final String clubmemberno;
 }
 
 class CLubMemberDetails {

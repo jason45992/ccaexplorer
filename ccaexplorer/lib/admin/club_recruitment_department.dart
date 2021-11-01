@@ -94,7 +94,9 @@ class _ClubRecruitmentDepartmentState extends State<ClubRecruitmentDepartment> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddDepartment(),
+                    builder: (context) => AddDepartment(
+                      clubid: 'xOkFheVLjPtjDCrw8T64',
+                    ),
                   ),
                 );
               },
@@ -129,7 +131,7 @@ class UserInformation extends StatefulWidget {
 class _UserInformationState extends State<UserInformation> {
   final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
       .collection('club_department')
-      .where('club_id', isEqualTo: 'PBoqbzvNy2PUehOzpIPO')
+      .where('club_id', isEqualTo: 'xOkFheVLjPtjDCrw8T64')
       .snapshots();
 
   @override
@@ -168,7 +170,7 @@ class _UserInformationState extends State<UserInformation> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => DepartmentPosition(
-                                    departmentid: data['name'],
+                                    departmentid: data['department_id'],
                                   )),
                         );
                       },
@@ -211,9 +213,11 @@ class PositionDetails extends StatelessWidget {
           children: snapshot.data!.docs.map((DocumentSnapshot document) {
             Map<String, dynamic> data =
                 document.data()! as Map<String, dynamic>;
+            double ECApoint = data['ECA_point'];
+            double Availability = data['Availability'];
             return ListTile(
               title: Text(
-                  '${data['position']}- ${data['ECA_point']} ECA Point - (${data['Availability']})'),
+                  '${data['position']}- ${ECApoint.toInt()} ECA Point - (${Availability.toInt()})'),
             );
           }).toList(),
         );

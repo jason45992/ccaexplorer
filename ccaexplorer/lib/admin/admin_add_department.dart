@@ -1,10 +1,15 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'admin_theme.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:spinner_input/spinner_input.dart';
 
 class AddDepartment extends StatefulWidget {
-  const AddDepartment({Key? key}) : super(key: key);
+  const AddDepartment({Key? key, required this.clubid}) : super(key: key);
+  final String clubid;
 
   @override
   _AddDepartmentState createState() => _AddDepartmentState();
@@ -14,6 +19,60 @@ class _AddDepartmentState extends State<AddDepartment> {
   String? dropdownValue;
   final departmentInputController = TextEditingController();
   final positionInputController = TextEditingController();
+  List<String> departmentList = [];
+  List<DepartmentList> rdepartmentList = [];
+  String department_id = '';
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey2 = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    getdata();
+  }
+
+  Future<void> addEvent() async {
+    await Firebase.initializeApp();
+    final clubRole = FirebaseFirestore.instance.collection('club_role').doc();
+    final clubDepartment =
+        FirebaseFirestore.instance.collection('club_department').doc();
+    final refid = clubRole.id;
+    final clubdefid = clubDepartment.id;
+    if (dropdownValue == 'New Department') {
+      clubDepartment
+          .set({
+            'club_id': widget.clubid,
+            'department_id': clubdefid,
+            'name': departmentInputController.text,
+          })
+          .then((value) => print("Club Department Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+      clubRole
+          .set({
+            'Availability': avaibility,
+            'ECA_point': ecapoint,
+            'department_id': clubdefid,
+            'id': refid,
+            'is_admin': false,
+            'position': positionInputController.text,
+          })
+          .then((value) => print("Club Role Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    } else {
+      clubRole
+          .set({
+            'Availability': avaibility,
+            'ECA_point': ecapoint,
+            'department_id': department_id,
+            'id': refid,
+            'is_admin': false,
+            'position': positionInputController.text,
+          })
+          .then((value) => print("Club Role Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,7 +112,17 @@ class _AddDepartmentState extends State<AddDepartment> {
         bottomNavigationBar: Padding(
           padding: EdgeInsets.all(8.0),
           child: RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+              if (_formkey.currentState!.validate() &&
+                  _formkey2.currentState!.validate()) {
+                print("successful");
+                addEvent();
+                showAlertDialog(context);
+                return;
+              } else {
+                print("UnSuccessfull");
+              }
+            },
             color: Colors.grey,
             textColor: Colors.white,
             child: Text('Add'),
@@ -117,25 +186,34 @@ class _AddDepartmentState extends State<AddDepartment> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
           border: Border.all(color: Colors.grey, width: 1)),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
+      child: Form(
+        key: _formkey,
+        child: DropdownButtonFormField<String>(
+          decoration: InputDecoration(
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.transparent),
+            ),
+          ),
+          validator: (value) => value == null ? 'field required' : null,
           hint: Text('Select'),
           value: dropdownValue,
           icon: const Icon(Icons.arrow_downward),
           iconSize: 24,
           elevation: 16,
           style: const TextStyle(color: Colors.black, fontSize: 18),
-          underline: Container(
-            height: 2,
-            color: Colors.deepPurpleAccent,
-          ),
           onChanged: (String? newValue) {
             setState(() {
               dropdownValue = newValue!;
+              rdepartmentList.forEach((element) {
+                if (element.department_name == newValue) {
+                  setState(() {
+                    department_id = element.department_id;
+                  });
+                }
+              });
             });
           },
-          items: <String>['Department 1', ' Department 2', 'New Department']
-              .map<DropdownMenuItem<String>>((String value) {
+          items: departmentList.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),
@@ -185,14 +263,23 @@ class _AddDepartmentState extends State<AddDepartment> {
           ),
         ),
         Container(
-          child: TextField(
-            controller: positionInputController,
-            decoration: InputDecoration(
-              hintText: 'Enter a new position',
-              border: OutlineInputBorder(),
+          child: Form(
+            key: _formkey2,
+            child: TextFormField(
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please Enter Position';
+                }
+                return null;
+              },
+              controller: positionInputController,
+              decoration: InputDecoration(
+                hintText: 'Enter a new position',
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.done,
             ),
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.done,
           ),
         )
       ],
@@ -292,4 +379,66 @@ class _AddDepartmentState extends State<AddDepartment> {
       ]),
     );
   }
+
+  Future<void> getdata() async {
+    //get the department collectionn
+    CollectionReference _departmentCollectionRef =
+        FirebaseFirestore.instance.collection('club_department');
+    QuerySnapshot departmentListQuerySnapshot = await _departmentCollectionRef
+        .where('club_id', isEqualTo: widget.clubid)
+        .get();
+
+    departmentListQuerySnapshot.docs.forEach((element) {
+      departmentList.add(element.get('name'));
+      rdepartmentList.add(DepartmentList(
+          department_id: element.get('department_id'),
+          department_name: element.get('name')));
+    });
+    departmentList.add('New Department');
+
+    setState(() {});
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Added successfully.",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+}
+
+class DepartmentList {
+  DepartmentList({
+    required this.department_id,
+    required this.department_name,
+  });
+  final String department_id;
+  final String department_name;
 }

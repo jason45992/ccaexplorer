@@ -94,7 +94,7 @@ class App extends StatelessWidget {
       // home: ClubHomeScreen(),
 
       // home: HomePage(),
-      home: IntroductionAnimationScreen(), // home: HomePage(),
+      home: EditMember(), // home: HomePage(),
       //home: ClubDetailPage(Club.generateClubs()[0]),
     );
   }

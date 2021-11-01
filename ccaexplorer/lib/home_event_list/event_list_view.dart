@@ -114,6 +114,7 @@ class CategoryView extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => EventDetail(
+                      id: eventDetails!.id,
                       eventname: eventDetails!.eventTitle,
                       datetime: eventDetails!.datetime,
                       venue: eventDetails!.place,
@@ -163,9 +164,9 @@ class CategoryView extends StatelessWidget {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                top: 8,
-                                                left: 30,
-                                                right: 20,
+                                                top: 5,
+                                                left: 20,
+                                                right: 10,
                                                 bottom: 8),
                                             child: Row(
                                               mainAxisAlignment:
@@ -181,7 +182,8 @@ class CategoryView extends StatelessWidget {
                                                     fontWeight: FontWeight.w200,
                                                     fontSize: 12,
                                                     letterSpacing: 0.27,
-                                                    color: EventAppTheme.grey,
+                                                    color: EventAppTheme.grey
+                                                        .withOpacity(0.5),
                                                   ),
                                                 ),
                                               ],

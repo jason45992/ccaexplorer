@@ -1,13 +1,10 @@
 import 'package:ccaexplorer/club/club_detail/club_detail.dart';
 import 'package:ccaexplorer/club/club_list/club_bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
-// import 'package:ccaexplorer/club/club_list/club_data.dart';
 import 'package:ccaexplorer/club/club_detail/club_detail_data.dart' as Detail;
 import 'package:ccaexplorer/main.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
-import 'package:provider/provider.dart';
 import 'club_data.dart';
 
 class ClubHomeScreen extends StatefulWidget {
@@ -195,13 +192,15 @@ class _ClubItem1 extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => ClubDetailPage(Detail.Club.generateClubs(
+                    club.id,
                     club.image,
                     club.name,
                     category,
                     club.description,
                     club.clubmembernum,
                     club.rating,
-                    club.contact)[0]),
+                    club.contact,
+                    false)[0]),
               ),
             );
           },

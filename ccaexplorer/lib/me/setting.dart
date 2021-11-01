@@ -147,18 +147,35 @@ class _ManagePassWordState extends State<ManagePassWord> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Change Password"),
+        backgroundColor: Colors.white,
+        shadowColor: Colors.transparent,
+        leading: new IconButton(
+          color: EventAppTheme.darkerText,
+          icon: new Icon(Icons.arrow_back_ios),
+          onPressed: () => {Navigator.of(context).pop()},
+        ),
+        title: Text(
+          "Change Password",
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 20,
+            letterSpacing: 0.27,
+            color: EventAppTheme.darkerText,
+          ),
+        ),
       ),
-      body: Center(
-        child: Form(
-          key: _formkey,
+      body: Form(
+        key: _formkey,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
           child: Column(children: [
             const SizedBox(
               height: 50,
             ),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(vertical: 10),
               child: TextFormField(
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -170,12 +187,12 @@ class _ManagePassWordState extends State<ManagePassWord> {
                 controller: oldpasswordController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Please Enter Your Old Password',
+                  labelText: 'Please enter your old password',
                 ),
               ),
             ),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(vertical: 10),
               child: TextFormField(
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -187,16 +204,16 @@ class _ManagePassWordState extends State<ManagePassWord> {
                 controller: newpasswordController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Please Enter Your New Password',
+                  labelText: 'Please enter your new password',
                 ),
               ),
             ),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(vertical: 10),
               child: TextFormField(
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Please re-enter new  password';
+                    return 'Please re-enter your new password';
                   }
 
                   if (newpasswordController.text !=
@@ -209,20 +226,41 @@ class _ManagePassWordState extends State<ManagePassWord> {
                 controller: reenternewpasswordController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Please Re-Enter Your New Password',
+                  labelText: 'Please re-Enter your new password',
                 ),
               ),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                if (_formkey.currentState!.validate()) {
-                  _changePassword(
-                      oldpasswordController.text, newpasswordController.text);
-                }
-              },
-              child: const Text('Save'),
-            ),
           ]),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 60),
+        child: SizedBox(
+          width: double.maxFinite,
+          height: 44,
+          child: ElevatedButton(
+            onPressed: () async {
+              if (_formkey.currentState!.validate()) {
+                _changePassword(
+                    oldpasswordController.text, newpasswordController.text);
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              elevation: 6,
+              shadowColor: EventAppTheme.grey.withOpacity(0.4),
+              primary: EventAppTheme.grey,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            child: const Text(
+              'Save',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
+          ),
         ),
       ),
     );

@@ -20,6 +20,7 @@ class ClubCategory {
 
 class Club {
   const Club({
+    required this.id,
     required this.name,
     required this.image,
     required this.description,
@@ -27,6 +28,7 @@ class Club {
     required this.rating,
     required this.contact,
   });
+  final String id;
   final String name;
   final String image;
   final String description;
@@ -63,6 +65,7 @@ class ApplicationClubDetailState extends ChangeNotifier {
   bool _listen = true;
 
   get club => Club(
+      id: "",
       name: "",
       image: "",
       description: '',
@@ -108,6 +111,7 @@ class ApplicationClubDetailState extends ChangeNotifier {
                   Item(
                     category: category,
                     club: Club(
+                        id: document['id'],
                         name: document['name'],
                         image: element['url'],
                         description: document['description'],

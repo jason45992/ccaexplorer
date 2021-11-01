@@ -4,18 +4,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class ClubJoinPage extends StatefulWidget {
-  const ClubJoinPage({Key? key, required this.clubName});
+class EventRegisterPage extends StatefulWidget {
+  const EventRegisterPage(
+      {Key? key, required this.eventName, required this.eventDateTime});
+  final String eventName;
+  final String eventDateTime;
 
-  final String clubName;
-
-  @override
   State<StatefulWidget> createState() {
-    return ClubJoinPageState();
+    return EventRegisterPageState();
   }
 }
 
-class ClubJoinPageState extends State<ClubJoinPage> {
+class EventRegisterPageState extends State<EventRegisterPage> {
   var storage = FirebaseStorage.instance;
   User? user = FirebaseAuth.instance.currentUser;
   UserDetails currentUser =
@@ -34,7 +34,7 @@ class ClubJoinPageState extends State<ClubJoinPage> {
         shadowColor: Colors.white.withOpacity(0),
         backgroundColor: Colors.white,
         title: Text(
-          'Join Club',
+          'Register Event',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w600,
@@ -59,12 +59,12 @@ class ClubJoinPageState extends State<ClubJoinPage> {
             children: [
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(
-                  'Club Name',
+                  'Event',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  widget.clubName,
+                  widget.eventName,
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black.withOpacity(0.6),
@@ -74,50 +74,17 @@ class ClubJoinPageState extends State<ClubJoinPage> {
               const SizedBox(height: 30),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(
-                  'Departments',
+                  'Time',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                DropdownButton(
-                  dropdownColor: Colors.white,
-                  isExpanded: true,
-                  elevation: 1,
-                  value: selected1,
-                  items: Department.map(
-                          (e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
-                  onChanged: (String? val) {
-                    setState(() {
-                      if (val != null) {
-                        selected1 = val;
-                      }
-                    });
-                  },
-                ),
-              ]),
-              const SizedBox(height: 30),
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(
-                  'Positions',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                DropdownButton(
-                  isExpanded: true,
-                  dropdownColor: Colors.white,
-                  elevation: 1,
-                  value: selected2,
-                  items: Position.map(
-                          (e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
-                  onChanged: (String? val) {
-                    setState(() {
-                      if (val != null) {
-                        selected2 = val;
-                      }
-                    });
-                  },
-                ),
+                  widget.eventDateTime,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black.withOpacity(0.6),
+                  ),
+                )
               ]),
               const SizedBox(height: 30),
               Column(
@@ -157,7 +124,7 @@ class ClubJoinPageState extends State<ClubJoinPage> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(vertical: 100.0, horizontal: 30),
+        padding: EdgeInsets.symmetric(vertical: 60.0, horizontal: 30),
         child: SizedBox(
           width: double.maxFinite,
           height: 40,
@@ -219,7 +186,7 @@ class ClubJoinPageState extends State<ClubJoinPage> {
       elevation: 2,
       buttonPadding: EdgeInsets.symmetric(vertical: 20),
       content: Text(
-        "Application submitted successfully.",
+        "Event successfully registered.",
         style: TextStyle(
           color: Colors.black.withOpacity(0.6),
         ),

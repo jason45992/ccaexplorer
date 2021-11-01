@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class Club {
+  String id;
   String bgImg;
   String icon;
   String name;
@@ -19,30 +20,35 @@ class Club {
   String contact;
   List<String> imgs;
   String clubnum;
+  bool isMember;
   Club(
-    this.bgImg,
-    this.icon,
-    this.name,
-    this.type,
-    this.score,
-    this.download,
-    this.review,
-    this.desc,
-    this.contact,
-    this.imgs,
-    this.clubnum,
-  );
+      this.id,
+      this.bgImg,
+      this.icon,
+      this.name,
+      this.type,
+      this.score,
+      this.download,
+      this.review,
+      this.desc,
+      this.contact,
+      this.imgs,
+      this.clubnum,
+      this.isMember);
 
   static List<Club> generateClubs(
+      String id,
       String logourl,
       String clubname,
       String category,
       String description,
       String membernum,
       String rating,
-      String contact) {
+      String contact,
+      bool isMember) {
     return [
       Club(
+        id,
         logourl,
         logourl,
         clubname,
@@ -58,6 +64,7 @@ class Club {
           'assets/club/album3.JPG',
         ],
         membernum,
+        isMember,
       ),
     ];
   }

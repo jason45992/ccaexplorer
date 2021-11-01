@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:ccaexplorer/admin/registration_list.dart';
+import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -148,58 +149,58 @@ class _FavoritesState extends State<Favorites> {
       child: ListView.separated(
           itemBuilder: (BuildContext context, int index) {
             return Container(
-                padding: EdgeInsets.only(top: 0, left: 20, right: 20),
+                padding: EdgeInsets.only(top: 0, left: 25, right: 25),
                 height: 80,
                 child: Card(
                   shape: RoundedRectangleBorder(
                     side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  color: Color(0xFFAEC3D4),
+                  color: EventAppTheme.notWhite,
                   child: Row(
                     children: <Widget>[
                       Container(
                         width: 170,
-                        padding: const EdgeInsets.all(7),
+                        padding:
+                            const EdgeInsets.only(left: 20, top: 7, bottom: 7),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
                               '${entries[index]['title']}',
                               style: TextStyle(
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  color: Colors.white),
+                                  color: EventAppTheme.darkText),
                             ),
+                            SizedBox(height: 5),
                             Text(
                               '${entries[index]['time']}',
                               style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
+                                fontSize: 13,
+                                color: EventAppTheme.grey,
                               ),
                             ),
                             Text(
                               '${entries[index]['address']}',
                               style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
+                                fontSize: 13,
+                                color: EventAppTheme.grey,
                               ),
                             ),
                           ],
                         ),
                       ),
                       SizedBox(
-                        width: 20,
-                      ),
-                      SizedBox(
-                        width: 50,
+                        width: 70,
                       ),
                       Container(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         decoration: BoxDecoration(
-                            color: Color(0xffb0b4b8),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(24.0)),
-                            border: Border.all(color: Color(0xffb0b4b8))),
+                          color: EventAppTheme.nearlyBlack,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(24.0)),
+                        ),
                         height: 30,
                         width: 80,
                         child: Material(
@@ -219,7 +220,7 @@ class _FavoritesState extends State<Favorites> {
                                   fontWeight: FontWeight.w600,
                                   fontSize: 12,
                                   letterSpacing: 0.27,
-                                  color: Colors.red,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),

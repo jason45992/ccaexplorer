@@ -303,7 +303,6 @@ class _ResetPasswordState extends State<ResetPassword> {
             .sendPasswordResetEmail(email: resetemailController.text);
 
         return showAlertDialog(context);
-        ;
       } else {
         // Return false because email adress is not in use
         return showErrorAlertDialog(context);

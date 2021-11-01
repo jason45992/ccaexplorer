@@ -1,13 +1,17 @@
-// import 'package:ccaexplorer/event_details/event_register.dart';
+import 'package:ccaexplorer/event_details/event_register.dart';
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:full_screen_image/full_screen_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EventDetail extends StatefulWidget {
   const EventDetail(
       {Key? key,
+      required this.id,
       required this.eventname,
       required this.datetime,
       required this.venue,
@@ -15,6 +19,7 @@ class EventDetail extends StatefulWidget {
       required this.description,
       required this.eventposter})
       : super(key: key);
+  final String id;
   final String eventname;
   final String datetime;
   final String venue;
@@ -27,6 +32,17 @@ class EventDetail extends StatefulWidget {
 }
 
 class _EventDetailState extends State<EventDetail> {
+  var storage = FirebaseStorage.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  var buttonText = "Register";
+  var isClickable = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,10 +66,16 @@ class _EventDetailState extends State<EventDetail> {
           height: 40,
           child: ElevatedButton(
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => EventRegisterPage()),
-              // );
+              if (isClickable) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EventRegisterPage(
+                            eventName: widget.eventname,
+                            eventDateTime: widget.datetime,
+                          )),
+                );
+              }
             },
             style: ElevatedButton.styleFrom(
               elevation: 6,
@@ -63,8 +85,8 @@ class _EventDetailState extends State<EventDetail> {
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-            child: const Text(
-              'Register',
+            child: Text(
+              buttonText,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -74,6 +96,22 @@ class _EventDetailState extends State<EventDetail> {
         ),
       ),
     );
+  }
+
+  Future<void> getData() async {
+    FirebaseFirestore.instance
+        .collection('event_application')
+        .where('user_id', isEqualTo: user!.uid)
+        .snapshots()
+        .listen((data) {
+      data.docs.forEach((element) {
+        if (element.get("event_id") == widget.id) {
+          buttonText = "Registered";
+          isClickable = false;
+          setState(() {});
+        }
+      });
+    });
   }
 
   Widget getAppBarUI() {
@@ -143,13 +181,13 @@ class _EventDetailState extends State<EventDetail> {
   }
 
   Widget imagepad() => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
         child: Row(children: <Widget>[
           image(),
           const SizedBox(width: 15),
           Container(
-            height: 200.0,
-            width: 190,
+            height: 160.0,
+            width: 160,
             decoration: BoxDecoration(
               color: Colors.transparent,
             ),
@@ -163,8 +201,8 @@ class _EventDetailState extends State<EventDetail> {
       );
 
   Widget image() => Container(
-        height: 180.0,
-        width: 180,
+        height: 160.0,
+        width: 160,
         decoration: BoxDecoration(
           color: Colors.transparent,
         ),
@@ -187,10 +225,10 @@ class _EventDetailState extends State<EventDetail> {
               widget.eventname,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 24,
+                fontSize: 22,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Text(
               widget.club,
               style: TextStyle(
@@ -198,18 +236,23 @@ class _EventDetailState extends State<EventDetail> {
                 fontSize: 16,
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 14),
             Row(
               children: [
                 Icon(
                   Icons.date_range,
                   color: EventAppTheme.grey,
-                  size: 25,
+                  size: 20,
                 ),
-                VerticalDivider(),
+                const SizedBox(width: 6),
                 Expanded(
-                  child: Text(widget.datetime, style: TextStyle(fontSize: 15)),
-                )
+                    child: Text(
+                  widget.datetime,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
+                ))
               ],
             ),
             const SizedBox(height: 10),
@@ -218,10 +261,14 @@ class _EventDetailState extends State<EventDetail> {
                 Icon(
                   Icons.location_on_sharp,
                   color: EventAppTheme.grey,
-                  size: 25,
+                  size: 20,
                 ),
-                VerticalDivider(),
-                Text(widget.venue, style: TextStyle(fontSize: 15))
+                const SizedBox(width: 6),
+                Text(widget.venue,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                    ))
               ],
             ),
           ],
@@ -247,7 +294,7 @@ class _EventDetailState extends State<EventDetail> {
       );
 
   Widget desciption_body() => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 2),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
         child: Container(
           alignment: Alignment.center,
           margin: EdgeInsets.all(5),

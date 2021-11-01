@@ -46,6 +46,7 @@ class ApplicationEventDetailState extends ChangeNotifier {
           snapshot.docs.forEach((document) {
             _eventDetailList.add(
               EventDetails(
+                id: document.data()['eventid'],
                 club: document.data()['club'],
                 cover: document.data()['cover'],
                 datetime: document.data()['datetime'],
@@ -122,13 +123,15 @@ class _EventState extends State<EventListDetail> {
 
 class EventDetails {
   EventDetails(
-      {required this.club,
+      {required this.id,
+      required this.club,
       required this.cover,
       required this.datetime,
       required this.description,
       required this.eventTitle,
       required this.place,
       required this.poster});
+  final String id;
   final String club;
   final String cover;
   final String datetime;

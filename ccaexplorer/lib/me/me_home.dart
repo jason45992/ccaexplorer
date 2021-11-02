@@ -29,6 +29,7 @@ class _MeHomeState extends State<MeHome> {
   List<CLubMemberDetails> cLubMemberList = [];
   User? user = FirebaseAuth.instance.currentUser;
   String username = '';
+  String matricNUum = '';
 
   @override
   void initState() {
@@ -174,14 +175,14 @@ class _MeHomeState extends State<MeHome> {
                     // h5 -> headline
                     fontFamily: 'WorkSans',
                     fontWeight: FontWeight.bold,
-                    fontSize: 24,
+                    fontSize: 20,
                     letterSpacing: 0.27,
                     color: Color(0xFF17262A),
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'U9205231W',
+                  matricNUum,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
@@ -194,7 +195,7 @@ class _MeHomeState extends State<MeHome> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 30, right: 10),
+            padding: const EdgeInsets.only(left: 15),
             child: Container(
               decoration: BoxDecoration(
                   color: Colors.transparent,
@@ -518,6 +519,7 @@ class _MeHomeState extends State<MeHome> {
     QuerySnapshot userQuerySnapshot =
         await _userCollectionRef.where('userid', isEqualTo: user!.uid).get();
     username = userQuerySnapshot.docs.first.get('Name');
+    matricNUum = userQuerySnapshot.docs.first.get('Matric_no');
 
     setState(() {});
   }

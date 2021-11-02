@@ -4,14 +4,12 @@ import 'package:ccaexplorer/me/contact_us.dart';
 import 'package:ccaexplorer/me/edit_profile.dart';
 import 'package:ccaexplorer/me/favourates.dart';
 import 'package:ccaexplorer/me/setting.dart';
-import 'package:ccaexplorer/me/contact_us.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'admin_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ccaexplorer/club/club_detail/club_detail_data.dart' as Detail;
-import '/admin/published_events.dart';
 
 class MeHome extends StatefulWidget {
   MeHome();
@@ -410,7 +408,7 @@ class _MeHomeState extends State<MeHome> {
         Navigator.of(context).push(PageRouteBuilder(
             opaque: false,
             pageBuilder: (BuildContext context, _, __) =>
-                RedeemConfirmationScreen()));
+                RedeemConfirmationScreen(cLubList)));
       },
       child: const Icon(Icons.manage_accounts),
       backgroundColor: Colors.green,

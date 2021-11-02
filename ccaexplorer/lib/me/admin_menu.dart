@@ -1,7 +1,12 @@
 import 'package:ccaexplorer/admin/select_club.dart';
 import 'package:flutter/material.dart';
+import 'package:ccaexplorer/me/me_home.dart';
 
 class RedeemConfirmationScreen extends StatelessWidget {
+  final List<ClubDetails> clubs;
+
+  RedeemConfirmationScreen(this.clubs, {Key? key}) : super(key: key);
+
   final List<String> entries = <String>[
     'Events',
     'Club Management',
@@ -25,7 +30,7 @@ class RedeemConfirmationScreen extends StatelessWidget {
                     height: 80,
                     child: GestureDetector(
                       onTap: () {
-                        moveTo('${entries[index]}', context);
+                        moveTo('${entries[index]}', context, clubs);
                       },
                       child: Card(
                         margin: EdgeInsets.symmetric(vertical: 0),
@@ -66,26 +71,27 @@ class RedeemConfirmationScreen extends StatelessWidget {
         ]));
   }
 
-  moveTo(String type, BuildContext context) {
+  moveTo(String type, BuildContext context, List<ClubDetails> clubs) {
     if (type == 'Events') {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => AdminClubList(), //club profile
+          builder: (context) => AdminClubList(clubs, "events"), //club profile
         ),
       );
     } else if (type == 'Club Management') {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => AdminClubList(), //club profile
+          builder: (context) => AdminClubList(clubs, "cLubs"), //club profile
         ),
       );
     } else {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => AdminClubList(), //club profile
+          builder: (context) =>
+              AdminClubList(clubs, "applicaiton"), //club profile
         ),
       );
     }

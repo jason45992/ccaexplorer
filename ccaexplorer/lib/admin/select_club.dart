@@ -2,17 +2,24 @@ import 'dart:ui';
 import 'package:ccaexplorer/admin/published_events.dart';
 import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'admin_theme.dart';
+import 'package:ccaexplorer/me/me_home.dart';
 
 class AdminClubList extends StatefulWidget {
+  final List<ClubDetails> clubs;
+  final String option;
+  AdminClubList(this.clubs, this.option, {Key? key}) : super(key: key);
   @override
-  _AdminClubListState createState() => _AdminClubListState();
+  _AdminClubListState createState() =>
+      _AdminClubListState(this.clubs, this.option);
 }
 
 class _AdminClubListState extends State<AdminClubList> {
   AnimationController? animationController;
   List<HotelListData> publishedEventList = HotelListData.hotelList;
+  final List<ClubDetails> clubs;
+  final String option;
+  _AdminClubListState(this.clubs, this.option);
 
   @override
   void initState() {
@@ -107,12 +114,6 @@ class _AdminClubListState extends State<AdminClubList> {
   }
 
   Widget getClubList() {
-    final List<Map> entries = <Map>[
-      {'name': 'Club Name1', 'matricNum': 'U12345678Aaa'},
-      {'name': 'Club Name2', 'matricNum': 'U12345678A'},
-      {'name': 'Club Name3', 'matricNum': 'U12345678A'},
-      {'name': 'Club Name4', 'matricNum': 'U12345678A'}
-    ];
     return Container(
       alignment: Alignment.topCenter,
       child: SizedBox(
@@ -120,17 +121,27 @@ class _AdminClubListState extends State<AdminClubList> {
         child: ListView.separated(
             padding: EdgeInsets.only(top: 10),
             itemBuilder: (BuildContext context, int index) {
-              return Container(
+              return SingleChildScrollView(
+                  // scrollDirection: Axis.horizontal,
+                  child: Container(
                 padding: EdgeInsets.only(top: 0, left: 20, right: 20),
                 height: 80,
                 child: GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AdminPublishedEvents(),
-                        ),
-                      );
+                      print(this.option);
+                      if (this.option == "events") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                AdminPublishedEvents(clubs[index].name),
+                          ),
+                        );
+                      } else if (this.option == "cLubs") {
+                        //clubs
+                      } else {
+                        //applications
+                      }
                     },
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -144,16 +155,20 @@ class _AdminClubListState extends State<AdminClubList> {
                             padding: const EdgeInsets.only(left: 10),
                             width: 60,
                             height: 60,
-                            child: Image.asset('assets/images/userImage.png'),
+                            child: Image.network(
+                              '${clubs[index].logoUrl}',
+                              fit: BoxFit.fill,
+                            ),
                           ),
                           Container(
-                            padding: const EdgeInsets.only(top: 27, left: 20),
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            padding: const EdgeInsets.only(top: 20, left: 20),
                             child: Column(
                               children: <Widget>[
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      '${entries[index]['name']}',
+                                      '${clubs[index].name}',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
@@ -165,11 +180,11 @@ class _AdminClubListState extends State<AdminClubList> {
                         ],
                       ),
                     )),
-              );
+              ));
             },
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
-            itemCount: entries.length),
+            itemCount: clubs.length),
       ),
     );
   }

@@ -291,12 +291,7 @@ class _AdminEventFormState extends State<AdminEventForm> {
                   borderRadius:
                       BorderRadius.circular(AppBar().preferredSize.height),
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => AdminPublishedEvents(),
-                    //   ),
-                    // );
+                    Navigator.pop(context);
                   },
                   child: Icon(
                     Icons.arrow_back_ios,

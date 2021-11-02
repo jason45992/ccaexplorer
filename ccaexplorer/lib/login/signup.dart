@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../login/login.dart';
 import '../../login/admin_signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,6 +16,8 @@ class __State extends State<SignUp> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController repasswordController = TextEditingController();
+  TextEditingController matricnumController = TextEditingController();
+  TextEditingController phonenumController = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   // final void Function() startLoginFlow;
@@ -25,13 +28,15 @@ class __State extends State<SignUp> {
     emailController.dispose();
     passwordController.dispose();
     repasswordController.dispose();
+    matricnumController.dispose();
+    phonenumController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/signUp.jpeg"),
@@ -42,10 +47,9 @@ class __State extends State<SignUp> {
           children: <Widget>[
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(10),
             ),
             Container(
-              height: 200,
+              height: 150,
               child: Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -55,7 +59,7 @@ class __State extends State<SignUp> {
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: 45,
+                        fontSize: 30,
                         letterSpacing: 0.27,
                         color: Colors.white,
                       ),
@@ -67,6 +71,7 @@ class __State extends State<SignUp> {
               child: Column(
                 children: [
                   Container(
+                    height: 75,
                     padding: EdgeInsets.all(10),
                     child: TextFormField(
                       validator: (value) {
@@ -97,6 +102,7 @@ class __State extends State<SignUp> {
                     ),
                   ),
                   Container(
+                    height: 75,
                     padding: EdgeInsets.all(10),
                     child: TextFormField(
                       validator: (value) {
@@ -123,6 +129,65 @@ class __State extends State<SignUp> {
                     ),
                   ),
                   Container(
+                    height: 75,
+                    padding: EdgeInsets.all(10),
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please Enter Your Matriculation Number';
+                        }
+                        return null;
+                      },
+                      controller: matricnumController,
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.white, width: 1),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.white, width: 3),
+                        ),
+                        border: OutlineInputBorder(),
+                        labelText: 'Matriculation Number',
+                        labelStyle: new TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 75,
+                    padding: EdgeInsets.all(10),
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please Enter Your Phone Number';
+                        }
+                        return null;
+                      },
+                      controller: phonenumController,
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(color: Colors.white),
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.white, width: 1),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.white, width: 3),
+                        ),
+                        border: OutlineInputBorder(),
+                        labelText: 'Phone Number',
+                        labelStyle: new TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 75,
                     padding: EdgeInsets.all(10),
                     child: TextFormField(
                       validator: (value) {
@@ -150,6 +215,7 @@ class __State extends State<SignUp> {
                     ),
                   ),
                   Container(
+                    height: 75,
                     padding: EdgeInsets.all(10),
                     // padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                     child: TextFormField(
@@ -268,7 +334,9 @@ class __State extends State<SignUp> {
             .set({
           'userid': result.user!.uid,
           'NTUEmail': emailController.text,
-          'Name': nameController.text
+          'Name': nameController.text,
+          'phone': phonenumController.text,
+          'Matric_no': matricnumController.text
         }).then((res) {
           Navigator.pushReplacement(
             context,

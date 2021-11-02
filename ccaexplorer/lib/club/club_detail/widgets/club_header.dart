@@ -8,20 +8,21 @@ class ClubHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            Image.network(club.icon, width: 80),
-            const SizedBox(width: 15),
-            Column(
+      child: Row(
+        children: [
+          Image.network(club.icon, width: 80),
+          const SizedBox(width: 15),
+          Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   club.name,
+                  maxLines: 2, // you can change it accordingly
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 16,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -48,9 +49,9 @@ class ClubHeader extends StatelessWidget {
                   ],
                 )
               ],
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

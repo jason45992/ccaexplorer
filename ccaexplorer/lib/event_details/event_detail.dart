@@ -73,6 +73,7 @@ class _EventDetailState extends State<EventDetail> {
                       builder: (context) => EventRegisterPage(
                             eventName: widget.eventname,
                             eventDateTime: widget.datetime,
+                            eventid: widget.id,
                           )),
                 );
               }

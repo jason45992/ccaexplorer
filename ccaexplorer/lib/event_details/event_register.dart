@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ccaexplorer/club/event_app_theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,9 +7,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class EventRegisterPage extends StatefulWidget {
   const EventRegisterPage(
-      {Key? key, required this.eventName, required this.eventDateTime});
+      {Key? key,
+      required this.eventName,
+      required this.eventDateTime,
+      required this.eventid});
   final String eventName;
   final String eventDateTime;
+  final String eventid;
 
   State<StatefulWidget> createState() {
     return EventRegisterPageState();
@@ -18,8 +23,8 @@ class EventRegisterPage extends StatefulWidget {
 class EventRegisterPageState extends State<EventRegisterPage> {
   var storage = FirebaseStorage.instance;
   User? user = FirebaseAuth.instance.currentUser;
-  UserDetails currentUser =
-      UserDetails(fullName: "", email: "", matricNum: "", phone: 0);
+  UserDetails currentUser = UserDetails(
+      fullName: "", email: "", matricNum: "", phone: '0', userid: '');
 
   @override
   void initState() {
@@ -103,16 +108,14 @@ class EventRegisterPageState extends State<EventRegisterPage> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(18),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Container(
-                          child: Row(
-                            children: [
-                              personalinformation(),
-                              const SizedBox(width: 40),
-                              personalinformationdetails()
-                            ],
-                          ),
+                      child: Container(
+                        width: 270,
+                        child: Row(
+                          children: [
+                            personalinformation(),
+                            const SizedBox(width: 30),
+                            personalinformationdetails()
+                          ],
                         ),
                       ),
                     ),
@@ -130,7 +133,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
           height: 40,
           child: ElevatedButton(
             onPressed: () {
-              showAlertDialog(context);
+              eventregistration();
             },
             style: ElevatedButton.styleFrom(
               elevation: 6,
@@ -161,13 +164,32 @@ class EventRegisterPageState extends State<EventRegisterPage> {
         .listen((data) {
       data.docs.forEach((element) {
         currentUser = UserDetails(
-            fullName: element.get('Name'),
-            email: element.get('NTUEmail'),
-            matricNum: element.get('Matric_no'),
-            phone: element.get('phone'));
+          fullName: element.get('Name'),
+          email: element.get('NTUEmail'),
+          matricNum: element.get('Matric_no'),
+          phone: element.get('phone'),
+          userid: element.get('userid'),
+        );
+
         setState(() {});
       });
     });
+  }
+
+  Future eventregistration() async {
+    await Firebase.initializeApp();
+    final eventApplication =
+        FirebaseFirestore.instance.collection('event_application').doc();
+    final refid = eventApplication.id;
+    eventApplication
+        .set({
+          'event_id': widget.eventid,
+          'user_id': currentUser.userid,
+          'remark': '',
+          'id': refid
+        })
+        .then((value) => showAlertDialog(context))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 
   showAlertDialog(BuildContext context) {
@@ -225,7 +247,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
         Text(
           'Name',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.w100,
             color: Colors.black.withOpacity(0.4),
           ),
@@ -234,7 +256,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
         Text(
           'Matric No.',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.w100,
             color: Colors.black.withOpacity(0.4),
           ),
@@ -243,7 +265,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
         Text(
           'Email',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.w100,
             color: Colors.black.withOpacity(0.4),
           ),
@@ -252,7 +274,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
         Text(
           'Contact No.',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.w100,
             color: Colors.black.withOpacity(0.4),
           ),
@@ -269,7 +291,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
         Text(
           currentUser.fullName,
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             color: Colors.black.withOpacity(0.6),
           ),
         ),
@@ -277,7 +299,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
         Text(
           currentUser.matricNum,
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             color: Colors.black.withOpacity(0.6),
           ),
         ),
@@ -285,15 +307,15 @@ class EventRegisterPageState extends State<EventRegisterPage> {
         Text(
           currentUser.email,
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             color: Colors.black.withOpacity(0.6),
           ),
         ),
         const SizedBox(height: 8),
         Text(
-          currentUser.phone.toString(),
+          currentUser.phone,
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             color: Colors.black.withOpacity(0.6),
           ),
         ),
@@ -308,9 +330,11 @@ class UserDetails {
     required this.email,
     required this.matricNum,
     required this.phone,
+    required this.userid,
   });
   final String fullName;
   final String email;
   final String matricNum;
-  final int phone;
+  final String phone;
+  final String userid;
 }

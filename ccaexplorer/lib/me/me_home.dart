@@ -29,6 +29,8 @@ class _MeHomeState extends State<MeHome> {
   List<CLubMemberDetails> cLubMemberList = [];
   User? user = FirebaseAuth.instance.currentUser;
   String username = '';
+  String matricnum = '';
+  String profileurl = '';
 
   @override
   void initState() {
@@ -138,30 +140,35 @@ class _MeHomeState extends State<MeHome> {
 
   Widget getAppBarUI() {
     return Padding(
-      padding: const EdgeInsets.only(top: 80.0, left: 24, right: 24),
+      padding: const EdgeInsets.only(top: 80.0, left: 5, right: 5),
       child: Row(
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
-                // border: Border.all(style: BorderStyle.solid),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(40),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.7),
-                    offset: Offset(0.0, 1.0), //(x,y)
-                    blurRadius: 6.0,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(40),
                   ),
-                ]),
-            width: 80,
-            height: 80,
-            child: CircleAvatar(
-                radius: 30.0,
-                backgroundImage: AssetImage('assets/images/userImage.png'),
-                backgroundColor: Colors.transparent),
-          ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.7),
+                      offset: Offset(0.0, 1.0), //(x,y)
+                      blurRadius: 6.0,
+                    ),
+                  ]),
+              width: 70,
+              height: 70,
+              child: profileurl != ''
+                  ? CircleAvatar(
+                      radius: 30.0,
+                      backgroundImage: NetworkImage(profileurl),
+                      backgroundColor: Colors.transparent)
+                  : CircleAvatar(
+                      radius: 30.0,
+                      backgroundImage:
+                          NetworkImage('https://i.stack.imgur.com/l60Hf.png'),
+                      backgroundColor: Colors.transparent)),
           Container(
+            width: 180,
             padding: const EdgeInsets.only(left: 12),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -171,17 +178,16 @@ class _MeHomeState extends State<MeHome> {
                   username,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    // h5 -> headline
                     fontFamily: 'WorkSans',
                     fontWeight: FontWeight.bold,
-                    fontSize: 24,
+                    fontSize: 20,
                     letterSpacing: 0.27,
                     color: Color(0xFF17262A),
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'U9205231W',
+                  matricnum,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
@@ -200,7 +206,7 @@ class _MeHomeState extends State<MeHome> {
                   color: Colors.transparent,
                   borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                   border: Border.all(color: Colors.white, width: 1.5)),
-              width: 100,
+              width: 90,
               height: 35,
               child: Material(
                 color: Colors.transparent,
@@ -477,17 +483,15 @@ class _MeHomeState extends State<MeHome> {
         });
       });
     }
-    // cLubList.forEach((element) {
-    //   String number = FirebaseFirestore.instance
-    //       .collection('club_member')
-    //       .where('club_id', isEqualTo: element.id)
-    //       .snapshots()
-    //       .length
-    //       .toString();
-    //   cLubmemnoList.add(
-    //     ClubMemberNumberList(id: element.id, clubmemberno: number),
-    //   );
-    // });
+    FirebaseFirestore.instance
+        .collection('useracc')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .snapshots()
+        .forEach((element) {
+      setState(() {
+        profileurl = element['profile_pic_id'];
+      });
+    });
 
     // for filter out myclub
     CollectionReference _clubMemberCollectionRef =
@@ -518,6 +522,7 @@ class _MeHomeState extends State<MeHome> {
     QuerySnapshot userQuerySnapshot =
         await _userCollectionRef.where('userid', isEqualTo: user!.uid).get();
     username = userQuerySnapshot.docs.first.get('Name');
+    matricnum = userQuerySnapshot.docs.first.get('Matric_no');
 
     setState(() {});
   }

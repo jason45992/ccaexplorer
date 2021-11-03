@@ -67,8 +67,10 @@ class _ClubContactState extends State<ClubContact> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              ClubJoinPage(clubName: clubDetail.name)),
+                          builder: (context) => ClubJoinPage(
+                                clubName: clubDetail.name,
+                                clubid: clubDetail.id,
+                              )),
                     );
                   }
                 }

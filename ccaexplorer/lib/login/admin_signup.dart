@@ -1,5 +1,6 @@
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../login/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,9 +19,13 @@ class a_State extends State<AdminSignUp> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController repasswordController = TextEditingController();
   TextEditingController clubverficationController = TextEditingController();
+  TextEditingController matricnumController = TextEditingController();
+  TextEditingController phonenumController = TextEditingController();
+
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool _isInvalidAsyncCode = false;
   bool _isInAsyncCall = false;
+  Color color = Colors.black;
 
   // final void Function() startLoginFlow;
   @override
@@ -30,6 +35,8 @@ class a_State extends State<AdminSignUp> {
     emailController.dispose();
     passwordController.dispose();
     repasswordController.dispose();
+    matricnumController.dispose();
+    phonenumController.dispose();
   }
 
   @override
@@ -86,6 +93,7 @@ class a_State extends State<AdminSignUp> {
                 child: Column(
                   children: [
                     Container(
+                      height: 75,
                       padding: EdgeInsets.all(10),
                       child: TextFormField(
                         validator: (value) {
@@ -99,23 +107,24 @@ class a_State extends State<AdminSignUp> {
                           return null;
                         },
                         controller: emailController,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           enabledBorder: const OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Colors.white, width: 1),
+                                const BorderSide(color: Colors.black, width: 1),
                           ),
                           focusedBorder: const OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Colors.white, width: 3),
+                                const BorderSide(color: Colors.black, width: 3),
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'NTU Email',
-                          labelStyle: new TextStyle(color: Colors.white),
+                          labelStyle: new TextStyle(color: Colors.black),
                         ),
                       ),
                     ),
                     Container(
+                      height: 75,
                       padding: EdgeInsets.all(10),
                       child: TextFormField(
                         validator: (value) {
@@ -125,23 +134,82 @@ class a_State extends State<AdminSignUp> {
                           return null;
                         },
                         controller: nameController,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           enabledBorder: const OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Colors.white, width: 1),
+                                const BorderSide(color: Colors.black, width: 1),
                           ),
                           focusedBorder: const OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Colors.white, width: 3),
+                                const BorderSide(color: Colors.black, width: 3),
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Name',
-                          labelStyle: new TextStyle(color: Colors.white),
+                          labelStyle: new TextStyle(color: Colors.black),
                         ),
                       ),
                     ),
                     Container(
+                      height: 75,
+                      padding: EdgeInsets.all(10),
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please Enter Your Matriculation Number';
+                          }
+                          return null;
+                        },
+                        controller: matricnumController,
+                        style: TextStyle(color: Colors.black),
+                        decoration: InputDecoration(
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 1),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 3),
+                          ),
+                          border: OutlineInputBorder(),
+                          labelText: 'Matriculation Number',
+                          labelStyle: new TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 75,
+                      padding: EdgeInsets.all(10),
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please Enter Your Phone Number';
+                          }
+                          return null;
+                        },
+                        controller: phonenumController,
+                        keyboardType: TextInputType.number,
+                        style: TextStyle(color: Colors.black),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        decoration: InputDecoration(
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 1),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 3),
+                          ),
+                          border: OutlineInputBorder(),
+                          labelText: 'Phone Number',
+                          labelStyle: new TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 75,
                       padding: EdgeInsets.all(10),
                       child: TextFormField(
                         validator: (value) {
@@ -152,23 +220,24 @@ class a_State extends State<AdminSignUp> {
                         },
                         obscureText: true,
                         controller: passwordController,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           enabledBorder: const OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Colors.white, width: 1),
+                                const BorderSide(color: Colors.black, width: 1),
                           ),
                           focusedBorder: const OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Colors.white, width: 3),
+                                const BorderSide(color: Colors.black, width: 3),
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Password',
-                          labelStyle: new TextStyle(color: Colors.white),
+                          labelStyle: new TextStyle(color: Colors.black),
                         ),
                       ),
                     ),
                     Container(
+                      height: 75,
                       padding: EdgeInsets.all(10),
                       // padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: TextFormField(
@@ -185,23 +254,24 @@ class a_State extends State<AdminSignUp> {
                         },
                         obscureText: true,
                         controller: repasswordController,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           enabledBorder: const OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Colors.white, width: 1),
+                                const BorderSide(color: Colors.black, width: 1),
                           ),
                           focusedBorder: const OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Colors.white, width: 3),
+                                const BorderSide(color: Colors.black, width: 3),
                           ),
                           border: OutlineInputBorder(),
-                          labelText: 'Re-enter Passwor',
-                          labelStyle: new TextStyle(color: Colors.white),
+                          labelText: 'Re-enter Password',
+                          labelStyle: new TextStyle(color: Colors.black),
                         ),
                       ),
                     ),
                     Container(
+                      height: 75,
                       padding: EdgeInsets.all(10),
                       // padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: TextFormField(
@@ -211,7 +281,6 @@ class a_State extends State<AdminSignUp> {
                           }
 
                           if (_isInvalidAsyncCode) {
-                            print('object');
                             return "Invalid Verification Code";
                           }
                           return null;
@@ -221,15 +290,15 @@ class a_State extends State<AdminSignUp> {
                         decoration: InputDecoration(
                           enabledBorder: const OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Colors.white, width: 1),
+                                const BorderSide(color: Colors.black, width: 1),
                           ),
                           focusedBorder: const OutlineInputBorder(
                             borderSide:
-                                const BorderSide(color: Colors.white, width: 3),
+                                const BorderSide(color: Colors.black, width: 3),
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Club Verification Code',
-                          labelStyle: new TextStyle(color: Colors.white),
+                          labelStyle: new TextStyle(color: Colors.black),
                         ),
                       ),
                     ),
@@ -313,6 +382,8 @@ class a_State extends State<AdminSignUp> {
             .set({
           'userid': result.user!.uid,
           'NTUEmail': emailController.text,
+          'phone_number': phonenumController.text,
+          'matriculation_number': matricnumController.text,
           'Name': nameController.text
         }).then((res) {
           Navigator.pushReplacement(

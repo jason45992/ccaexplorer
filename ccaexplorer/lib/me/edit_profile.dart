@@ -1,4 +1,5 @@
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:ccaexplorer/me/contact_us.dart';
@@ -8,6 +9,7 @@ import 'package:ccaexplorer/me/setting.dart';
 import 'package:ccaexplorer/me/contact_us.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'admin_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -47,6 +49,7 @@ class _PersonalProfileState extends State<PersonalProfile> {
   String? dropdownValue;
   // ignore: non_constant_identifier_names
   String file_path1 = '';
+  String downloadUrl = '';
   // ignore: non_constant_identifier_names
 
   List<File> images1 = [];
@@ -66,6 +69,29 @@ class _PersonalProfileState extends State<PersonalProfile> {
     } on PlatformException catch (e) {
       print('failed to pick image:$e');
     }
+  }
+
+  Future<void> uploadFile(String filePath) async {
+    await Firebase.initializeApp();
+    File file = File(filePath);
+    String fileName = basename(filePath);
+
+    Reference ref = FirebaseStorage.instance.ref();
+    await ref.child("profileimages/$fileName.jpeg").putFile(file);
+    print("added to Firebase Storage");
+    downloadUrl = await FirebaseStorage.instance
+        .ref('profileimages/$fileName.jpeg')
+        .getDownloadURL();
+    addEvent();
+  }
+
+  Future<void> addEvent() async {
+    await Firebase.initializeApp();
+    final userAcc = FirebaseFirestore.instance.collection('useracc');
+
+    return userAcc
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({'profile_pic_id': downloadUrl});
   }
 
   @override
@@ -156,7 +182,7 @@ class _PersonalProfileState extends State<PersonalProfile> {
                     children: [
                       Text.rich(TextSpan(children: [
                         TextSpan(
-                            text: "Matric No.: ",
+                            text: "Matric No: ",
                             style: TextStyle(fontSize: 16)),
                         TextSpan(
                           text: matricnum,
@@ -184,7 +210,14 @@ class _PersonalProfileState extends State<PersonalProfile> {
                 width: double.maxFinite,
                 height: 44,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (file_path1 != '') {
+                      uploadFile(file_path1);
+                      showAlertDialog(context);
+                    } else {
+                      showAlertDialog2(context);
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     elevation: 6,
                     shadowColor: EventAppTheme.grey.withOpacity(0.4),
@@ -206,6 +239,75 @@ class _PersonalProfileState extends State<PersonalProfile> {
           ],
         ),
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Profile  updated.",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialog2(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Image is required!!!",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 

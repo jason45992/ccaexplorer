@@ -85,8 +85,8 @@ class _DepartmentPositionState extends State<DepartmentPosition> {
     CollectionReference _clubDepartmentcollectionRef =
         FirebaseFirestore.instance.collection('club_department');
     _clubDepartmentcollectionRef
-      ..doc(widget.departmentid)
-          .update({'name': departmentnameInputController.text});
+        .doc(widget.departmentid)
+        .update({'name': departmentnameInputController.text});
   }
 
   @override

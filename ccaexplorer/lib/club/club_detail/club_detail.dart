@@ -40,10 +40,6 @@ class ClubDetailPage extends StatelessWidget {
           color: Colors.white,
           child: SingleChildScrollView(
             child: Column(children: [
-              // ClubDetailInformation(
-              //   club,
-              //   clubid: club.clubnum,
-              // ),
               ClubHeader(club),
               ClubGallery(club),
               ClubDescription(club),

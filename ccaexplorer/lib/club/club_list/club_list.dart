@@ -181,60 +181,57 @@ class _ClubItem1 extends StatelessWidget {
   final Club club;
   final String category;
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Container(
-        width: 400,
-        height: clubHeight,
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ClubDetailPage(Detail.Club.generateClubs(
-                    club.id,
-                    club.image,
-                    club.name,
-                    category,
-                    club.description,
-                    club.clubmembernum,
-                    club.rating,
-                    club.contact,
-                    false)[0]),
+    return Container(
+      width: 400,
+      height: clubHeight,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ClubDetailPage(Detail.Club.generateClubs(
+                  club.id,
+                  club.image,
+                  club.name,
+                  category,
+                  club.description,
+                  club.clubmembernum,
+                  club.rating,
+                  club.contact,
+                  false)[0]),
+            ),
+          );
+        },
+        child: Card(
+          elevation: 20,
+          shadowColor: Colors.black54.withOpacity(0.3),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 75,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Image.network(club.image),
+                ),
               ),
-            );
-          },
-          child: Card(
-            elevation: 20,
-            shadowColor: Colors.black54.withOpacity(0.3),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 75,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Image.network(club.image),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  club.name,
+                  maxLines: 3,
+                  overflow: TextOverflow.fade,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                    letterSpacing: 0.27,
+                    color: EventAppTheme.darkerText,
                   ),
                 ),
-                const SizedBox(width: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 1),
-                  child: Text(
-                    club.name,
-                    maxLines: 3,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                      letterSpacing: 0.27,
-                      color: EventAppTheme.darkerText,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -155,9 +155,10 @@ class _State extends State<SignIn> {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
-          .then((result) {
+          .then((result) async {
         User? user = FirebaseAuth.instance.currentUser;
         if (user != null && !user.emailVerified) {
+          await user.sendEmailVerification();
           showDialog(
               context: context,
               builder: (BuildContext context) {

@@ -327,7 +327,32 @@ class __State extends State<SignUp> {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
-          .then((result) {
+          .then((result) async {
+        User? user = FirebaseAuth.instance.currentUser;
+        if (user != null && !user.emailVerified) {
+          await user.sendEmailVerification();
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Email Verification '),
+                  content:
+                      Text('An verification email had sent to your mail box'),
+                  actions: [
+                    TextButton(
+                      child: Text("Ok"),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignIn()),
+                        );
+                      },
+                    )
+                  ],
+                );
+              });
+        }
+
         FirebaseFirestore.instance
             .collection('useracc')
             .doc(result.user!.uid)
@@ -338,10 +363,7 @@ class __State extends State<SignUp> {
           'phone': phonenumController.text,
           'Matric_no': matricnumController.text
         }).then((res) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => SignIn()),
-          );
+          print('data added');
         });
       });
     } on FirebaseAuthException catch (err) {

@@ -2,6 +2,8 @@ import 'package:ccaexplorer/club/club_list/club_data.dart';
 import 'package:ccaexplorer/home_page.dart';
 import 'package:ccaexplorer/introduction_animation/introduction_animation_screen.dart';
 import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
+import 'package:ccaexplorer/login/signup.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +46,7 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: SignUp(),
       // home: HomePage(),
     );
   }

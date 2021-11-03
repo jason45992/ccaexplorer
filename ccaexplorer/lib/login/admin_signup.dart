@@ -375,7 +375,32 @@ class a_State extends State<AdminSignUp> {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
-          .then((result) {
+          .then((result) async {
+        User? user = FirebaseAuth.instance.currentUser;
+        if (user != null && !user.emailVerified) {
+          await user.sendEmailVerification();
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Email Verification '),
+                  content:
+                      Text('An verification email had sent to your mail box'),
+                  actions: [
+                    TextButton(
+                      child: Text("Ok"),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignIn()),
+                        );
+                      },
+                    )
+                  ],
+                );
+              });
+        }
+
         FirebaseFirestore.instance
             .collection('adminacc')
             .doc(result.user!.uid)
@@ -386,10 +411,7 @@ class a_State extends State<AdminSignUp> {
           'matriculation_number': matricnumController.text,
           'Name': nameController.text
         }).then((res) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => SignIn()),
-          );
+          print('data added');
         });
       });
     } on FirebaseAuthException catch (err) {

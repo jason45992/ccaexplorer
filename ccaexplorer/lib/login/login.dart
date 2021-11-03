@@ -156,10 +156,30 @@ class _State extends State<SignIn> {
           .signInWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
           .then((result) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+        User? user = FirebaseAuth.instance.currentUser;
+        if (user != null && !user.emailVerified) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Error"),
+                  content: Text('You need to verify your email'),
+                  actions: [
+                    TextButton(
+                      child: Text("Ok"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              });
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        }
       });
     } on FirebaseAuthException catch (e) {
       // print('Failed with error code: ${e.code}');

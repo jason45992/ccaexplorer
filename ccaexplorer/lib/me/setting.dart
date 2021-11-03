@@ -100,12 +100,12 @@ class Setting extends StatelessWidget {
                   width: double.maxFinite,
                   height: 44,
                   child: ElevatedButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignIn(),
-                      ),
-                    ),
+                    onPressed: () => Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignIn(),
+                        ),
+                        (route) => false),
                     style: ElevatedButton.styleFrom(
                       elevation: 6,
                       shadowColor: EventAppTheme.grey.withOpacity(0.4),

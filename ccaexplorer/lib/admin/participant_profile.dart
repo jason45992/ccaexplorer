@@ -2,15 +2,23 @@ import 'dart:ui';
 import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
 import 'admin_theme.dart';
+import 'package:ccaexplorer/admin/registration_list.dart';
 
 class AdminParticipantProfile extends StatefulWidget {
+  final EventApplicantDetails eventApplicant;
+
+  AdminParticipantProfile(this.eventApplicant, {Key? key}) : super(key: key);
+
   @override
-  _AdminParticipantProfile createState() => _AdminParticipantProfile();
+  _AdminParticipantProfile createState() =>
+      _AdminParticipantProfile(this.eventApplicant);
 }
 
 class _AdminParticipantProfile extends State<AdminParticipantProfile> {
   AnimationController? animationController;
   List<HotelListData> publishedEventList = HotelListData.hotelList;
+  final EventApplicantDetails eventApplicant;
+  _AdminParticipantProfile(this.eventApplicant);
 
   @override
   void initState() {
@@ -90,13 +98,6 @@ class _AdminParticipantProfile extends State<AdminParticipantProfile> {
   }
 
   Widget getProfile() {
-    final Map entrie = {
-      'name': 'Xie MengDi',
-      'matricNum': 'U1234567A',
-      'email': 'Xiemengdi@e.ntu.edu.sg',
-      'phone': '98765432',
-      'remarks': 'Vegetarian'
-    };
     return Padding(
       padding: const EdgeInsets.all(30),
       child: Column(
@@ -115,7 +116,7 @@ class _AdminParticipantProfile extends State<AdminParticipantProfile> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              '${entrie['name']}',
+              eventApplicant.name,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -136,7 +137,7 @@ class _AdminParticipantProfile extends State<AdminParticipantProfile> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              '${entrie['matricNum']}',
+              eventApplicant.matricNum,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -157,7 +158,7 @@ class _AdminParticipantProfile extends State<AdminParticipantProfile> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              '${entrie['email']}',
+              eventApplicant.email,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -167,7 +168,7 @@ class _AdminParticipantProfile extends State<AdminParticipantProfile> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Phone',
+              "Phone",
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
@@ -178,7 +179,7 @@ class _AdminParticipantProfile extends State<AdminParticipantProfile> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              '${entrie['phone']}',
+              eventApplicant.phone,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -188,7 +189,7 @@ class _AdminParticipantProfile extends State<AdminParticipantProfile> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Remarks',
+              "Remarks",
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
@@ -199,7 +200,7 @@ class _AdminParticipantProfile extends State<AdminParticipantProfile> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              '${entrie['remarks']}',
+              eventApplicant.remarks == "" ? "NA" : eventApplicant.remarks,
               style: TextStyle(
                 fontSize: 16,
               ),

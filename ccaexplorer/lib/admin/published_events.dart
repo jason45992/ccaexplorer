@@ -5,19 +5,29 @@ import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'admin_theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdminPublishedEvents extends StatefulWidget {
+  final String clubName;
+  AdminPublishedEvents(this.clubName, {Key? key}) : super(key: key);
+
   @override
-  _AdminPublishedEventsState createState() => _AdminPublishedEventsState();
+  _AdminPublishedEventsState createState() =>
+      _AdminPublishedEventsState(clubName);
 }
 
 class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
   AnimationController? animationController;
   List<HotelListData> publishedEventList = HotelListData.hotelList;
+  final String clubName;
+  List<EventDetails> _eventDetailList = [];
+
+  _AdminPublishedEventsState(this.clubName);
 
   @override
   void initState() {
     super.initState();
+    getData();
   }
 
   @override
@@ -128,28 +138,6 @@ class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
   }
 
   Widget getEventList() {
-    final List<Map> entries = <Map>[
-      {
-        'title': 'Event Title 1',
-        'time': 'Sept.14 2:30-5:30pm',
-        'address': 'LT1'
-      },
-      {
-        'title': 'Event Title 2',
-        'time': 'Oct.18 4:30-8:30pm',
-        'address': 'LT19'
-      },
-      {
-        'title': 'Event Title 3',
-        'time': 'Nov.2 1:30-4:30pm',
-        'address': 'LT22'
-      },
-      {
-        'title': 'Event Title 4',
-        'time': 'Dec.12 10:30-11:30am',
-        'address': 'LT2'
-      }
-    ];
     return SizedBox(
       height: 680,
       child: ListView.separated(
@@ -171,21 +159,21 @@ class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              '${entries[index]['title']}',
+                              '${_eventDetailList[index].eventTitle}',
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
                                   color: Colors.white),
                             ),
                             Text(
-                              '${entries[index]['time']}',
+                              '${_eventDetailList[index].datetime}',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
                               ),
                             ),
                             Text(
-                              '${entries[index]['address']}',
+                              '${_eventDetailList[index].place}',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -216,7 +204,8 @@ class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => AdminRegistrationList(),
+                                  builder: (context) => AdminRegistrationList(
+                                      _eventDetailList[index]),
                                 ),
                               );
                             },
@@ -283,7 +272,49 @@ class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
           },
           separatorBuilder: (BuildContext context, int index) =>
               const Divider(),
-          itemCount: entries.length),
+          itemCount: _eventDetailList.length),
     );
   }
+
+  Future<void> getData() async {
+    FirebaseFirestore.instance
+        .collection('event')
+        .where('club', isEqualTo: clubName)
+        .snapshots()
+        .listen((data) {
+      data.docs.forEach((document) {
+        _eventDetailList.add(EventDetails(
+          id: document.data()['eventid'],
+          club: document.data()['club'],
+          cover: document.data()['cover'],
+          datetime: document.data()['datetime'],
+          description: document.data()['description'],
+          eventTitle: document.data()['event_title'],
+          place: document.data()['place'],
+          poster: document.data()['poster'],
+        ));
+      });
+      setState(() {});
+    });
+  }
+}
+
+class EventDetails {
+  EventDetails(
+      {required this.id,
+      required this.club,
+      required this.cover,
+      required this.datetime,
+      required this.description,
+      required this.eventTitle,
+      required this.place,
+      required this.poster});
+  final String id;
+  final String club;
+  final String cover;
+  final String datetime;
+  final String description;
+  final String eventTitle;
+  final String place;
+  final String poster;
 }

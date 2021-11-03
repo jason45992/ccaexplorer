@@ -46,7 +46,7 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SignUp(),
+      home: IntroductionAnimationScreen(),
       // home: HomePage(),
     );
   }

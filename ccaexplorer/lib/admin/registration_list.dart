@@ -4,19 +4,29 @@ import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'admin_theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ccaexplorer/admin/published_events.dart';
 
 class AdminRegistrationList extends StatefulWidget {
+  final EventDetails event;
+  AdminRegistrationList(this.event, {Key? key}) : super(key: key);
+
   @override
-  _AdminRegistrationListState createState() => _AdminRegistrationListState();
+  _AdminRegistrationListState createState() =>
+      _AdminRegistrationListState(this.event);
 }
 
 class _AdminRegistrationListState extends State<AdminRegistrationList> {
   AnimationController? animationController;
   List<HotelListData> publishedEventList = HotelListData.hotelList;
+  final EventDetails event;
+  List<EventApplicantDetails> _eventApplicantlList = [];
+  _AdminRegistrationListState(this.event);
 
   @override
   void initState() {
     super.initState();
+    getData();
   }
 
   @override
@@ -64,7 +74,7 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
       ),
       child: Padding(
         padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top, left: 8, right: 8),
+            top: MediaQuery.of(context).padding.top, left: 8, right: 100),
         child: Row(
           children: <Widget>[
             Container(
@@ -98,30 +108,6 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
                 ),
               ),
             ),
-            Container(
-              width: AppBar().preferredSize.height + 40,
-              height: AppBar().preferredSize.height,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(32.0),
-                      ),
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(FontAwesomeIcons.plusCircle,
-                            color: Colors.grey),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
           ],
         ),
       ),
@@ -129,12 +115,6 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
   }
 
   Widget getUserList() {
-    final List<Map> entries = <Map>[
-      {'name': 'Name 1', 'matricNum': 'U12345678A'},
-      {'name': 'Name 2', 'matricNum': 'U12345678A'},
-      {'name': 'Name 3', 'matricNum': 'U12345678A'},
-      {'name': 'Name 4', 'matricNum': 'U12345678A'}
-    ];
     return Container(
       alignment: Alignment.topCenter,
       child: SizedBox(
@@ -167,7 +147,7 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
                               Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    '${entries[index]['name']}',
+                                    '${_eventApplicantlList[index].name}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
@@ -176,7 +156,7 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  '${entries[index]['matricNum']}',
+                                  '${_eventApplicantlList[index].matricNum}',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.black,
@@ -207,7 +187,8 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        AdminParticipantProfile(),
+                                        AdminParticipantProfile(
+                                            _eventApplicantlList[index]),
                                   ),
                                 );
                               },
@@ -222,7 +203,7 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
             },
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
-            itemCount: entries.length),
+            itemCount: _eventApplicantlList.length),
       ),
     );
   }
@@ -351,4 +332,48 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
       ]),
     );
   }
+
+  Future<void> getData() async {
+    _eventApplicantlList = [];
+    FirebaseFirestore.instance
+        .collection('event_application')
+        .where('event_id', isEqualTo: event.id)
+        .snapshots()
+        .listen((data) {
+      data.docs.forEach((applicaiton) {
+        FirebaseFirestore.instance
+            .collection('useracc')
+            .where('userid', isEqualTo: applicaiton.get('user_id'))
+            .snapshots()
+            .listen((data) {
+          data.docs.forEach((user) {
+            _eventApplicantlList.add(EventApplicantDetails(
+                name: user.get('Name'),
+                matricNum: user.get('Matric_no'),
+                email: user.get('NTUEmail'),
+                phone: user.get('phone').toString(),
+                remarks: applicaiton.get('remark'),
+                profilePicUrl: user.get('profile_pic_id')));
+          });
+          setState(() {});
+        });
+      });
+    });
+  }
+}
+
+class EventApplicantDetails {
+  EventApplicantDetails(
+      {required this.name,
+      required this.matricNum,
+      required this.email,
+      required this.phone,
+      required this.remarks,
+      required this.profilePicUrl});
+  final String name;
+  final String matricNum;
+  final String email;
+  final String phone;
+  final String remarks;
+  final String profilePicUrl;
 }

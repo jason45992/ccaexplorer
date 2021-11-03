@@ -156,10 +156,10 @@ class _State extends State<SignIn> {
           .signInWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
           .then((result) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+            (route) => false);
       });
     } on FirebaseAuthException catch (e) {
       // print('Failed with error code: ${e.code}');

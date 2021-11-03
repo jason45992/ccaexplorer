@@ -48,6 +48,7 @@ dependencies:
   url_launcher_web: ^2.0.4
   animations: ^2.0.0
   flutter_launcher_icons: "^0.9.2"
+  path: ^1.8.0
 
 flutter_icons:
   android: true

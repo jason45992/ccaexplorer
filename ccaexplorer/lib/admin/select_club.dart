@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:ccaexplorer/admin/ClubProfileEdit/clubprofile.dart';
+import 'package:ccaexplorer/admin/club_applicatios.dart';
 import 'package:ccaexplorer/admin/published_events.dart';
 import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
@@ -130,6 +132,7 @@ class _AdminClubListState extends State<AdminClubList> {
                     onTap: () {
                       print(this.option);
                       if (this.option == "events") {
+                        //events
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -139,8 +142,21 @@ class _AdminClubListState extends State<AdminClubList> {
                         );
                       } else if (this.option == "cLubs") {
                         //clubs
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => clubprofile(),
+                          ),
+                        );
                       } else {
                         //applications
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                AdminCLubApplicationList(clubs[index].id),
+                          ),
+                        );
                       }
                     },
                     child: Card(

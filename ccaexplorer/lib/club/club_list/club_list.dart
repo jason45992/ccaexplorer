@@ -72,7 +72,7 @@ class _ClubHomeScreenState extends State<ClubHomeScreen>
                     ),
                   )),
               Padding(
-                padding: const EdgeInsets.only(left: 20.0),
+                padding: const EdgeInsets.only(left: 0, right: 0),
                 child: getSearchBarUI(),
               ),
               Builder(builder: (BuildContext context) {

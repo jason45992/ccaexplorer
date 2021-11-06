@@ -1,28 +1,27 @@
 import 'dart:ui';
-import 'package:ccaexplorer/admin/participant_profile.dart';
+import 'package:ccaexplorer/admin/applicant_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'admin_theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ccaexplorer/admin/published_events.dart';
 
-class AdminRegistrationList extends StatefulWidget {
-  final EventDetails event;
-  AdminRegistrationList(this.event, {Key? key}) : super(key: key);
+class AdminCLubApplicationList extends StatefulWidget {
+  final String clubId;
+  AdminCLubApplicationList(this.clubId, {Key? key}) : super(key: key);
 
   @override
-  _AdminRegistrationListState createState() =>
-      _AdminRegistrationListState(this.event);
+  _AdminCLubApplicationListState createState() =>
+      _AdminCLubApplicationListState(this.clubId);
 }
 
-class _AdminRegistrationListState extends State<AdminRegistrationList> {
+class _AdminCLubApplicationListState extends State<AdminCLubApplicationList> {
   AnimationController? animationController;
-  final EventDetails event;
+  final String clubId;
   final _controller = TextEditingController();
 
   String searchKey = "";
-  List<EventApplicantDetails> _eventApplicantlList = [];
-  _AdminRegistrationListState(this.event);
+  List<CLubApplicantDetails> _clubApplicantlList = [];
+  _AdminCLubApplicationListState(this.clubId);
 
   @override
   void initState() {
@@ -101,7 +100,7 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
             Expanded(
               child: Center(
                 child: Text(
-                  'Registration List',
+                  'Applicaiton List',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
@@ -138,22 +137,22 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
                           padding: const EdgeInsets.only(left: 10),
                           width: 60,
                           height: 60,
-                          child: _eventApplicantlList[index]
+                          child: _clubApplicantlList[index]
                                   .profilePicUrl
                                   .isNotEmpty
                               ? Image.network(
-                                  _eventApplicantlList[index].profilePicUrl)
+                                  _clubApplicantlList[index].profilePicUrl)
                               : Image.asset('assets/images/userImage.png'),
                         ),
                         Container(
-                          width: 110,
-                          padding: const EdgeInsets.only(top: 20, left: 10),
+                          width: 200,
+                          padding: const EdgeInsets.only(top: 15, left: 10),
                           child: Column(
                             children: <Widget>[
                               Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    '${_eventApplicantlList[index].name}',
+                                    '${_clubApplicantlList[index].name}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
@@ -162,7 +161,7 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  '${_eventApplicantlList[index].matricNum}',
+                                  'Applying ${_clubApplicantlList[index].clubRole}',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.black,
@@ -173,7 +172,7 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
                           ),
                         ),
                         SizedBox(
-                          width: 100,
+                          width: 10,
                         ),
                         Container(
                           padding: const EdgeInsets.only(left: 10, right: 10),
@@ -192,9 +191,8 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        AdminParticipantProfile(
-                                            _eventApplicantlList[index]),
+                                    builder: (context) => AdminApplicantProfile(
+                                        _clubApplicantlList[index]),
                                   ),
                                 );
                               },
@@ -209,7 +207,7 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
             },
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
-            itemCount: _eventApplicantlList.length),
+            itemCount: _clubApplicantlList.length),
       ),
     );
   }
@@ -349,11 +347,11 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
 
   Future<void> getData() async {
     FirebaseFirestore.instance
-        .collection('event_application')
-        .where('event_id', isEqualTo: event.id)
+        .collection('club_application')
+        .where('club_id', isEqualTo: clubId)
         .snapshots()
         .listen((data) {
-      _eventApplicantlList = [];
+      _clubApplicantlList = [];
       data.docs.forEach((applicaiton) {
         FirebaseFirestore.instance
             .collection('useracc')
@@ -361,27 +359,36 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
             .snapshots()
             .listen((data) {
           data.docs.forEach((user) {
-            _eventApplicantlList.add(EventApplicantDetails(
-                name: user.get('Name'),
-                matricNum: user.get('Matric_no'),
-                email: user.get('NTUEmail'),
-                phone: user.get('phone').toString(),
-                remarks: applicaiton.get('remark'),
-                profilePicUrl: user.get('profile_pic_id')));
+            FirebaseFirestore.instance
+                .collection('club_role')
+                .where('id', isEqualTo: applicaiton.get('club_role_id'))
+                .snapshots()
+                .listen((data) {
+              data.docs.forEach((clubRole) {
+                _clubApplicantlList.add(CLubApplicantDetails(
+                    name: user.get('Name'),
+                    clubRole: clubRole.get('position'),
+                    remarks: applicaiton.get('remark'),
+                    matricNum: user.get('Matric_no'),
+                    email: user.get('NTUEmail'),
+                    phone: user.get('phone').toString(),
+                    profilePicUrl: user.get('profile_pic_id')));
+              });
+              setState(() {});
+            });
           });
-          setState(() {});
         });
       });
     });
   }
 
   search() {
-    _eventApplicantlList = _eventApplicantlList
+    _clubApplicantlList = _clubApplicantlList
         .where((i) =>
             i.matricNum.toLowerCase().contains(searchKey.toLowerCase()) ||
             i.name.toLowerCase().contains(searchKey.toLowerCase()))
         .toList();
-    if (_eventApplicantlList.length > 0) {
+    if (_clubApplicantlList.length > 0) {
       setState(() {});
     } else {
       showAlertDialog(context);
@@ -418,18 +425,20 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
   }
 }
 
-class EventApplicantDetails {
-  EventApplicantDetails(
+class CLubApplicantDetails {
+  CLubApplicantDetails(
       {required this.name,
+      required this.clubRole,
+      required this.remarks,
       required this.matricNum,
       required this.email,
       required this.phone,
-      required this.remarks,
       required this.profilePicUrl});
   final String name;
+  final String clubRole;
+  final String remarks;
   final String matricNum;
   final String email;
   final String phone;
-  final String remarks;
   final String profilePicUrl;
 }

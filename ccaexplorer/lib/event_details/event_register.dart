@@ -167,7 +167,7 @@ class EventRegisterPageState extends State<EventRegisterPage> {
           fullName: element.get('Name'),
           email: element.get('NTUEmail'),
           matricNum: element.get('Matric_no'),
-          phone: element.get('phone'),
+          phone: element.get('phone').toString(),
           userid: element.get('userid'),
         );
 

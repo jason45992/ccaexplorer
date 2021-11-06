@@ -53,9 +53,9 @@ class _BannerListViewState extends State<BannerListView>
                 itemCount: 4,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count = widget.appState.eventDetailList.length > 10
+                  final int count = widget.appState.bannerDetailList.length > 10
                       ? 10
-                      : widget.appState.eventDetailList.length;
+                      : widget.appState.bannerDetailList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                     CurvedAnimation(
@@ -67,7 +67,7 @@ class _BannerListViewState extends State<BannerListView>
                   animationController?.forward();
 
                   return CategoryView(
-                    event: widget.appState.eventDetailList[index],
+                    event: widget.appState.bannerDetailList[index],
                     animation: animation,
                     animationController: animationController,
                     callback: widget.callBack,

@@ -47,6 +47,8 @@ List categorylist = [
   'Interests'
 ];
 
+Map<String, int> categoryCount = {};
+
 class ApplicationClubDetailState extends ChangeNotifier {
   TabController? tabController;
   ScrollController scrollController = ScrollController();
@@ -200,66 +202,34 @@ class ApplicationClubDetailState extends ChangeNotifier {
     tabController?.dispose();
     super.dispose();
   }
+
+  filterByKeyword(String key) {
+    if (key.isNotEmpty) {
+      this._items = this
+          ._items
+          .where((i) =>
+              i.club.name.toLowerCase().contains(key) || i.club.name.isEmpty)
+          .toList();
+
+      initCategoryCount();
+      for (Item i in this._items) {
+        categoryCount[i.category] = categoryCount[i.category]! + 1;
+      }
+
+      this._items =
+          this._items.where((i) => categoryCount[i.category]! > 1).toList();
+    }
+  }
+
+  initCategoryCount() {
+    categoryCount = {
+      'Academic': 0,
+      'Culturals': 0,
+      'Welfare': 0,
+      'Sports': 0,
+      'Arts': 0,
+      'Religions': 0,
+      'Interests': 0
+    };
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-// const clubCategories = [
-//   ClubCategory(
-//     name: 'Academic',
-//     clubs: [
-//       Club(
-//           name: 'Electrical and Electronic Engineering Club',
-//           image: 'assets/club/EEE.jpeg'),
-//       Club(name: 'Art, Design & Media Club', image: 'assets/club/ADM.png'),
-//       Club(
-//           name: 'Civil & Environmental Engineering Club',
-//           image: 'assets/club/CEE.jpeg'),
-//     ],
-//   ),
-//   ClubCategory(
-//     name: 'Culturals',
-//     clubs: [
-//       Club(name: 'Chinese Orchestra', image: 'assets/club/EEE.jpeg'),
-//     ],
-//   ),
-//   ClubCategory(
-//     name: 'Welfare',
-//     clubs: [
-//       Club(name: 'Chinese Orchestra', image: 'assets/club/EEE.jpeg'),
-//     ],
-//   ),
-//   ClubCategory(
-//     name: 'Sports',
-//     clubs: [
-//       Club(name: 'Chinese Orchestra', image: 'assets/club/EEE.jpeg'),
-//     ],
-//   ),
-//   ClubCategory(
-//     name: 'Arts',
-//     clubs: [
-//       Club(name: 'Chinese Orchestra', image: 'assets/club/EEE.jpeg'),
-//     ],
-//   ),
-//   ClubCategory(
-//     name: 'Religions',
-//     clubs: [
-//       Club(name: 'Chinese Orchestra', image: 'assets/club/EEE.jpeg'),
-//     ],
-//   ),
-//   ClubCategory(
-//     name: 'Interests',
-//     clubs: [
-//       Club(name: 'Chinese Orchestra', image: 'assets/club/EEE.jpeg'),
-//     ],
-//   ),
-// ];

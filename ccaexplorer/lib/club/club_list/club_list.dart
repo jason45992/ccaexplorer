@@ -17,6 +17,9 @@ class ClubHomeScreen extends StatefulWidget {
 class _ClubHomeScreenState extends State<ClubHomeScreen>
     with SingleTickerProviderStateMixin {
   ApplicationClubDetailState _bloc = ApplicationClubDetailState();
+  final _controller = TextEditingController();
+  String searchKey = "";
+
   void initState() {
     _bloc.initi(this);
 
@@ -72,7 +75,7 @@ class _ClubHomeScreenState extends State<ClubHomeScreen>
                     ),
                   )),
               Padding(
-                padding: const EdgeInsets.only(left: 20.0),
+                padding: const EdgeInsets.only(left: 0, right: 0),
                 child: getSearchBarUI(),
               ),
               Builder(builder: (BuildContext context) {
@@ -109,6 +112,94 @@ class _ClubHomeScreenState extends State<ClubHomeScreen>
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget getSearchBarUI() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, bottom: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            width: 350,
+            height: 64,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: HexColor('#F8FAFB'),
+                  border: Border.all(color: HexColor('#B9BABC')),
+                  borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(25.0),
+                    bottomLeft: Radius.circular(25.0),
+                    topLeft: Radius.circular(25.0),
+                    topRight: Radius.circular(25.0),
+                  ),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        child: TextFormField(
+                          controller: _controller,
+                          onChanged: (String txt) {
+                            searchKey = txt;
+                          },
+                          onTap: () {
+                            _bloc.init();
+                            _controller.clear();
+                            searchKey = '';
+                          },
+                          style: TextStyle(
+                            fontFamily: 'WorkSans',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: EventAppTheme.grey,
+                          ),
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            labelText: 'Search for CCA and Clubs',
+                            border: InputBorder.none,
+                            helperStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: HexColor('#B9BABC'),
+                            ),
+                            labelStyle: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              letterSpacing: 0.2,
+                              color: HexColor('#B9BABC'),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        _bloc.filterByKeyword(searchKey);
+                        setState(() {});
+                      },
+                      child: SizedBox(
+                        width: 60,
+                        height: 60,
+                        child: Icon(Icons.search, color: HexColor('#B9BABC')),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const Expanded(
+            child: SizedBox(),
+          )
+        ],
       ),
     );
   }
@@ -238,178 +329,3 @@ class _ClubItem1 extends StatelessWidget {
     );
   }
 }
-
-Widget getSearchBarUI() {
-  return Padding(
-    padding: const EdgeInsets.only(top: 8.0, left: 20, bottom: 10),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: 350,
-          height: 64,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 8, bottom: 8),
-            child: Container(
-              decoration: BoxDecoration(
-                color: HexColor('#F8FAFB'),
-                border: Border.all(color: HexColor('#B9BABC')),
-                borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(25.0),
-                  bottomLeft: Radius.circular(25.0),
-                  topLeft: Radius.circular(25.0),
-                  topRight: Radius.circular(25.0),
-                ),
-              ),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
-                      child: TextFormField(
-                        style: TextStyle(
-                          fontFamily: 'WorkSans',
-                          fontWeight: FontWeight.w100,
-                          fontSize: 16,
-                          color: EventAppTheme.nearlyBlue,
-                        ),
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          labelText: 'Search for CCA and Clubs',
-                          border: InputBorder.none,
-                          helperStyle: TextStyle(
-                            fontWeight: FontWeight.w100,
-                            fontSize: 16,
-                            color: Colors.grey.withOpacity(0.2),
-                          ),
-                          labelStyle: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                            letterSpacing: 0.2,
-                            color: Colors.grey.withOpacity(0.5),
-                          ),
-                        ),
-                        onEditingComplete: () {},
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: Icon(Icons.search, color: HexColor('#B9BABC')),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-        const Expanded(
-          child: SizedBox(),
-        )
-      ],
-    ),
-  );
-}
-
-// class SingleClubDetails extends StatelessWidget {
-//   const SingleClubDetails({Key? key, required this.category}) : super(key: key);
-//   final String category;
-//   @override
-//   Widget build(BuildContext context) {
-//     final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
-//         .collection('club')
-//         .where('category', isEqualTo: category)
-//         .snapshots();
-
-//     return StreamBuilder<QuerySnapshot>(
-//       stream: _usersStream,
-//       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//         if (snapshot.hasError) {
-//           return Text('Something went wrong');
-//         }
-
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           return Text("");
-//         }
-
-//         return SingleChildScrollView(
-//           scrollDirection: Axis.horizontal,
-//           child: Container(
-//             width: 400,
-//             child: ListView(
-//               physics: NeverScrollableScrollPhysics(),
-//               shrinkWrap: true,
-//               children: snapshot.data!.docs.map((DocumentSnapshot document) {
-//                 Map<String, dynamic> data =
-//                     document.data()! as Map<String, dynamic>;
-
-//                 return FinalWidget(
-//                   id: data['logo_id'],
-//                   name: data['name'],
-//                   description: data['description'],
-//                   category: data['category'],
-//                 );
-//               }).toList(),
-//             ),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
-
-// class FinalWidget extends StatelessWidget {
-//   const FinalWidget(
-//       {Key? key,
-//       required this.id,
-//       required this.name,
-//       required this.description,
-//       required this.category})
-//       : super(key: key);
-//   final String id;
-//   final String name;
-//   final String description;
-//   final String category;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
-//         .collection('file')
-//         .where('id', isEqualTo: id)
-//         .snapshots();
-//     return StreamBuilder<QuerySnapshot>(
-//       stream: _usersStream,
-//       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//         if (snapshot.hasError) {
-//           return Text('Something went wrong');
-//         }
-
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           return Text("");
-//         }
-
-//         return SingleChildScrollView(
-//           scrollDirection: Axis.horizontal,
-//           child: Container(
-//             width: 400,
-//             child: ListView(
-//               physics: NeverScrollableScrollPhysics(),
-//               shrinkWrap: true,
-//               children: snapshot.data!.docs.map((DocumentSnapshot document) {
-//                 Map<String, dynamic> data =
-//                     document.data()! as Map<String, dynamic>;
-
-//                 return _ClubItem(
-//                   Club(image: data['url'], name: name),
-//                   description,
-//                   category,
-//                 );
-//               }).toList(),
-//             ),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }

@@ -1,22 +1,22 @@
 import 'dart:ui';
+import 'package:ccaexplorer/admin/club_applications.dart';
 import 'package:flutter/material.dart';
 import 'admin_theme.dart';
-import 'package:ccaexplorer/admin/registration_list.dart';
 
-class AdminParticipantProfile extends StatefulWidget {
-  final EventApplicantDetails eventApplicant;
+class AdminApplicantProfile extends StatefulWidget {
+  final CLubApplicantDetails clubApplicant;
 
-  AdminParticipantProfile(this.eventApplicant, {Key? key}) : super(key: key);
+  AdminApplicantProfile(this.clubApplicant, {Key? key}) : super(key: key);
 
   @override
-  _AdminParticipantProfile createState() =>
-      _AdminParticipantProfile(this.eventApplicant);
+  _AdminApplicantProfile createState() =>
+      _AdminApplicantProfile(this.clubApplicant);
 }
 
-class _AdminParticipantProfile extends State<AdminParticipantProfile> {
+class _AdminApplicantProfile extends State<AdminApplicantProfile> {
   AnimationController? animationController;
-  final EventApplicantDetails eventApplicant;
-  _AdminParticipantProfile(this.eventApplicant);
+  final CLubApplicantDetails clubApplicant;
+  _AdminApplicantProfile(this.clubApplicant);
 
   @override
   void initState() {
@@ -114,7 +114,7 @@ class _AdminParticipantProfile extends State<AdminParticipantProfile> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              eventApplicant.name,
+              clubApplicant.name,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -135,7 +135,7 @@ class _AdminParticipantProfile extends State<AdminParticipantProfile> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              eventApplicant.matricNum,
+              clubApplicant.matricNum,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -156,7 +156,7 @@ class _AdminParticipantProfile extends State<AdminParticipantProfile> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              eventApplicant.email,
+              clubApplicant.email,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -177,7 +177,7 @@ class _AdminParticipantProfile extends State<AdminParticipantProfile> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              eventApplicant.phone,
+              clubApplicant.phone,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -198,7 +198,7 @@ class _AdminParticipantProfile extends State<AdminParticipantProfile> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              eventApplicant.remarks == "" ? "NA" : eventApplicant.remarks,
+              clubApplicant.remarks == "" ? "NA" : clubApplicant.remarks,
               style: TextStyle(
                 fontSize: 16,
               ),

@@ -100,12 +100,15 @@ class Setting extends StatelessWidget {
                   width: double.maxFinite,
                   height: 44,
                   child: ElevatedButton(
-                    onPressed: () => Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SignIn(),
-                        ),
-                        (route) => false),
+                    onPressed: () async {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignIn(),
+                          ),
+                          (route) => false);
+                      await FirebaseAuth.instance.signOut();
+                    },
                     style: ElevatedButton.styleFrom(
                       elevation: 6,
                       shadowColor: EventAppTheme.grey.withOpacity(0.4),

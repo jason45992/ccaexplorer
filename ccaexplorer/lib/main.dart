@@ -3,6 +3,7 @@ import 'package:ccaexplorer/home_page.dart';
 import 'package:ccaexplorer/introduction_animation/introduction_animation_screen.dart';
 import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:ccaexplorer/login/signup.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,6 +33,7 @@ void main() async {
 }
 
 class App extends StatelessWidget {
+  bool loggedIn = FirebaseAuth.instance.currentUser != null;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,7 +48,9 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: IntroductionAnimationScreen(),
+
+      home: loggedIn ? HomePage() : IntroductionAnimationScreen(),
+
       // home: HomePage(),
     );
   }

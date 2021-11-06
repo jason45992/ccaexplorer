@@ -25,6 +25,7 @@ class a_State extends State<AdminSignUp> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool _isInvalidAsyncCode = false;
   bool _isInAsyncCall = false;
+  bool _isStatus = false;
   Color color = Colors.black;
 
   // final void Function() startLoginFlow;
@@ -68,7 +69,7 @@ class a_State extends State<AdminSignUp> {
               ),
               Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(5),
               ),
               Container(
                 height: 100,
@@ -81,7 +82,7 @@ class a_State extends State<AdminSignUp> {
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
-                          fontSize: 40,
+                          fontSize: 30,
                           letterSpacing: 0.27,
                           color: Colors.white,
                         ),
@@ -103,6 +104,10 @@ class a_State extends State<AdminSignUp> {
                           if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                               .hasMatch(value)) {
                             return 'Please input a valid Email';
+                          }
+                          if (!RegExp("^[a-zA-Z0-9+_.-]+@e.ntu.edu.sg")
+                              .hasMatch(value)) {
+                            return 'Please input a valid NTU Email';
                           }
                           return null;
                         },
@@ -283,9 +288,12 @@ class a_State extends State<AdminSignUp> {
                           if (_isInvalidAsyncCode) {
                             return "Invalid Verification Code";
                           }
+                          if (!_isStatus) {
+                            return "The verification had been used";
+                          }
                           return null;
                         },
-                        obscureText: true,
+                        obscureText: false,
                         controller: clubverficationController,
                         decoration: InputDecoration(
                           enabledBorder: const OutlineInputBorder(
@@ -307,7 +315,7 @@ class a_State extends State<AdminSignUp> {
               ),
               Container(
                   padding: const EdgeInsets.only(
-                      top: 50, left: 11, right: 11, bottom: 11),
+                      top: 30, left: 11, right: 11, bottom: 11),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -339,25 +347,38 @@ class a_State extends State<AdminSignUp> {
     setState(() {
       _isInAsyncCall = true;
     });
-    var verficationcodelist = [];
+    List verficationcodelist = [];
+    List<VerificationCodeDetail> verficationlist = [];
     FirebaseFirestore.instance
         .collection('verificationcode')
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        verficationcodelist.add(doc['code']);
+        verficationlist.add(
+            VerificationCodeDetail(code: doc['code'], status: doc['status']));
       });
-      print(verficationcodelist);
     });
 
     Future.delayed(Duration(seconds: 1), () {
       setState(() {
         _isInAsyncCall = false;
       });
+
+      verficationlist.forEach((element) {
+        setState(() {
+          verficationcodelist.add(element.code);
+        });
+      });
       if (!verficationcodelist.contains(clubverficationController.text)) {
-        print(clubverficationController.text);
         _isInvalidAsyncCode = true;
       } else {
+        verficationlist.forEach((element) {
+          if (element.code == clubverficationController.text) {
+            setState(() {
+              _isStatus = element.status;
+            });
+          }
+        });
         _isInvalidAsyncCode = false;
       }
       if (_formkey.currentState!.validate()) {
@@ -400,16 +421,21 @@ class a_State extends State<AdminSignUp> {
                 );
               });
         }
+        FirebaseFirestore.instance
+            .collection('verificationcode')
+            .doc(clubverficationController.text)
+            .update({'status': false});
 
         FirebaseFirestore.instance
-            .collection('adminacc')
+            .collection('useracc')
             .doc(result.user!.uid)
             .set({
           'userid': result.user!.uid,
           'NTUEmail': emailController.text,
           'phone_number': phonenumController.text,
           'matriculation_number': matricnumController.text,
-          'Name': nameController.text
+          'Name': nameController.text,
+          'is_admin': true
         }).then((res) {
           print('data added');
         });
@@ -433,4 +459,13 @@ class a_State extends State<AdminSignUp> {
           });
     }
   }
+}
+
+class VerificationCodeDetail {
+  VerificationCodeDetail({
+    required this.code,
+    required this.status,
+  });
+  final String code;
+  final bool status;
 }

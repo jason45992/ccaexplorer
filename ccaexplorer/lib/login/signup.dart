@@ -82,6 +82,10 @@ class __State extends State<SignUp> {
                             .hasMatch(value)) {
                           return 'Please input a valid Email';
                         }
+                        if (!RegExp("^[a-zA-Z0-9+_.-]+@e.ntu.edu.sg")
+                            .hasMatch(value)) {
+                          return 'Please input a valid NTU Email';
+                        }
                         return null;
                       },
                       controller: emailController,

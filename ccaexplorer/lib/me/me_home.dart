@@ -138,7 +138,7 @@ class _MeHomeState extends State<MeHome> {
 
   Widget getAppBarUI() {
     return Padding(
-      padding: const EdgeInsets.only(top: 80.0, left: 5, right: 5),
+      padding: const EdgeInsets.only(top: 80.0, left: 25, right: 25),
       child: Row(
         children: <Widget>[
           Container(
@@ -198,7 +198,6 @@ class _MeHomeState extends State<MeHome> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 15),
             child: Container(
               decoration: BoxDecoration(
                   color: Colors.transparent,

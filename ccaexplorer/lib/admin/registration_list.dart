@@ -138,7 +138,12 @@ class _AdminRegistrationListState extends State<AdminRegistrationList> {
                           padding: const EdgeInsets.only(left: 10),
                           width: 60,
                           height: 60,
-                          child: Image.asset('assets/images/userImage.png'),
+                          child: _eventApplicantlList[index]
+                                  .profilePicUrl
+                                  .isNotEmpty
+                              ? Image.network(
+                                  _eventApplicantlList[index].profilePicUrl)
+                              : Image.asset('assets/images/userImage.png'),
                         ),
                         Container(
                           width: 110,

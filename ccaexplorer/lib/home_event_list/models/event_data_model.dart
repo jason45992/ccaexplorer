@@ -57,12 +57,14 @@ class ApplicationEventDetailState extends ChangeNotifier {
               ),
             );
           });
+          _eventBannerList = _eventDetailList;
           notifyListeners();
         });
       } else {
         AuthenticationCommon().loginState = ApplicationLoginState.loggedOut;
         // destory subscription
         _eventDetailList = [];
+        _eventBannerList = [];
         _eventDetailSubscription?.cancel();
       }
       notifyListeners();
@@ -72,6 +74,8 @@ class ApplicationEventDetailState extends ChangeNotifier {
   // event
   StreamSubscription<QuerySnapshot>? _eventDetailSubscription;
   List<EventDetails> _eventDetailList = [];
+  List<EventDetails> _eventBannerList = [];
+  List<EventDetails> get bannerDetailList => _eventBannerList;
   List<EventDetails> get eventDetailList => _eventDetailList;
   set setEventDetailList(List<EventDetails> list) => _eventDetailList = list;
 }

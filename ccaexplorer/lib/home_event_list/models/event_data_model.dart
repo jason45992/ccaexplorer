@@ -12,24 +12,6 @@ class ApplicationEventDetailState extends ChangeNotifier {
     init();
   }
 
-  Future<DocumentReference> addEvent(String message) {
-    if (AuthenticationCommon().loginState != ApplicationLoginState.loggedIn) {
-      throw Exception('Must be logged in');
-    }
-
-    return FirebaseFirestore.instance.collection('event').add(<String, dynamic>{
-      'club': 'Student Union',
-      'cover': 'Description',
-      'datetime': 'Friday, October 8, 2021 4:39 PM',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fug',
-      'event_title': 'Competition',
-      'place': 'NTU LT19',
-      'poster':
-          "https://firebasestorage.googleapis.com/v0/b/cca-explorer.appspot.com/o/images%2FFile%3A%20'%2Fdata%2Fevent%2F0%2Fcom.dip054.ccaexplorer%2Fcache%2Fimage_picker2916490940084265046.png'.jpeg?alt=media&token=1c4b0c1d-9b28-4017-a69a-745ee16d3575",
-    });
-  }
-
   //init applicaiton State
   Future<void> init() async {
     await Firebase.initializeApp();

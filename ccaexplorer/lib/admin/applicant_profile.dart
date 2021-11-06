@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:ccaexplorer/admin/club_applications.dart';
+import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
 import 'admin_theme.dart';
 
@@ -15,6 +16,7 @@ class AdminApplicantProfile extends StatefulWidget {
 
 class _AdminApplicantProfile extends State<AdminApplicantProfile> {
   AnimationController? animationController;
+  List<HotelListData> publishedEventList = HotelListData.hotelList;
   final CLubApplicantDetails clubApplicant;
   _AdminApplicantProfile(this.clubApplicant);
 

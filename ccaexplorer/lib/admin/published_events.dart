@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:ccaexplorer/admin_image_upload/event_detail_admin.dart';
 import 'package:ccaexplorer/admin/registration_list.dart';
+import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'admin_theme.dart';
@@ -17,6 +18,7 @@ class AdminPublishedEvents extends StatefulWidget {
 
 class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
   AnimationController? animationController;
+  List<HotelListData> publishedEventList = HotelListData.hotelList;
   final String clubName;
   List<EventDetails> _eventDetailList = [];
 

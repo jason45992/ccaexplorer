@@ -19,7 +19,6 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ApplicationEventDetailState().init();
     return Consumer<ApplicationEventDetailState>(
         builder: (context, appState, _) => SingleChildScrollView(
                 child: Column(
@@ -68,9 +67,6 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         BannerListView(
-          callBack: () {
-            moveTo();
-          },
           appState: appState,
         ),
         Padding(
@@ -134,22 +130,12 @@ class _EventlHomeScreenState extends State<EventlHomeScreen> {
           ),
           Flexible(
             child: EventListView(
-              callBack: () {
-                // moveTo();
-              },
               appState: appState,
             ),
           )
         ],
       ),
     );
-  }
-
-  void moveTo() {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => EventDetail()),
-    // );
   }
 
   Widget getButtonUI(CategoryType categoryTypeData, bool isSelected,

@@ -161,7 +161,7 @@ class _AdminCLubApplicationListState extends State<AdminCLubApplicationList> {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Applying${_clubApplicantlList[index].clubRole}',
+                                  'Applying ${_clubApplicantlList[index].clubRole}',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.black,

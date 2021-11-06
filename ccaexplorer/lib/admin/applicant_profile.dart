@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:ccaexplorer/admin/club_applicatios.dart';
+import 'package:ccaexplorer/admin/club_applications.dart';
 import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
 import 'admin_theme.dart';

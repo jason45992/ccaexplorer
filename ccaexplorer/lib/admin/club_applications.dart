@@ -137,7 +137,12 @@ class _AdminCLubApplicationListState extends State<AdminCLubApplicationList> {
                           padding: const EdgeInsets.only(left: 10),
                           width: 60,
                           height: 60,
-                          child: Image.asset('assets/images/userImage.png'),
+                          child: _clubApplicantlList[index]
+                                  .profilePicUrl
+                                  .isNotEmpty
+                              ? Image.network(
+                                  _clubApplicantlList[index].profilePicUrl)
+                              : Image.asset('assets/images/userImage.png'),
                         ),
                         Container(
                           width: 200,
@@ -361,13 +366,13 @@ class _AdminCLubApplicationListState extends State<AdminCLubApplicationList> {
                 .listen((data) {
               data.docs.forEach((clubRole) {
                 _clubApplicantlList.add(CLubApplicantDetails(
-                  name: user.get('Name'),
-                  clubRole: clubRole.get('position'),
-                  remarks: applicaiton.get('remark'),
-                  matricNum: user.get('Matric_no'),
-                  email: user.get('NTUEmail'),
-                  phone: user.get('phone').toString(),
-                ));
+                    name: user.get('Name'),
+                    clubRole: clubRole.get('position'),
+                    remarks: applicaiton.get('remark'),
+                    matricNum: user.get('Matric_no'),
+                    email: user.get('NTUEmail'),
+                    phone: user.get('phone').toString(),
+                    profilePicUrl: user.get('profile_pic_id')));
               });
               setState(() {});
             });
@@ -421,18 +426,19 @@ class _AdminCLubApplicationListState extends State<AdminCLubApplicationList> {
 }
 
 class CLubApplicantDetails {
-  CLubApplicantDetails({
-    required this.name,
-    required this.clubRole,
-    required this.remarks,
-    required this.matricNum,
-    required this.email,
-    required this.phone,
-  });
+  CLubApplicantDetails(
+      {required this.name,
+      required this.clubRole,
+      required this.remarks,
+      required this.matricNum,
+      required this.email,
+      required this.phone,
+      required this.profilePicUrl});
   final String name;
   final String clubRole;
   final String remarks;
   final String matricNum;
   final String email;
   final String phone;
+  final String profilePicUrl;
 }

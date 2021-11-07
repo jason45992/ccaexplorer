@@ -10,9 +10,11 @@ class EventRegisterPage extends StatefulWidget {
       {Key? key,
       required this.eventName,
       required this.eventDateTime,
+      required this.eventVenue,
       required this.eventid});
   final String eventName;
   final String eventDateTime;
+  final String eventVenue;
   final String eventid;
 
   State<StatefulWidget> createState() {
@@ -85,6 +87,21 @@ class EventRegisterPageState extends State<EventRegisterPage> {
                 const SizedBox(height: 10),
                 Text(
                   widget.eventDateTime,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black.withOpacity(0.6),
+                  ),
+                )
+              ]),
+              const SizedBox(height: 30),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(
+                  'Venue',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  widget.eventName,
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black.withOpacity(0.6),

@@ -295,7 +295,7 @@ class ClubJoinPageState extends State<ClubJoinPage> {
             fullName: element.get('Name'),
             email: element.get('NTUEmail'),
             matricNum: element.get('Matric_no'),
-            phone: element.get('phone'));
+            phone: element.get('phone').toString());
         setState(() {});
       });
     });

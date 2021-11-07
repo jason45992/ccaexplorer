@@ -197,7 +197,7 @@ class _AdminCLubApplicationListState extends State<AdminCLubApplicationList> {
                                 );
                               },
                               child: Icon(FontAwesomeIcons.solidAddressCard,
-                                  color: Colors.red),
+                                  color: Colors.brown.withOpacity(0.5)),
                             ),
                           ),
                         ),

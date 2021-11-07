@@ -75,7 +75,7 @@ class _ClubHomeScreenState extends State<ClubHomeScreen>
                     ),
                   )),
               Padding(
-                padding: const EdgeInsets.only(left: 0, right: 0),
+                padding: const EdgeInsets.only(left: 20, right: 0),
                 child: getSearchBarUI(),
               ),
               Builder(builder: (BuildContext context) {
@@ -253,7 +253,7 @@ class _CategoryItem1 extends StatelessWidget {
     return Container(
       height: categoryHeight,
       alignment: Alignment.centerLeft,
-      color: Colors.white,
+      color: Colors.transparent,
       child: Text(
         category,
         style: TextStyle(

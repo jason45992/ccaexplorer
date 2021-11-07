@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
 
   void _onItemTapped(int selectedIndex) {
     _pageController.jumpToPage(selectedIndex);
+    setState(() {});
   }
 
   Widget build(BuildContext context) {

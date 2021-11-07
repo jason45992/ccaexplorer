@@ -73,6 +73,7 @@ class _EventDetailState extends State<EventDetail> {
                       builder: (context) => EventRegisterPage(
                             eventName: widget.eventname,
                             eventDateTime: widget.datetime,
+                            eventVenue: widget.venue,
                             eventid: widget.id,
                           )),
                 );
@@ -234,7 +235,7 @@ class _EventDetailState extends State<EventDetail> {
               widget.club,
               style: TextStyle(
                 color: Colors.grey.withOpacity(0.9),
-                fontSize: 16,
+                fontSize: 14,
               ),
             ),
             const SizedBox(height: 14),

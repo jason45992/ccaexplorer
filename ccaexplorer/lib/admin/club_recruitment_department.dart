@@ -6,14 +6,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ccaexplorer/event_details/event_detail.dart';
 
 class ClubRecruitmentDepartment extends StatefulWidget {
-  const ClubRecruitmentDepartment({Key? key}) : super(key: key);
+  final String clubId;
+
+  const ClubRecruitmentDepartment(this.clubId, {Key? key}) : super(key: key);
 
   @override
   _ClubRecruitmentDepartmentState createState() =>
-      _ClubRecruitmentDepartmentState();
+      _ClubRecruitmentDepartmentState(this.clubId);
 }
 
 class _ClubRecruitmentDepartmentState extends State<ClubRecruitmentDepartment> {
+  final String clubId;
+  _ClubRecruitmentDepartmentState(this.clubId);
   @override
   void initState() {
     super.initState();
@@ -25,7 +29,7 @@ class _ClubRecruitmentDepartmentState extends State<ClubRecruitmentDepartment> {
       querySnapshot.docChanges.forEach((change) {
         // Do something with change
         setState(() {
-          UserInformation();
+          UserInformation(widget.clubId);
         });
       });
     });
@@ -40,7 +44,7 @@ class _ClubRecruitmentDepartmentState extends State<ClubRecruitmentDepartment> {
             children: [
               getAppBarUI(),
               const SizedBox(height: 10),
-              UserInformation(),
+              UserInformation(widget.clubId),
             ],
           ),
         ),
@@ -95,7 +99,7 @@ class _ClubRecruitmentDepartmentState extends State<ClubRecruitmentDepartment> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => AddDepartment(
-                      clubid: 'xOkFheVLjPtjDCrw8T64',
+                      clubid: widget.clubId,
                     ),
                   ),
                 );
@@ -124,20 +128,28 @@ class _ClubRecruitmentDepartmentState extends State<ClubRecruitmentDepartment> {
 }
 
 class UserInformation extends StatefulWidget {
+  final String clubId;
+  UserInformation(this.clubId, {Key? key}) : super(key: key);
   @override
-  _UserInformationState createState() => _UserInformationState();
+  _UserInformationState createState() => _UserInformationState(this.clubId);
 }
 
 class _UserInformationState extends State<UserInformation> {
-  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
-      .collection('club_department')
-      .where('club_id', isEqualTo: 'xOkFheVLjPtjDCrw8T64')
-      .snapshots();
-
+  final String clubId;
   @override
+  _UserInformationState(this.clubId);
+  String clubid = '';
+  void initState() {
+    clubid = widget.clubId;
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _usersStream,
+      stream: FirebaseFirestore.instance
+          .collection('club_department')
+          .where('club_id', isEqualTo: clubid)
+          .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Text("Loading");

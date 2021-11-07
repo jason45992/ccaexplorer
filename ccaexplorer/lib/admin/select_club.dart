@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'admin_theme.dart';
 import 'package:ccaexplorer/me/me_home.dart';
 
+import 'club_management.dart';
+
 class AdminClubList extends StatefulWidget {
   final List<ClubDetails> clubs;
   final String option;
@@ -145,7 +147,8 @@ class _AdminClubListState extends State<AdminClubList> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ClubProfile(),
+                            builder: (context) =>
+                                AdminClubManagement(clubs[index].id),
                           ),
                         );
                       } else {

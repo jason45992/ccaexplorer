@@ -50,9 +50,9 @@ class App extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
 
-      // home: loggedIn ? HomePage() : IntroductionAnimationScreen(),
+      home: loggedIn ? HomePage() : IntroductionAnimationScreen(),
 
-      home: EditMember(),
+      // home: EditMember(),
     );
   }
 }

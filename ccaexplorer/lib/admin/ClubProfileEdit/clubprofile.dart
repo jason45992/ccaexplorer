@@ -1,4 +1,5 @@
 import 'package:ccaexplorer/admin_image_upload/button_widget.dart';
+import 'package:ccaexplorer/club/event_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -103,15 +104,38 @@ class _ClubProfileState extends State<ClubProfile> {
                   ])
                 : imageX(),
             ElevatedButton(
-              child: Text("Upload your Special Project"),
+              style: ElevatedButton.styleFrom(
+                elevation: 6,
+                shadowColor: Colors.brown.withOpacity(0.5),
+                primary: Colors.brown.withOpacity(0.5),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: Text("Upload your Club Album"),
               onPressed: selectImages,
             ),
             gridview(),
             Description_Text(),
             contactnumber(),
-            ButtonWidget(
-              text: 'Update Profile',
-              onClicked: () {},
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              child: SizedBox(
+                width: double.maxFinite,
+                height: 40,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 6,
+                    shadowColor: Colors.brown.withOpacity(0.5),
+                    primary: Colors.brown.withOpacity(0.5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: Text("Update Profile"),
+                  onPressed: () {},
+                ),
+              ),
             )
           ],
         ),
@@ -138,7 +162,9 @@ class _ClubProfileState extends State<ClubProfile> {
                   Icons.arrow_back_ios,
                   color: Colors.black87,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
               ),
             ),
           ),
@@ -158,8 +184,8 @@ class _ClubProfileState extends State<ClubProfile> {
         ClipOval(
           child: Image.network(
             'https://static.thenounproject.com/png/396915-200.png',
-            width: 90,
-            height: 90,
+            width: 120,
+            height: 130,
           ),
         ),
         Positioned(
@@ -228,7 +254,7 @@ class _ClubProfileState extends State<ClubProfile> {
   // ignore: non_constant_identifier_names
   Widget Description_Text() {
     return Container(
-      margin: EdgeInsets.all(20),
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: TextField(
         maxLines: 4,
         controller: event_description_controller,
@@ -251,12 +277,13 @@ class _ClubProfileState extends State<ClubProfile> {
 
 Widget contactnumber() {
   return Container(
-    margin: EdgeInsets.all(20),
+    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
     child: TextField(
       controller: phonecontroller,
       decoration: InputDecoration(
+        labelStyle: TextStyle(color: EventAppTheme.darkText),
         hintText: 'Please input your event title',
-        labelText: 'Your Contact Number',
+        labelText: 'Write your club contact number',
         border: OutlineInputBorder(),
       ),
       keyboardType: TextInputType.phone,
@@ -293,7 +320,7 @@ class SecondRoute extends StatelessWidget {
                           Icons.arrow_back_ios,
                           color: Colors.black87,
                         ),
-                        onTap: () {},
+                        onTap: () => Navigator.pop(context, false),
                       ),
                     ),
                   ),
@@ -304,17 +331,17 @@ class SecondRoute extends StatelessWidget {
                     },
                     icon: Icon(
                       Icons.done,
-                      size: 30,
+                      size: 20,
                       color: Colors.white,
                     ),
                     label: Text("Done",
-                        style: TextStyle(fontSize: 20, color: Colors.white)),
+                        style: TextStyle(fontSize: 16, color: Colors.white)),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.red),
+                      backgroundColor: MaterialStateProperty.all(
+                          Colors.brown.withOpacity(0.5)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
-                          side: BorderSide(color: Colors.blue),
                         ),
                       ),
                     ),
@@ -322,16 +349,19 @@ class SecondRoute extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              child: TextField(
-                maxLines: 20,
-                controller: controllerX,
-                decoration: InputDecoration(
-                  hintText: 'Write your event details',
-                  border: OutlineInputBorder(),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                child: TextField(
+                  maxLines: 20,
+                  controller: controllerX,
+                  decoration: InputDecoration(
+                    hintText: 'Write your event details',
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.newline,
                 ),
-                keyboardType: TextInputType.multiline,
-                textInputAction: TextInputAction.newline,
               ),
             )
           ],

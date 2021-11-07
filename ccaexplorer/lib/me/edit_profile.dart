@@ -21,6 +21,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
 import '/admin_image_upload/models/admin_image_event_model.dart';
+import 'me_home.dart';
 
 class PersonalProfile extends StatefulWidget {
   PersonalProfile();
@@ -439,10 +440,4 @@ class CLubLogoDetails {
   CLubLogoDetails({required this.id, required this.url});
   final String id;
   final String url;
-}
-
-class CLubMemberDetails {
-  CLubMemberDetails({required this.clubId, required this.userId});
-  final String clubId;
-  final String userId;
 }

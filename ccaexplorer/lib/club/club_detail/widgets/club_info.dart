@@ -17,7 +17,7 @@ class ClubInfo extends StatelessWidget {
           ClubHeader(club),
           ClubGallery(club),
           ClubDescription(club),
-          ClubContact(club),
+          ClubContact(club, []),
         ]),
       ),
     );

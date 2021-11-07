@@ -1,6 +1,8 @@
 import 'package:ccaexplorer/club/club_detail/club_detail_data.dart';
 import 'package:ccaexplorer/club/club_join/club_join_form.dart';
 import 'package:ccaexplorer/club/event_app_theme.dart';
+import 'package:ccaexplorer/me/me_home.dart';
+import 'package:ccaexplorer/me/member_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,10 +10,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class ClubContact extends StatefulWidget {
   final Club club;
-  ClubContact(this.club, {Key? key}) : super(key: key);
+  final List<CLubMemberDetails> cLubMemberList;
+  ClubContact(this.club, this.cLubMemberList, {Key? key}) : super(key: key);
 
   @override
-  _ClubContactState createState() => _ClubContactState(this.club);
+  _ClubContactState createState() =>
+      _ClubContactState(this.club, this.cLubMemberList);
 }
 
 class _ClubContactState extends State<ClubContact> {
@@ -19,14 +23,17 @@ class _ClubContactState extends State<ClubContact> {
   User? user = FirebaseAuth.instance.currentUser;
   var buttonText = "Join Club";
   var isClickable = true;
+  List<MemberDetails> memberList = [];
 
   final Club clubDetail;
-  _ClubContactState(this.clubDetail);
+  final List<CLubMemberDetails> cLubMemberList;
+  _ClubContactState(this.clubDetail, this.cLubMemberList);
 
   @override
   void initState() {
     super.initState();
     getData();
+    getMembers();
   }
 
   @override
@@ -63,6 +70,12 @@ class _ClubContactState extends State<ClubContact> {
                 if (isClickable) {
                   if (clubDetail.isMember) {
                     //club member list
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              MemberList(clubDetail.name, memberList)),
+                    );
                   } else {
                     Navigator.push(
                       context,
@@ -131,6 +144,43 @@ class _ClubContactState extends State<ClubContact> {
       });
     }
   }
+
+  getMembers() {
+    List<CLubMemberDetails> cLubMembers =
+        cLubMemberList.where((info) => info.clubId == clubDetail.id).toList();
+    memberList = [];
+    cLubMembers.forEach((member) {
+      FirebaseFirestore.instance
+          .collection('useracc')
+          .where('userid', isEqualTo: member.userId)
+          .snapshots()
+          .listen((data) {
+        data.docs.forEach((user) {
+          memberList.add(MemberDetails(
+              name: user.get('Name'),
+              matricNum: user.get('Matric_no'),
+              email: user.get('NTUEmail'),
+              phone: user.get('phone').toString(),
+              profilePicUrl: user.get('profile_pic_id')));
+        });
+        setState(() {});
+      });
+    });
+  }
+}
+
+class MemberDetails {
+  MemberDetails(
+      {required this.name,
+      required this.matricNum,
+      required this.email,
+      required this.phone,
+      required this.profilePicUrl});
+  final String name;
+  final String matricNum;
+  final String email;
+  final String phone;
+  final String profilePicUrl;
 }
 
 // class CLubMemberDetails {

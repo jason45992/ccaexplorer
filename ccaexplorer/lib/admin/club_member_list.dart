@@ -71,7 +71,7 @@ class _MemberListState extends State<MemberList> {
           children: <Widget>[
             Container(
               alignment: Alignment.centerLeft,
-              width: AppBar().preferredSize.height + 10,
+              width: AppBar().preferredSize.height,
               height: AppBar().preferredSize.height,
               child: Material(
                 color: Colors.transparent,

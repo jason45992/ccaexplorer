@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:ccaexplorer/admin/editeventdetails.dart';
 import 'package:ccaexplorer/admin_image_upload/event_detail_admin.dart';
 import 'package:ccaexplorer/admin/registration_list.dart';
 import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
@@ -120,7 +121,15 @@ class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
                       borderRadius: const BorderRadius.all(
                         Radius.circular(32.0),
                       ),
-                      onTap: () {}, // create new event
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                AdminEventForm(widget.clubName),
+                          ),
+                        );
+                      }, // create new event
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(FontAwesomeIcons.plusCircle,
@@ -246,7 +255,15 @@ class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => admin_event_form(),
+                                  builder: (context) => AdminEditEventForm(
+                                      _eventDetailList[index].club,
+                                      _eventDetailList[index].eventTitle,
+                                      _eventDetailList[index].datetime,
+                                      _eventDetailList[index].place,
+                                      _eventDetailList[index].description,
+                                      _eventDetailList[index].id,
+                                      _eventDetailList[index].cover,
+                                      _eventDetailList[index].poster),
                                 ),
                               );
                               //edit profile page
@@ -300,15 +317,16 @@ class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
 }
 
 class EventDetails {
-  EventDetails(
-      {required this.id,
-      required this.club,
-      required this.cover,
-      required this.datetime,
-      required this.description,
-      required this.eventTitle,
-      required this.place,
-      required this.poster});
+  EventDetails({
+    required this.id,
+    required this.club,
+    required this.cover,
+    required this.datetime,
+    required this.description,
+    required this.eventTitle,
+    required this.place,
+    required this.poster,
+  });
   final String id;
   final String club;
   final String cover;

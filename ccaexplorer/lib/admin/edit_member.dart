@@ -98,9 +98,9 @@ class _EditMemberState extends State<EditMember> {
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top, left: 8, right: 8),
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
               alignment: Alignment.centerLeft,
@@ -122,6 +122,18 @@ class _EditMemberState extends State<EditMember> {
                 ),
               ),
             ),
+            SizedBox(
+              width: 50,
+            ),
+            Expanded(
+              child: Text(
+                'Edit Member',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -134,10 +146,10 @@ class _EditMemberState extends State<EditMember> {
       child: Row(
         children: [
           ClipOval(
-            child: Image.asset(
-              "assets/mechchallenge.jpeg",
-              width: 80,
-              height: 80,
+            child: Image.network(
+              "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
+              width: 60,
+              height: 60,
               fit: BoxFit.cover,
             ),
           ),

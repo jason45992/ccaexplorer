@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'admin/club_management.dart';
+import 'admin/edit_member.dart';
 import 'introduction_animation/introduction_animation_screen.dart';
 import 'authentication.dart';
 import 'home_event_list/models/user_data_model.dart';
@@ -51,7 +52,7 @@ class App extends StatelessWidget {
 
       home: loggedIn ? HomePage() : IntroductionAnimationScreen(),
 
-      // home: HomePage(),
+      // home: EditMember(),
     );
   }
 }

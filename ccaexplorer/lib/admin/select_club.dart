@@ -147,7 +147,8 @@ class _AdminClubListState extends State<AdminClubList> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AdminClubManagement(),
+                            builder: (context) =>
+                                AdminClubManagement(clubs[index].id),
                           ),
                         );
                       } else {

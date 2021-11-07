@@ -10,22 +10,6 @@ final controllerX = TextEditingController();
 final event_description_controller = TextEditingController();
 final phonecontroller = TextEditingController();
 
-// ignore: camel_case_types
-class clubprofile extends StatelessWidget {
-  const clubprofile({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Product page',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: ClubProfile(),
-    );
-  }
-}
-
 class ClubProfile extends StatefulWidget {
   const ClubProfile({Key? key}) : super(key: key);
 
@@ -163,15 +147,15 @@ class _ClubProfileState extends State<ClubProfile> {
                   color: Colors.black87,
                 ),
                 onTap: () {
-                  Navigator.of(context).pop();
+                  Navigator.pop(context);
                 },
               ),
             ),
           ),
-          const SizedBox(width: 90),
+          const SizedBox(width: 75),
           Text(
-            'Club Profile',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            'Club Profile Edit',
+            style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -370,34 +354,3 @@ class SecondRoute extends StatelessWidget {
     ));
   }
 }
-
-// class PhotoFrame extends StatefulWidget {
-//   const PhotoFrame({Key? key}) : super(key: key);
-
-//   @override
-//   _PhotoFrameState createState() => _PhotoFrameState();
-// }
-
-// class _PhotoFrameState extends State<PhotoFrame> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: EdgeInsets.all(5),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         border: Border.all(
-//           width: 1,
-//         ),
-//         borderRadius: BorderRadius.circular(10),
-//       ),
-//       child: ElevatedButton(
-//         style: ElevatedButton.styleFrom(primary: Colors.transparent),
-//         child: Icon(
-//           Icons.add_a_photo,
-//           color: Colors.black,
-//         ),
-//         onPressed: () {},
-//       ),
-//     );
-//   }
-// }

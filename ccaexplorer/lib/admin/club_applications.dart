@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:ccaexplorer/admin/applicant_profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'admin_theme.dart';
@@ -100,7 +102,7 @@ class _AdminCLubApplicationListState extends State<AdminCLubApplicationList> {
             Expanded(
               child: Center(
                 child: Text(
-                  'Applicaiton List',
+                  'Application List',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
@@ -140,9 +142,34 @@ class _AdminCLubApplicationListState extends State<AdminCLubApplicationList> {
                           child: _clubApplicantlList[index]
                                   .profilePicUrl
                                   .isNotEmpty
-                              ? Image.network(
-                                  _clubApplicantlList[index].profilePicUrl)
-                              : Image.asset('assets/images/userImage.png'),
+                              ? InkWell(
+                                  child: Image.network(
+                                      _clubApplicantlList[index].profilePicUrl),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AdminApplicantProfile(
+                                                _clubApplicantlList[index]),
+                                      ),
+                                    );
+                                  },
+                                )
+                              : InkWell(
+                                  child: Image.asset(
+                                      'assets/images/userImage.png'),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AdminApplicantProfile(
+                                                _clubApplicantlList[index]),
+                                      ),
+                                    );
+                                  },
+                                ),
                         ),
                         Container(
                           width: 200,
@@ -180,7 +207,7 @@ class _AdminCLubApplicationListState extends State<AdminCLubApplicationList> {
                             color: Colors.transparent,
                           ),
                           height: 30,
-                          width: 60,
+                          width: 30,
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
@@ -188,16 +215,39 @@ class _AdminCLubApplicationListState extends State<AdminCLubApplicationList> {
                               borderRadius: const BorderRadius.all(
                                   Radius.circular(100.0)),
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AdminApplicantProfile(
-                                        _clubApplicantlList[index]),
-                                  ),
-                                );
+                                showAlertDialog2(
+                                    context,
+                                    _clubApplicantlList[index].clubRoleid,
+                                    _clubApplicantlList[index]
+                                        .clubApplicationid,
+                                    _clubApplicantlList[index].userid);
                               },
-                              child: Icon(FontAwesomeIcons.solidAddressCard,
-                                  color: Colors.brown.withOpacity(0.5)),
+                              child: Icon(Icons.check_circle_rounded,
+                                  color: Colors.green),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                          ),
+                          height: 30,
+                          width: 30,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              splashColor: Colors.white24,
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(100.0)),
+                              onTap: () {
+                                showAlertDialog3(
+                                    context,
+                                    _clubApplicantlList[index]
+                                        .clubApplicationid);
+                              },
+                              child:
+                                  Icon(Icons.cancel_rounded, color: Colors.red),
                             ),
                           ),
                         ),
@@ -365,14 +415,20 @@ class _AdminCLubApplicationListState extends State<AdminCLubApplicationList> {
                 .snapshots()
                 .listen((data) {
               data.docs.forEach((clubRole) {
-                _clubApplicantlList.add(CLubApplicantDetails(
-                    name: user.get('Name'),
-                    clubRole: clubRole.get('position'),
-                    remarks: applicaiton.get('remark'),
-                    matricNum: user.get('Matric_no'),
-                    email: user.get('NTUEmail'),
-                    phone: user.get('phone').toString(),
-                    profilePicUrl: user.get('profile_pic_id')));
+                print(applicaiton.get('id'));
+                _clubApplicantlList.add(
+                  CLubApplicantDetails(
+                      name: user.get('Name'),
+                      clubRole: clubRole.get('position'),
+                      remarks: applicaiton.get('remark'),
+                      matricNum: user.get('Matric_no'),
+                      email: user.get('NTUEmail'),
+                      phone: user.get('phone').toString(),
+                      profilePicUrl: user.get('profile_pic_id'),
+                      clubRoleid: clubRole.get('id'),
+                      clubApplicationid: applicaiton.get('id'),
+                      userid: user.get('userid')),
+                );
               });
               setState(() {});
             });
@@ -423,6 +479,121 @@ class _AdminCLubApplicationListState extends State<AdminCLubApplicationList> {
       },
     );
   }
+
+  Future<void> addUserAssignRole(String clubroleid, String userid) async {
+    await Firebase.initializeApp();
+    final userAssignRole =
+        FirebaseFirestore.instance.collection('user_assign_role').doc();
+    final refid = userAssignRole.id;
+    userAssignRole
+        .set({
+          'user_id': FirebaseAuth.instance.currentUser!.uid,
+          'club_role_id': clubroleid,
+          'id': refid
+        })
+        .then((value) => print("Data Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+    final clubMember =
+        FirebaseFirestore.instance.collection('club_member').doc();
+    final refCMid = clubMember.id;
+    clubMember
+        .set({'user_id': userid, 'club_id': clubId, 'id': refCMid})
+        .then((value) => print("Data Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
+  Future<void> deleteClubApplication(String clubApplicationId) async {
+    await Firebase.initializeApp();
+    final clubApplication =
+        FirebaseFirestore.instance.collection('club_application');
+    return clubApplication.doc(clubApplicationId).delete();
+  }
+
+  showAlertDialog2(BuildContext context, String clubroleid,
+      String clubApplicationId, String Userid) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("Yes"),
+      onPressed: () {
+        Navigator.of(context).pop();
+        addUserAssignRole(clubroleid, Userid);
+        deleteClubApplication(clubApplicationId);
+      },
+    );
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Confirm Approve?",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialog3(BuildContext context, String clubApplicationId) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("Yes"),
+      onPressed: () {
+        Navigator.of(context).pop();
+        deleteClubApplication(clubApplicationId);
+      },
+    );
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Confirm Reject?",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
 
 class CLubApplicantDetails {
@@ -433,7 +604,10 @@ class CLubApplicantDetails {
       required this.matricNum,
       required this.email,
       required this.phone,
-      required this.profilePicUrl});
+      required this.profilePicUrl,
+      required this.clubRoleid,
+      required this.clubApplicationid,
+      required this.userid});
   final String name;
   final String clubRole;
   final String remarks;
@@ -441,4 +615,7 @@ class CLubApplicantDetails {
   final String email;
   final String phone;
   final String profilePicUrl;
+  final String clubRoleid;
+  final String clubApplicationid;
+  final String userid;
 }

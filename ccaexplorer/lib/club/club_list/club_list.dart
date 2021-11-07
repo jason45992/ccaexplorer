@@ -280,16 +280,18 @@ class _ClubItem1 extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ClubDetailPage(Detail.Club.generateClubs(
-                  club.id,
-                  club.image,
-                  club.name,
-                  category,
-                  club.description,
-                  club.clubmembernum,
-                  club.rating,
-                  club.contact,
-                  false)[0]),
+              builder: (context) => ClubDetailPage(
+                  Detail.Club.generateClubs(
+                      club.id,
+                      club.image,
+                      club.name,
+                      category,
+                      club.description,
+                      club.clubmembernum,
+                      club.rating,
+                      club.contact,
+                      false)[0],
+                  []),
             ),
           );
         },

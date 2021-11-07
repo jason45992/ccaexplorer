@@ -159,7 +159,7 @@ class _AdminPublishedEventsState extends State<AdminPublishedEvents> {
                     side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  color: Color(0xFFAEC3D4),
+                  color: Colors.grey,
                   child: Row(
                     children: <Widget>[
                       Container(

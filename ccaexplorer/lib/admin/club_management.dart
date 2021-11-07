@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'ClubProfileEdit/clubprofile.dart';
 import 'add_department_position.dart';
 import 'admin_theme.dart';
+import 'club_member_list.dart';
 import 'club_recruitment_department.dart';
 
 class AdminClubManagement extends StatefulWidget {
@@ -162,48 +163,49 @@ class _AdminClubManagementState extends State<AdminClubManagement> {
                 padding: EdgeInsets.only(top: 0, left: 20, right: 20),
                 height: 80,
                 child: GestureDetector(
-                    // onTap: () {
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => AdminPublishedEvents(), //club profile
-                    //     ),
-                    //   );
-                    // },
-                    child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  color: Color(0xFFE6E4E3),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.only(left: 10),
-                        width: 60,
-                        height: 60,
-                        child: Icon(FontAwesomeIcons.users,
-                            color: Color(0xffb0b4b8)),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(top: 27, left: 20),
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Member Management',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                      color: Colors.black),
-                                ))
-                          ],
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              MemberList(clubId), //club profile
                         ),
+                      );
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Color(0xFFEDF0F2), width: 1),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                    ],
-                  ),
-                )),
+                      color: Color(0xFFE6E4E3),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.only(left: 10),
+                            width: 60,
+                            height: 60,
+                            child: Icon(FontAwesomeIcons.users,
+                                color: Color(0xffb0b4b8)),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(top: 27, left: 20),
+                            child: Column(
+                              children: <Widget>[
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'Member Management',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          color: Colors.black),
+                                    ))
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
               ),
               SizedBox(
                 height: 10,

@@ -1,36 +1,32 @@
-import 'package:ccaexplorer/club/club_detail/widgets/club_contact.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'me_theme.dart';
-import 'member_profile.dart';
+import 'admin_theme.dart';
 
 class MemberList extends StatefulWidget {
-  final String clubName;
-  final List<MemberDetails> memberList;
-  MemberList(this.clubName, this.memberList, {Key? key}) : super(key: key);
+  final String clubId;
+  MemberList(this.clubId, {Key? key}) : super(key: key);
 
   @override
-  _MemberListState createState() =>
-      _MemberListState(this.clubName, this.memberList);
+  _MemberListState createState() => _MemberListState(this.clubId);
 }
 
 class _MemberListState extends State<MemberList> {
-  AnimationController? animationController;
-  final String clubName;
-  final List<MemberDetails> memberList;
+  final String clubId;
+  _MemberListState(this.clubId);
 
-  String searchKey = "";
-  _MemberListState(this.clubName, this.memberList);
+  List<ClubMemberDetails> memberList = [];
 
   @override
   void initState() {
     super.initState();
+    getMembers();
   }
 
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: MeTheme.buildLightTheme(),
+      data: AdminTheme.buildLightTheme(),
       child: Container(
         child: Scaffold(
           body: Stack(
@@ -60,7 +56,7 @@ class _MemberListState extends State<MemberList> {
   Widget getAppBarUI() {
     return Container(
       decoration: BoxDecoration(
-        color: MeTheme.buildLightTheme().backgroundColor,
+        color: AdminTheme.buildLightTheme().backgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.grey.withOpacity(0.2),
@@ -75,7 +71,7 @@ class _MemberListState extends State<MemberList> {
           children: <Widget>[
             Container(
               alignment: Alignment.centerLeft,
-              width: AppBar().preferredSize.height + 10,
+              width: AppBar().preferredSize.height,
               height: AppBar().preferredSize.height,
               child: Material(
                 color: Colors.transparent,
@@ -97,7 +93,7 @@ class _MemberListState extends State<MemberList> {
               width: 280,
               child: Center(
                 child: Text(
-                  clubName,
+                  "club Members",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
@@ -166,13 +162,15 @@ class _MemberListState extends State<MemberList> {
                           ),
                         ),
                         SizedBox(
-                          width: 100,
+                          width: 20,
                         ),
                         Container(
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           decoration: BoxDecoration(
-                            color: Colors.transparent,
-                          ),
+                              color: Color(0xffb0b4b8),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(24.0)),
+                              border: Border.all(color: Color(0xffb0b4b8))),
                           height: 30,
                           width: 60,
                           child: Material(
@@ -182,16 +180,75 @@ class _MemberListState extends State<MemberList> {
                               borderRadius: const BorderRadius.all(
                                   Radius.circular(100.0)),
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        MemberProfile(memberList[index]),
-                                  ),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => AdminRegistrationList(
+                                //         _eventDetailList[index]),
+                                //   ),
+                                // );
                               },
-                              child: Icon(FontAwesomeIcons.solidAddressCard,
-                                  color: Colors.brown.withOpacity(0.5)),
+                              child: Center(
+                                child: Text(
+                                  "Edit",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    letterSpacing: 0.27,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          decoration: BoxDecoration(
+                              color: Color(0xffb0b4b8),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(24.0)),
+                              border: Border.all(color: Color(0xffb0b4b8))),
+                          height: 30,
+                          width: 75,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              splashColor: Colors.white24,
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(100.0)),
+                              onTap: () {
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => AdminEditEventForm(
+                                //         _eventDetailList[index].club,
+                                //         _eventDetailList[index].eventTitle,
+                                //         _eventDetailList[index].datetime,
+                                //         _eventDetailList[index].place,
+                                //         _eventDetailList[index].description,
+                                //         _eventDetailList[index].id,
+                                //         _eventDetailList[index].cover,
+                                //         _eventDetailList[index].poster),
+                                //   ),
+                                // );
+                              },
+                              child: Center(
+                                child: Text(
+                                  "Remove",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    letterSpacing: 0.27,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -205,4 +262,45 @@ class _MemberListState extends State<MemberList> {
       ),
     );
   }
+
+  getMembers() {
+    memberList = [];
+    FirebaseFirestore.instance
+        .collection('club_member')
+        .where('club_id', isEqualTo: clubId)
+        .snapshots()
+        .listen((data) {
+      data.docs.forEach((clubMember) {
+        FirebaseFirestore.instance
+            .collection('useracc')
+            .where('userid', isEqualTo: clubMember.get('user_id'))
+            .snapshots()
+            .listen((data) {
+          data.docs.forEach((user) {
+            memberList.add(ClubMemberDetails(
+                name: user.get('Name'),
+                matricNum: user.get('Matric_no'),
+                email: user.get('NTUEmail'),
+                phone: user.get('phone').toString(),
+                profilePicUrl: user.get('profile_pic_id')));
+          });
+          setState(() {});
+        });
+      });
+    });
+  }
+}
+
+class ClubMemberDetails {
+  ClubMemberDetails(
+      {required this.name,
+      required this.matricNum,
+      required this.email,
+      required this.phone,
+      required this.profilePicUrl});
+  final String name;
+  final String matricNum;
+  final String email;
+  final String phone;
+  final String profilePicUrl;
 }

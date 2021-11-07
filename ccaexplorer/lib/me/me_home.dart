@@ -24,6 +24,7 @@ class _MeHomeState extends State<MeHome> {
   List<CLubLogoDetails> cLubLogoList = [];
   List<ClubMemberNumberList> cLubmemnoList = [];
 
+  List<CLubMemberDetails> userClubList = [];
   List<CLubMemberDetails> cLubMemberList = [];
   User? user = FirebaseAuth.instance.currentUser;
   String username = '';
@@ -247,10 +248,8 @@ class _MeHomeState extends State<MeHome> {
 
   Widget getMyClubUI() {
     return Container(
-      // padding: const EdgeInsets.only(left: 28, right: 28),
       height: 100,
       width: MediaQuery.of(context).size.width * 0.8,
-
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
@@ -279,7 +278,8 @@ class _MeHomeState extends State<MeHome> {
                                     cLubList[index].clubmemnum,
                                     cLubList[index].rating,
                                     cLubList[index].contact,
-                                    false)[0]),
+                                    true)[0],
+                                cLubMemberList),
                           ),
                         );
                       },
@@ -500,12 +500,12 @@ class _MeHomeState extends State<MeHome> {
       cLubMemberList.add(CLubMemberDetails(
           clubId: element.get('club_id'), userId: element.get('user_id')));
     });
-    cLubMemberList = cLubMemberList
+    userClubList = cLubMemberList
         .where((clubMemberDetail) => clubMemberDetail.userId == user!.uid)
         .toList();
     List<ClubDetails> tempCLubList = [];
     cLubList.forEach((x) {
-      cLubMemberList.forEach((y) {
+      userClubList.forEach((y) {
         if (y.clubId == x.id) {
           tempCLubList.add(x);
         }

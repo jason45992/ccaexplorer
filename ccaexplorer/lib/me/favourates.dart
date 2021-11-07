@@ -1,9 +1,7 @@
 import 'dart:ui';
-import 'package:ccaexplorer/admin/registration_list.dart';
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
 import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '/admin/admin_theme.dart';
 
 class Favorites extends StatefulWidget {
@@ -124,24 +122,24 @@ class _FavoritesState extends State<Favorites> {
   Widget getEventList() {
     final List<Map> entries = <Map>[
       {
-        'title': 'Event Title 1',
-        'time': 'Sept.14 2:30-5:30pm',
-        'address': 'LT1'
+        'title': 'Tide Turners',
+        'time': '2021-11-08 10:01:20',
+        'address': 'Virtual'
       },
       {
-        'title': 'Event Title 2',
-        'time': 'Oct.18 4:30-8:30pm',
-        'address': 'LT19'
+        'title': 'NTU Belleza',
+        'time': '2021-11-09 17:01:20',
+        'address': 'Virtual'
       },
       {
-        'title': 'Event Title 3',
-        'time': 'Nov.2 1:30-4:30pm',
-        'address': 'LT22'
+        'title': 'EEE Challenge',
+        'time': '2021-11-19 16:01:20',
+        'address': 'NTU LT3'
       },
       {
-        'title': 'Event Title 4',
-        'time': 'Dec.12 10:30-11:30am',
-        'address': 'LT2'
+        'title': 'Earth Hour',
+        'time': '2021-11-16 10:01:20',
+        'address': 'Nanyang Auditorium '
       }
     ];
     return SizedBox(

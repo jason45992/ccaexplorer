@@ -1,9 +1,14 @@
 import 'package:ccaexplorer/admin_image_upload/button_widget.dart';
 import 'package:ccaexplorer/club/event_app_theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import 'package:path/path.dart';
 
 final controllerX = TextEditingController();
 // ignore: non_constant_identifier_names
@@ -24,6 +29,67 @@ class _ClubProfileState extends State<ClubProfile> {
   File? logoimage;
   final ImagePicker _picker = ImagePicker();
   List<XFile>? _imageFileList = [];
+  String downloadUrl2 = '';
+
+  Future<void> uploadFile2(String filePath) async {
+    await Firebase.initializeApp();
+    File file = File(filePath);
+    String fileName = basename(filePath);
+    Reference ref = FirebaseStorage.instance.ref();
+    await ref.child("Posterimages/$fileName.jpeg").putFile(file);
+    print("added to Firebase Storage");
+    downloadUrl2 = await FirebaseStorage.instance
+        .ref('images/$fileName.jpeg')
+        .getDownloadURL();
+    // print(downloadUrl2);
+    final fileCollection = FirebaseFirestore.instance.collection('file').doc();
+    final clubCollection = FirebaseFirestore.instance.collection('club');
+    final refid = fileCollection.id;
+    // fileCollection
+    //     .set({
+    //       'id': refid,
+    //       'url': downloadUrl2,
+    //     })
+    //     .then((value) => print("file Added"))
+    //     .catchError((error) => print("Failed to add user: $error"));
+    //     clubCollection.where('id',isEqualTo: )
+  }
+
+  Future<void> uploadFile(List<XFile> imageFileList) async {
+    String downloadUrl = '';
+    final fileCollection = FirebaseFirestore.instance.collection('file').doc();
+    final albumCollection =
+        FirebaseFirestore.instance.collection('album').doc();
+    await Firebase.initializeApp();
+    final albumCollectionId = albumCollection.id;
+    fileCollection
+        .set({
+          'id': albumCollectionId,
+          'club_id': downloadUrl,
+        })
+        .then((value) => print("Album Data Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+    imageFileList.forEach((element) async {
+      File file = File(element.path);
+      String fileName = basename(element.path);
+      Reference ref = FirebaseStorage.instance.ref();
+      await ref.child("Album$albumCollectionId/$fileName.jpeg").putFile(file);
+      print("added to Firebase Storage");
+      downloadUrl = await FirebaseStorage.instance
+          .ref('images/$fileName.jpeg')
+          .getDownloadURL();
+      // print(downloadUrl);
+
+      fileCollection
+          .set({
+            'id': fileCollection.id,
+            'url': downloadUrl,
+            'album_id': albumCollectionId,
+          })
+          .then((value) => print("File Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    });
+  }
 
   void selectImages() async {
     final List<XFile>? selectedImages = await _picker.pickMultiImage();
@@ -130,7 +196,7 @@ class _ClubProfileState extends State<ClubProfile> {
   Widget appBar() {
     return Container(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(this.context).size.width,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -147,7 +213,7 @@ class _ClubProfileState extends State<ClubProfile> {
                   color: Colors.black87,
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.pop(this.context);
                 },
               ),
             ),
@@ -250,7 +316,7 @@ class _ClubProfileState extends State<ClubProfile> {
         textInputAction: TextInputAction.done,
         onTap: () {
           Navigator.push(
-            context,
+            this.context,
             MaterialPageRoute(builder: (context) => const SecondRoute()),
           );
         },

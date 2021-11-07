@@ -44,11 +44,12 @@ class AddEvent extends StatelessWidget {
       await Firebase.initializeApp();
 
       File file = File(filePath);
+      String fileName = basename(filePath);
       Reference ref = FirebaseStorage.instance.ref();
-      await ref.child("images/$file.jpeg").putFile(file);
+      await ref.child("Coverimages/$fileName.jpeg").putFile(file);
       print("added to Firebase Storage");
       downloadUrl = await FirebaseStorage.instance
-          .ref('images/$file.jpeg')
+          .ref('images/$fileName.jpeg')
           .getDownloadURL();
       // print(downloadUrl);
     }
@@ -56,11 +57,12 @@ class AddEvent extends StatelessWidget {
     Future<void> uploadFile2(String filePath) async {
       await Firebase.initializeApp();
       File file = File(filePath);
+      String fileName = basename(filePath);
       Reference ref = FirebaseStorage.instance.ref();
-      await ref.child("images/$file.jpeg").putFile(file);
+      await ref.child("Posterimages/$fileName.jpeg").putFile(file);
       print("added to Firebase Storage");
       downloadUrl2 = await FirebaseStorage.instance
-          .ref('images/$file.jpeg')
+          .ref('images/$fileName.jpeg')
           .getDownloadURL();
       // print(downloadUrl2);
     }

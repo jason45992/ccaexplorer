@@ -427,7 +427,7 @@ class _AdminEditEventFormState extends State<AdminEditEventForm> {
   // ignore: non_constant_identifier_names
   Widget Organiser() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 4),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
           border: Border.all(color: Colors.grey, width: 1)),
@@ -436,7 +436,7 @@ class _AdminEditEventFormState extends State<AdminEditEventForm> {
           hint: Text('Select an organiser'),
           value: dropdownValue,
           icon: const Icon(Icons.arrow_downward),
-          iconSize: 24,
+          iconSize: 20,
           elevation: 16,
           style: const TextStyle(color: Colors.black, fontSize: 15),
           underline: Container(

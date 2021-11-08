@@ -483,13 +483,15 @@ class _AdminCLubApplicationListState extends State<AdminCLubApplicationList> {
   Future<void> addUserAssignRole(String clubroleid, String userid) async {
     await Firebase.initializeApp();
     final userAssignRole =
-        FirebaseFirestore.instance.collection('user_assign_role').doc();
+        FirebaseFirestore.instance.collection('user_member').doc();
     final refid = userAssignRole.id;
     userAssignRole
         .set({
-          'user_id': FirebaseAuth.instance.currentUser!.uid,
+          'user_id': userid,
           'club_role_id': clubroleid,
-          'id': refid
+          'id': refid,
+          'isAdmin': false,
+          'club_id': clubId
         })
         .then((value) => print("Data Added"))
         .catchError((error) => print("Failed to add user: $error"));

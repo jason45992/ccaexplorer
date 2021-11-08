@@ -117,7 +117,8 @@ class _AdminClubManagementState extends State<AdminClubManagement> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ClubProfile(), //club profile
+                          builder: (context) =>
+                              ClubProfile(clubId), //club profile
                         ),
                       );
                     },

@@ -1,3 +1,4 @@
+import 'package:ccaexplorer/admin/edit_member.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -53,6 +54,49 @@ class _MemberListState extends State<MemberList> {
     );
   }
 
+  showAlertDialog(BuildContext context, String clubmemberId) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("Yes"),
+      onPressed: () {
+        Navigator.of(context).pop();
+
+        deletedata(clubmemberId);
+      },
+    );
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Confirm Delete?",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   Widget getAppBarUI() {
     return Container(
       decoration: BoxDecoration(
@@ -93,7 +137,7 @@ class _MemberListState extends State<MemberList> {
               width: 280,
               child: Center(
                 child: Text(
-                  "club Members",
+                  "Club Members",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
@@ -151,9 +195,9 @@ class _MemberListState extends State<MemberList> {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  '${memberList[index].matricNum}',
+                                  '${memberList[index].department.replaceRange(8, memberList[index].department.length, '...')}-${memberList[index].position}',
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 11,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -180,13 +224,19 @@ class _MemberListState extends State<MemberList> {
                               borderRadius: const BorderRadius.all(
                                   Radius.circular(100.0)),
                               onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => AdminRegistrationList(
-                                //         _eventDetailList[index]),
-                                //   ),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditMember(
+                                        memberList[index].name,
+                                        memberList[index].profilePicUrl,
+                                        widget.clubId,
+                                        memberList[index].department,
+                                        memberList[index].position,
+                                        memberList[index].clubmemberId,
+                                        memberList[index].isAdmin),
+                                  ),
+                                );
                               },
                               child: Center(
                                 child: Text(
@@ -222,20 +272,8 @@ class _MemberListState extends State<MemberList> {
                               borderRadius: const BorderRadius.all(
                                   Radius.circular(100.0)),
                               onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => AdminEditEventForm(
-                                //         _eventDetailList[index].club,
-                                //         _eventDetailList[index].eventTitle,
-                                //         _eventDetailList[index].datetime,
-                                //         _eventDetailList[index].place,
-                                //         _eventDetailList[index].description,
-                                //         _eventDetailList[index].id,
-                                //         _eventDetailList[index].cover,
-                                //         _eventDetailList[index].poster),
-                                //   ),
-                                // );
+                                showAlertDialog(
+                                    context, memberList[index].clubmemberId);
                               },
                               child: Center(
                                 child: Text(
@@ -263,7 +301,13 @@ class _MemberListState extends State<MemberList> {
     );
   }
 
-  getMembers() {
+  Future<void> deletedata(String id) async {
+    CollectionReference _clubRolecollectionRef =
+        FirebaseFirestore.instance.collection('club_member');
+    _clubRolecollectionRef.doc(id).delete();
+  }
+
+  void getMembers() {
     memberList = [];
     FirebaseFirestore.instance
         .collection('club_member')
@@ -277,14 +321,36 @@ class _MemberListState extends State<MemberList> {
             .snapshots()
             .listen((data) {
           data.docs.forEach((user) {
-            memberList.add(ClubMemberDetails(
-                name: user.get('Name'),
-                matricNum: user.get('Matric_no'),
-                email: user.get('NTUEmail'),
-                phone: user.get('phone').toString(),
-                profilePicUrl: user.get('profile_pic_id')));
+            FirebaseFirestore.instance
+                .collection('club_role')
+                .where('id', isEqualTo: clubMember.get('club_role_id'))
+                .snapshots()
+                .listen((data) {
+              data.docs.forEach((clubrole) {
+                FirebaseFirestore.instance
+                    .collection('club_department')
+                    .where('department_id',
+                        isEqualTo: clubrole.get('department_id'))
+                    .snapshots()
+                    .listen((data) {
+                  data.docs.forEach((department) {
+                    memberList.add(
+                      ClubMemberDetails(
+                          name: user.get('Name'),
+                          position: clubrole.get('position'),
+                          department: department.get('name'),
+                          email: user.get('NTUEmail'),
+                          phone: user.get('phone').toString(),
+                          profilePicUrl: user.get('profile_pic_id'),
+                          clubmemberId: clubMember.get('id'),
+                          isAdmin: clubMember.get('isAdmin')),
+                    );
+                  });
+                  setState(() {});
+                });
+              });
+            });
           });
-          setState(() {});
         });
       });
     });
@@ -292,15 +358,22 @@ class _MemberListState extends State<MemberList> {
 }
 
 class ClubMemberDetails {
-  ClubMemberDetails(
-      {required this.name,
-      required this.matricNum,
-      required this.email,
-      required this.phone,
-      required this.profilePicUrl});
+  ClubMemberDetails({
+    required this.name,
+    required this.position,
+    required this.department,
+    required this.email,
+    required this.phone,
+    required this.profilePicUrl,
+    required this.clubmemberId,
+    required this.isAdmin,
+  });
   final String name;
-  final String matricNum;
+  final String position;
+  final String department;
   final String email;
   final String phone;
   final String profilePicUrl;
+  final String clubmemberId;
+  final bool isAdmin;
 }

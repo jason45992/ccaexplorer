@@ -467,7 +467,7 @@ class _AdminEditEventFormState extends State<AdminEditEventForm> {
         maxLines: 10,
         controller: event_description_controller,
         decoration: InputDecoration(
-          hintText: 'Write your event details',
+          labelText: 'Write your event details',
           border: OutlineInputBorder(),
         ),
         keyboardType: TextInputType.multiline,
@@ -476,9 +476,8 @@ class _AdminEditEventFormState extends State<AdminEditEventForm> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => SecondRoute(
-                      eventDescription: eventDescription,
-                    )),
+              builder: (context) => SecondRoute(),
+            ),
           );
         },
       ),
@@ -487,8 +486,9 @@ class _AdminEditEventFormState extends State<AdminEditEventForm> {
 }
 
 class SecondRoute extends StatelessWidget {
-  SecondRoute({Key? key, required this.eventDescription}) : super(key: key);
-  final String eventDescription;
+  SecondRoute({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

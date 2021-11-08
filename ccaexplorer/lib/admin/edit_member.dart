@@ -1,18 +1,136 @@
+import 'dart:io';
+
+import 'package:ccaexplorer/admin/club_member_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'admin_theme.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 
 class EditMember extends StatefulWidget {
-  const EditMember({Key? key}) : super(key: key);
+  final String name;
+  final String imageurl;
+  final String clubId;
+  final String departmentname;
+  final String positionname;
+  final String clubmemberid;
+  final bool isAdmin;
+  const EditMember(this.name, this.imageurl, this.clubId, this.departmentname,
+      this.positionname, this.clubmemberid, this.isAdmin,
+      {Key? key})
+      : super(key: key);
 
   @override
-  _EditMemberState createState() => _EditMemberState();
+  _EditMemberState createState() => _EditMemberState(
+      this.name,
+      this.imageurl,
+      this.clubId,
+      this.departmentname,
+      this.positionname,
+      this.clubmemberid,
+      this.isAdmin);
 }
 
 class _EditMemberState extends State<EditMember> {
+  final String name;
+  final String imageurl;
+  final String clubId;
+  final String departmentname;
+  final String positionname;
+  final String clubmemberid;
+  final bool isAdmin;
+  _EditMemberState(this.name, this.imageurl, this.clubId, this.departmentname,
+      this.positionname, this.clubmemberid, this.isAdmin);
   String? dropdownValue;
   String? dropdownValue2;
   bool _switchValues = false;
+
+  List<String> clubDepartmentList = [];
+  List<String> clubPositionList = [];
+  List<ClubDepartmentDetails> clubDepartmentDetailList = [];
+  List<ClubRoleDetails> clubRoleDetailList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getdata();
+    setState(() {
+      dropdownValue = widget.departmentname;
+      _switchValues = widget.isAdmin;
+      init();
+    });
+  }
+
+  Future<void> init() async {
+    CollectionReference _clubRolecollectionRef =
+        FirebaseFirestore.instance.collection('club_department');
+    _clubRolecollectionRef
+        .where('club_id', isEqualTo: widget.clubId)
+        .snapshots()
+        .listen((event) {
+      clubDepartmentList = [];
+      event.docs.forEach((element) {
+        clubDepartmentList.add(element['name']);
+        clubDepartmentDetailList.add(
+          ClubDepartmentDetails(
+              clubId: element['club_id'],
+              departmentId: element['department_id'],
+              name: element['name']),
+        );
+        setState(() {});
+      });
+      clubDepartmentDetailList.forEach((element) {
+        if (element.name == widget.departmentname) {
+          getPostiondata(element.departmentId);
+          dropdownValue2 = widget.positionname;
+        }
+      });
+      setState(() {});
+    });
+  }
+
+  Future<void> getdata() async {
+    CollectionReference _clubRolecollectionRef =
+        FirebaseFirestore.instance.collection('club_department');
+    _clubRolecollectionRef
+        .where('club_id', isEqualTo: widget.clubId)
+        .snapshots()
+        .listen((event) {
+      clubDepartmentList = [];
+      event.docs.forEach((element) {
+        clubDepartmentList.add(element['name']);
+        clubDepartmentDetailList.add(
+          ClubDepartmentDetails(
+              clubId: element['club_id'],
+              departmentId: element['department_id'],
+              name: element['name']),
+        );
+        setState(() {});
+      });
+    });
+  }
+
+  Future<void> getPostiondata(String departmentId) async {
+    CollectionReference _clubRolecollectionRef =
+        FirebaseFirestore.instance.collection('club_role');
+    _clubRolecollectionRef
+        .where('department_id', isEqualTo: departmentId)
+        .snapshots()
+        .listen((event) {
+      clubPositionList = [];
+      clubRoleDetailList = [];
+      event.docs.forEach((element) {
+        clubPositionList.add(element['position']);
+        clubRoleDetailList.add(
+          ClubRoleDetails(
+              id: element['id'],
+              departmentId: element['department_id'],
+              position: element['position']),
+        );
+        setState(() {});
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -76,13 +194,74 @@ class _EditMemberState extends State<EditMember> {
         bottomNavigationBar: Padding(
           padding: EdgeInsets.all(32.0),
           child: RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+              showAlertDialog(context);
+            },
             color: Colors.grey,
             textColor: Colors.white,
             child: Text('Update'),
           ),
         ),
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("Yes"),
+      onPressed: () {
+        clubRoleDetailList.forEach((element) {
+          if (element.position == dropdownValue2) {
+            FirebaseFirestore.instance
+                .collection('club_member')
+                .doc(widget.clubmemberid)
+                .set({'club_role_id': element.id, 'isAdmin': _switchValues},
+                    SetOptions(merge: true));
+
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MemberList(widget.clubId),
+              ),
+            );
+          }
+        });
+      },
+    );
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Confirm ?",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 
@@ -147,7 +326,7 @@ class _EditMemberState extends State<EditMember> {
         children: [
           ClipOval(
             child: Image.network(
-              "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
+              imageurl,
               width: 60,
               height: 60,
               fit: BoxFit.cover,
@@ -155,7 +334,7 @@ class _EditMemberState extends State<EditMember> {
           ),
           const SizedBox(width: 25),
           Text(
-            'Khor Chin Yi',
+            name,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           )
         ],
@@ -184,11 +363,18 @@ class _EditMemberState extends State<EditMember> {
           ),
           onChanged: (String? newValue) {
             setState(() {
+              clubPositionList = [];
+              dropdownValue2 = null;
               dropdownValue = newValue!;
             });
+            clubDepartmentDetailList.forEach((element) {
+              if (element.name == newValue) {
+                getPostiondata(element.departmentId);
+              }
+            });
           },
-          items: <String>['Student Development', 'Outreach']
-              .map<DropdownMenuItem<String>>((String value) {
+          items:
+              clubDepartmentList.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),
@@ -223,8 +409,7 @@ class _EditMemberState extends State<EditMember> {
               dropdownValue2 = newValue!;
             });
           },
-          items: <String>['President', 'Vice President']
-              .map<DropdownMenuItem<String>>((String value) {
+          items: clubPositionList.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),
@@ -234,4 +419,26 @@ class _EditMemberState extends State<EditMember> {
       ),
     );
   }
+}
+
+class ClubDepartmentDetails {
+  ClubDepartmentDetails({
+    required this.clubId,
+    required this.departmentId,
+    required this.name,
+  });
+  final String clubId;
+  final String departmentId;
+  final String name;
+}
+
+class ClubRoleDetails {
+  ClubRoleDetails({
+    required this.id,
+    required this.departmentId,
+    required this.position,
+  });
+  final String id;
+  final String departmentId;
+  final String position;
 }

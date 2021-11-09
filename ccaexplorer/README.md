@@ -11,8 +11,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/jason45992/ccaexplorer">
+    <img src="assets/icon/icon.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">CCA Explorer</h3>
@@ -20,17 +20,15 @@
   <p align="center">
     One stop Applicaiton for CCA committees!
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://github.com/jason45992/ccaexplorer">View Demo</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://github.com/jason45992/ccaexplorer/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/jason45992/ccaexplorer/issues">Request Feature</a>
   </p>
   <p align="center">
-    Greatly appreciate contributions from [@CKHOR002](https://github.com/CKHOR002), [@gessika1316](https://github.com/gessika1316), [@MengYuan13](https://github.com/MengYuan13) and [@NKLiuZN](https://github.com/NKLiuZN)
+    Greatly appreciate contributions from <a href="https://github.com/CKHOR002">@CKHOR002</a>, <a href="https://github.com/gessika1316">@gessika1316</a>, <a href="https://github.com/MengYuan13">@MengYuan13</a> and <a href="https://github.com/NKLiuZN">@NKLiuZN</a>
   </p>
   </p>
 </div>
@@ -65,7 +63,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
+<img src="assets/intro.png">
 
 Since we are faced with the problem that NTU does not have one systematic platform (Web/App) which has access to all CCAs’ contact info and registration links. CCAs cannot publicize their club activities efficiently. In addition, students are unable to attend face-to-face briefing sessions of CCA clubs due to the Covid-19 situation while online sharing is ineffective and not widespread.
 
@@ -107,15 +106,14 @@ This is an example of how to lget a local copy up and running.
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
+_Below is an example of how you can instruct your audience on installing and setting up your app.
 1. Clone the repo
    ```sh
    git clone https://github.com/jason45992/ccaexplorer.git
    ```
 3. Install packages
    ```sh
-   f;utter pub get
+   flutter pub get
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>

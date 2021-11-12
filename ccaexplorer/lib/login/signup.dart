@@ -365,7 +365,8 @@ class __State extends State<SignUp> {
           'NTUEmail': emailController.text,
           'Name': nameController.text,
           'phone': phonenumController.text,
-          'Matric_no': matricnumController.text
+          'Matric_no': matricnumController.text,
+          'is_admin': false
         }).then((res) {
           print('data added');
         });

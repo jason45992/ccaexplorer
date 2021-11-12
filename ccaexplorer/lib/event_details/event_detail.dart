@@ -205,7 +205,7 @@ class _EventDetailState extends State<EventDetail> {
             ElevatedButton.icon(
               onPressed: () {
                 if (iconDisplay == Icons.star) {
-                  showAlertDialog(context);
+                  showDeleteAlertDialog(context);
                 } else {
                   addToFav();
                 }
@@ -357,7 +357,7 @@ class _EventDetailState extends State<EventDetail> {
         ),
       );
 
-  showAlertDialog(BuildContext context) {
+  showDeleteAlertDialog(BuildContext context) {
     // set up the button
     Widget yesButton = TextButton(
       child: Text("YES"),

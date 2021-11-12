@@ -1,8 +1,11 @@
 import 'dart:ui';
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
+import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
 import '/admin/admin_theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Favorites extends StatefulWidget {
   @override
@@ -12,10 +15,13 @@ class Favorites extends StatefulWidget {
 class _FavoritesState extends State<Favorites> {
   AnimationController? animationController;
   List<HotelListData> publishedEventList = HotelListData.hotelList;
+  User? user = FirebaseAuth.instance.currentUser;
+  List<EventDetails> eventList = [];
 
   @override
   void initState() {
     super.initState();
+    getData();
   }
 
   @override
@@ -120,28 +126,6 @@ class _FavoritesState extends State<Favorites> {
   }
 
   Widget getEventList() {
-    final List<Map> entries = <Map>[
-      {
-        'title': 'Tide Turners',
-        'time': '2021-11-08 10:01:20',
-        'address': 'Virtual'
-      },
-      {
-        'title': 'NTU Belleza',
-        'time': '2021-11-09 17:01:20',
-        'address': 'Virtual'
-      },
-      {
-        'title': 'EEE Challenge',
-        'time': '2021-11-19 16:01:20',
-        'address': 'NTU LT3'
-      },
-      {
-        'title': 'Earth Hour',
-        'time': '2021-11-16 10:01:20',
-        'address': 'Nanyang Auditorium '
-      }
-    ];
     return SizedBox(
       height: 680,
       child: ListView.separated(
@@ -165,7 +149,7 @@ class _FavoritesState extends State<Favorites> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              '${entries[index]['title']}',
+                              '${eventList[index].eventTitle}',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -173,14 +157,14 @@ class _FavoritesState extends State<Favorites> {
                             ),
                             SizedBox(height: 5),
                             Text(
-                              '${entries[index]['time']}',
+                              '${eventList[index].datetime}',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: EventAppTheme.grey,
                               ),
                             ),
                             Text(
-                              '${entries[index]['address']}',
+                              '${eventList[index].place}',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: EventAppTheme.grey,
@@ -231,7 +215,35 @@ class _FavoritesState extends State<Favorites> {
           },
           separatorBuilder: (BuildContext context, int index) =>
               const Divider(),
-          itemCount: entries.length),
+          itemCount: eventList.length),
     );
+  }
+
+  Future<void> getData() async {
+    FirebaseFirestore.instance
+        .collection('my_favourite')
+        .where('user_id', isEqualTo: user!.uid)
+        .snapshots()
+        .listen((data) {
+      data.docs.forEach((element) {
+        FirebaseFirestore.instance
+            .collection('event')
+            .where('eventid', isEqualTo: element.get('event_id'))
+            .snapshots()
+            .listen((data) {
+          eventList.add(EventDetails(
+            id: data.docs[0].data()['eventid'],
+            club: data.docs[0].data()['club'],
+            cover: data.docs[0].data()['cover'],
+            datetime: data.docs[0].data()['datetime'],
+            description: data.docs[0].data()['description'],
+            eventTitle: data.docs[0].data()['event_title'],
+            place: data.docs[0].data()['place'],
+            poster: data.docs[0].data()['poster'],
+          ));
+        });
+      });
+      setState(() {});
+    });
   }
 }

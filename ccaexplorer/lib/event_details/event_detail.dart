@@ -1,6 +1,6 @@
 import 'package:ccaexplorer/event_details/event_register.dart';
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:full_screen_image/full_screen_image.dart';
@@ -36,6 +36,7 @@ class _EventDetailState extends State<EventDetail> {
   User? user = FirebaseAuth.instance.currentUser;
   var buttonText = "Register";
   var isClickable = true;
+  var iconDisplay = Icons.star_border_outlined;
 
   @override
   void initState() {
@@ -53,8 +54,8 @@ class _EventDetailState extends State<EventDetail> {
             children: <Widget>[
               getAppBarUI(),
               imagepad(),
-              desciption_title(),
-              desciption_body(),
+              desciptionTitle(),
+              desciptionBody(),
             ],
           ),
         ),
@@ -110,9 +111,55 @@ class _EventDetailState extends State<EventDetail> {
         if (element.get("event_id") == widget.id) {
           buttonText = "Registered";
           isClickable = false;
-          setState(() {});
         }
       });
+    });
+
+    FirebaseFirestore.instance
+        .collection('my_favourite')
+        .where('user_id', isEqualTo: user!.uid)
+        .where('event_id', isEqualTo: widget.id)
+        .snapshots()
+        .listen((data) {
+      if (data.docs.isNotEmpty) {
+        iconDisplay = Icons.star;
+      } else {
+        iconDisplay = Icons.star_border_outlined;
+      }
+      setState(() {});
+    });
+  }
+
+  addToFav() async {
+    await Firebase.initializeApp();
+    final myFavList =
+        FirebaseFirestore.instance.collection('my_favourite').doc();
+    await myFavList.set({
+      'event_id': widget.id,
+      'user_id': user!.uid,
+    }).then((value) {
+      iconDisplay = Icons.star;
+    }).catchError((error) => print("Failed adding to favourite: $error"));
+  }
+
+  removeFromFav() async {
+    // await Firebase.initializeApp();
+    var myFav = FirebaseFirestore.instance.collection('my_favourite');
+    myFav
+        .where('user_id', isEqualTo: user!.uid)
+        .where('event_id', isEqualTo: widget.id)
+        .snapshots()
+        .listen((data) {
+      if (data.docs.isNotEmpty) {
+        myFav
+            .doc(data.docs[0].id)
+            .delete()
+            .then((value) => showSuccessAlertDialog(context))
+            .catchError(
+                (error) => print("Failed removing from favourite: $error"));
+      }
+    }).onDone(() {
+      iconDisplay = Icons.star_border_outlined;
     });
   }
 
@@ -157,10 +204,15 @@ class _EventDetailState extends State<EventDetail> {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                // Respond to button press
+                if (iconDisplay == Icons.star) {
+                  showAlertDialog(context);
+                } else {
+                  addToFav();
+                }
+                setState(() {});
               },
               icon: Icon(
-                Icons.star,
+                iconDisplay,
                 size: 20,
                 color: Colors.yellow,
               ),
@@ -277,10 +329,7 @@ class _EventDetailState extends State<EventDetail> {
         ),
       );
 
-  static const TextStyle titlestyle = TextStyle(
-      color: Colors.black87, fontSize: 13.0, fontWeight: FontWeight.bold);
-
-  Widget desciption_title() => Padding(
+  Widget desciptionTitle() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
         child: Container(
           alignment: Alignment.topLeft,
@@ -295,7 +344,7 @@ class _EventDetailState extends State<EventDetail> {
         ),
       );
 
-  Widget desciption_body() => Padding(
+  Widget desciptionBody() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
         child: Container(
           alignment: Alignment.center,
@@ -307,7 +356,48 @@ class _EventDetailState extends State<EventDetail> {
           ),
         ),
       );
+
   showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget yesButton = TextButton(
+      child: Text("YES"),
+      onPressed: () {
+        Navigator.of(context).pop();
+        removeFromFav();
+      },
+    );
+
+    Widget noButton = TextButton(
+      child: Text("NO"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Remove current event from favourite list?",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [yesButton, noButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showSuccessAlertDialog(BuildContext context) {
     // set up the button
     Widget okButton = TextButton(
       child: Text("OK"),
@@ -322,14 +412,12 @@ class _EventDetailState extends State<EventDetail> {
       elevation: 2,
       buttonPadding: EdgeInsets.symmetric(vertical: 20),
       content: Text(
-        "Application submitted successfully.",
+        "Successfully removed event.",
         style: TextStyle(
           color: Colors.black.withOpacity(0.6),
         ),
       ),
-      actions: [
-        okButton,
-      ],
+      actions: [okButton],
     );
 
     // show the dialog

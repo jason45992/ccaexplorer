@@ -55,7 +55,6 @@ class _TimeTableState extends State<TimeTable> {
               showDatePickerButton: true,
               onTap: timeTableTapped,
             ),
-            // _DismissibleApp(),
             SfCalendar(
               dataSource: MeetingDataSource(events),
               view: CalendarView.schedule,
@@ -109,8 +108,8 @@ class _TimeTableState extends State<TimeTable> {
         .snapshots()
         .listen((data) {
       if (data.docs.isNotEmpty) {
-        data.docs.forEach((element) {
-          myEventList.add(element.get('event_id'));
+        data.docs.forEach((eventApplication) {
+          myEventList.add(eventApplication.get('event_id'));
         });
       }
     });
@@ -122,15 +121,15 @@ class _TimeTableState extends State<TimeTable> {
           if (myEventList.contains(document.get('eventid'))) {
             _eventDetailList.add(
               EventDetails(
-                eventId: document.get('eventid'),
-                club: document.get('club'),
-                cover: document.get('cover'),
-                datetime: document.get('datetime'),
-                description: document.get('description'),
-                eventTitle: document.get('event_title'),
-                place: document.get('place'),
-                poster: document.get('poster'),
-              ),
+                  eventId: document.get('eventid'),
+                  club: document.get('club'),
+                  cover: document.get('cover'),
+                  datetime: document.get('datetime'),
+                  description: document.get('description'),
+                  eventTitle: document.get('event_title'),
+                  place: document.get('place'),
+                  poster: document.get('poster'),
+                  docId: document.id),
             );
           }
         });
@@ -142,8 +141,9 @@ class _TimeTableState extends State<TimeTable> {
           final DateTime startTime =
               new DateFormat("yyyy-MM-dd hh:mm:ss").parse(element.datetime);
           final DateTime endTime = startTime.add(const Duration(hours: 2));
+          final String docId = element.docId;
           events.add(Meeting(eventId, eventTitle, place, startTime, endTime,
-              Color(colorCode[index]), false));
+              Color(colorCode[index]), false, docId));
         });
 
         setState(() {});
@@ -246,7 +246,6 @@ class _TimeTableState extends State<TimeTable> {
       _endTimeText =
           DateFormat('hh:mm a').format(appointmentDetails.to).toString();
       _timeDetails = '$_startTimeText - $_endTimeText';
-      print(appointmentDetails);
 
       showDialog(
           context: context,
@@ -350,7 +349,7 @@ class _TimeTableState extends State<TimeTable> {
               new TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    showCancelSuccess(eventId);
+                    deleteEvet(eventId);
                   },
                   child: new Text(
                     'Yes',
@@ -405,6 +404,25 @@ class _TimeTableState extends State<TimeTable> {
           );
         });
   }
+
+  deleteEvet(String eventId) {
+    FirebaseFirestore.instance
+        .collection('event_application')
+        .where('user_id', isEqualTo: user!.uid)
+        .where('event_id', isEqualTo: eventId)
+        .snapshots()
+        .listen((data) {
+      if (data.docs.isNotEmpty) {
+        FirebaseFirestore.instance
+            .collection('event_application')
+            .doc(data.docs[0].id)
+            .delete()
+            .then((value) => showCancelSuccess(eventId))
+            .catchError(
+                (error) => print("Failed removing from favourite: $error"));
+      }
+    });
+  }
 }
 
 //for time table view
@@ -449,7 +467,7 @@ class MeetingDataSource extends CalendarDataSource {
 
 class Meeting {
   Meeting(this.eventId, this.eventName, this.place, this.from, this.to,
-      this.background, this.isAllDay);
+      this.background, this.isAllDay, this.docId);
   String eventId;
   String eventName;
   String place;
@@ -457,6 +475,7 @@ class Meeting {
   DateTime to;
   Color background;
   bool isAllDay;
+  String docId;
 }
 
 class EventDetails {
@@ -468,7 +487,8 @@ class EventDetails {
       required this.description,
       required this.eventTitle,
       required this.place,
-      required this.poster});
+      required this.poster,
+      required this.docId});
   final String eventId;
   final String club;
   final String cover;
@@ -477,6 +497,7 @@ class EventDetails {
   final String eventTitle;
   final String place;
   final String poster;
+  final String docId;
 
   Map<String, dynamic> toMap() {
     return {

@@ -187,7 +187,6 @@ class EventRegisterPageState extends State<EventRegisterPage> {
           phone: element.get('phone').toString(),
           userid: element.get('userid'),
         );
-
         setState(() {});
       });
     });

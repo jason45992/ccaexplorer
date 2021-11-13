@@ -1,8 +1,11 @@
 import 'dart:ui';
 import 'package:ccaexplorer/home_event_list/event_app_theme.dart';
+import 'package:ccaexplorer/home_event_list/models/event_data_model.dart';
 import 'package:ccaexplorer/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
 import '/admin/admin_theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Favorites extends StatefulWidget {
   @override
@@ -12,10 +15,13 @@ class Favorites extends StatefulWidget {
 class _FavoritesState extends State<Favorites> {
   AnimationController? animationController;
   List<HotelListData> publishedEventList = HotelListData.hotelList;
+  User? user = FirebaseAuth.instance.currentUser;
+  List<EventDetails> eventList = [];
 
   @override
   void initState() {
     super.initState();
+    getData();
   }
 
   @override
@@ -103,7 +109,13 @@ class _FavoritesState extends State<Favorites> {
                       borderRadius: const BorderRadius.all(
                         Radius.circular(32.0),
                       ),
-                      onTap: () {}, // create new event
+                      onTap: () {
+                        if (eventList.isNotEmpty) {
+                          showDeleteAllAlertDialog(context);
+                        } else {
+                          showEmptyAlertDialog(context);
+                        }
+                      }, // create new event
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(Icons.delete, color: Color(0xffb0b4b8)),
@@ -120,28 +132,6 @@ class _FavoritesState extends State<Favorites> {
   }
 
   Widget getEventList() {
-    final List<Map> entries = <Map>[
-      {
-        'title': 'Tide Turners',
-        'time': '2021-11-08 10:01:20',
-        'address': 'Virtual'
-      },
-      {
-        'title': 'NTU Belleza',
-        'time': '2021-11-09 17:01:20',
-        'address': 'Virtual'
-      },
-      {
-        'title': 'EEE Challenge',
-        'time': '2021-11-19 16:01:20',
-        'address': 'NTU LT3'
-      },
-      {
-        'title': 'Earth Hour',
-        'time': '2021-11-16 10:01:20',
-        'address': 'Nanyang Auditorium '
-      }
-    ];
     return SizedBox(
       height: 680,
       child: ListView.separated(
@@ -165,7 +155,7 @@ class _FavoritesState extends State<Favorites> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              '${entries[index]['title']}',
+                              '${eventList[index].eventTitle}',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -173,14 +163,14 @@ class _FavoritesState extends State<Favorites> {
                             ),
                             SizedBox(height: 5),
                             Text(
-                              '${entries[index]['time']}',
+                              '${eventList[index].datetime}',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: EventAppTheme.grey,
                               ),
                             ),
                             Text(
-                              '${entries[index]['address']}',
+                              '${eventList[index].place}',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: EventAppTheme.grey,
@@ -208,7 +198,8 @@ class _FavoritesState extends State<Favorites> {
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(100.0)),
                             onTap: () {
-                              //edit profile page
+                              showDeleteItemAlertDialog(
+                                  context, eventList[index].docId);
                             },
                             child: Center(
                               child: Text(
@@ -231,7 +222,211 @@ class _FavoritesState extends State<Favorites> {
           },
           separatorBuilder: (BuildContext context, int index) =>
               const Divider(),
-          itemCount: entries.length),
+          itemCount: eventList.length),
+    );
+  }
+
+  Future<void> getData() async {
+    eventList = [];
+    FirebaseFirestore.instance
+        .collection('my_favourite')
+        .where('user_id', isEqualTo: user!.uid)
+        .snapshots()
+        .listen((data) {
+      data.docs.forEach((favElement) {
+        FirebaseFirestore.instance
+            .collection('event')
+            .where('eventid', isEqualTo: favElement.get('event_id'))
+            .snapshots()
+            .listen((data) {
+          eventList.add(EventDetails(
+            id: data.docs[0].data()['eventid'],
+            club: data.docs[0].data()['club'],
+            cover: data.docs[0].data()['cover'],
+            datetime: data.docs[0].data()['datetime'],
+            description: data.docs[0].data()['description'],
+            eventTitle: data.docs[0].data()['event_title'],
+            place: data.docs[0].data()['place'],
+            poster: data.docs[0].data()['poster'],
+            docId: favElement.id,
+          ));
+          setState(() {});
+        });
+      });
+    });
+  }
+
+  removeItemFromFav(String docId) async {
+    if (docId.isNotEmpty) {
+      FirebaseFirestore.instance
+          .collection('my_favourite')
+          .doc(docId)
+          .delete()
+          .then((value) => showSuccessAlertDialog(context))
+          .catchError(
+              (error) => print("Failed removing from favourite: $error"));
+    }
+  }
+
+  removeAllFromFav() async {
+    for (int i = 0; i < eventList.length; i++) {
+      FirebaseFirestore.instance
+          .collection('my_favourite')
+          .doc(eventList[i].docId)
+          .delete()
+          .then((value) {
+        getData();
+        setState(() {});
+      }).catchError((error) {
+        print("Failed removing from favourite: $error");
+      });
+    }
+    // getData();
+  }
+
+  showDeleteItemAlertDialog(BuildContext context, String docId) {
+    // set up the button
+    Widget yesButton = TextButton(
+      child: Text("YES"),
+      onPressed: () {
+        Navigator.of(context).pop();
+        removeItemFromFav(docId);
+      },
+    );
+
+    Widget noButton = TextButton(
+      child: Text("NO"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Remove current event from favourite list?",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [yesButton, noButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showDeleteAllAlertDialog(BuildContext context) {
+    // set up the button
+    Widget yesButton = TextButton(
+      child: Text("YES"),
+      onPressed: () async {
+        Navigator.of(context).pop();
+        removeAllFromFav();
+      },
+    );
+
+    Widget noButton = TextButton(
+      child: Text("NO"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Empty your favourite list?",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [yesButton, noButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showSuccessAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+        getData();
+        setState(() {});
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Successfully removed event.",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [okButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showEmptyAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "No event detected, add your favourite events from home page.",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [okButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

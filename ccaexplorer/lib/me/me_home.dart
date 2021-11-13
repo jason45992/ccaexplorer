@@ -28,6 +28,7 @@ class _MeHomeState extends State<MeHome> {
   List<CLubMemberDetails> cLubMemberList = [];
   User? user = FirebaseAuth.instance.currentUser;
   String username = '';
+  bool isAdmin = false;
   String matricnum = '';
   String profileurl = '';
 
@@ -407,19 +408,24 @@ class _MeHomeState extends State<MeHome> {
   }
 
   Widget getAdminUI() {
-    return FloatingActionButton(
-      onPressed: () {
-        Navigator.of(context).push(PageRouteBuilder(
-            opaque: false,
-            pageBuilder: (BuildContext context, _, __) =>
-                RedeemConfirmationScreen(cLubList)));
-      },
-      child: const Icon(Icons.manage_accounts),
-      backgroundColor: Colors.green,
-    );
+    if (!isAdmin) {
+      return Container();
+    } else {
+      return FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (BuildContext context, _, __) =>
+                  RedeemConfirmationScreen(cLubList)));
+        },
+        child: const Icon(Icons.manage_accounts),
+        backgroundColor: Colors.green,
+      );
+    }
   }
 
   Future<void> getData() async {
+    cLubList = [];
     // for club list
     CollectionReference _clubCollectionRef =
         FirebaseFirestore.instance.collection('club');
@@ -520,6 +526,7 @@ class _MeHomeState extends State<MeHome> {
         await _userCollectionRef.where('userid', isEqualTo: user!.uid).get();
     username = userQuerySnapshot.docs.first.get('Name');
     matricnum = userQuerySnapshot.docs.first.get('Matric_no');
+    isAdmin = userQuerySnapshot.docs.first.get('is_admin');
 
     setState(() {});
   }

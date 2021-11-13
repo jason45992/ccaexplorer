@@ -109,7 +109,13 @@ class _FavoritesState extends State<Favorites> {
                       borderRadius: const BorderRadius.all(
                         Radius.circular(32.0),
                       ),
-                      onTap: () {}, // create new event
+                      onTap: () {
+                        if (eventList.isNotEmpty) {
+                          showDeleteAllAlertDialog(context);
+                        } else {
+                          showEmptyAlertDialog(context);
+                        }
+                      }, // create new event
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(Icons.delete, color: Color(0xffb0b4b8)),
@@ -192,7 +198,8 @@ class _FavoritesState extends State<Favorites> {
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(100.0)),
                             onTap: () {
-                              //edit profile page
+                              showDeleteItemAlertDialog(
+                                  context, eventList[index].docId);
                             },
                             child: Center(
                               child: Text(
@@ -226,10 +233,10 @@ class _FavoritesState extends State<Favorites> {
         .where('user_id', isEqualTo: user!.uid)
         .snapshots()
         .listen((data) {
-      data.docs.forEach((element) {
+      data.docs.forEach((favElement) {
         FirebaseFirestore.instance
             .collection('event')
-            .where('eventid', isEqualTo: element.get('event_id'))
+            .where('eventid', isEqualTo: favElement.get('event_id'))
             .snapshots()
             .listen((data) {
           eventList.add(EventDetails(
@@ -241,10 +248,185 @@ class _FavoritesState extends State<Favorites> {
             eventTitle: data.docs[0].data()['event_title'],
             place: data.docs[0].data()['place'],
             poster: data.docs[0].data()['poster'],
+            docId: favElement.id,
           ));
+          setState(() {});
         });
       });
-      setState(() {});
     });
+  }
+
+  removeItemFromFav(String docId) async {
+    if (docId.isNotEmpty) {
+      FirebaseFirestore.instance
+          .collection('my_favourite')
+          .doc(docId)
+          .delete()
+          .then((value) => showSuccessAlertDialog(context))
+          .catchError(
+              (error) => print("Failed removing from favourite: $error"));
+    }
+  }
+
+  removeAllFromFav() async {
+    for (int i = 0; i < eventList.length; i++) {
+      FirebaseFirestore.instance
+          .collection('my_favourite')
+          .doc(eventList[i].docId)
+          .delete()
+          .then((value) {
+        getData();
+        setState(() {});
+      }).catchError((error) {
+        print("Failed removing from favourite: $error");
+      });
+    }
+    // getData();
+  }
+
+  showDeleteItemAlertDialog(BuildContext context, String docId) {
+    // set up the button
+    Widget yesButton = TextButton(
+      child: Text("YES"),
+      onPressed: () {
+        Navigator.of(context).pop();
+        removeItemFromFav(docId);
+      },
+    );
+
+    Widget noButton = TextButton(
+      child: Text("NO"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Remove current event from favourite list?",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [yesButton, noButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showDeleteAllAlertDialog(BuildContext context) {
+    // set up the button
+    Widget yesButton = TextButton(
+      child: Text("YES"),
+      onPressed: () async {
+        Navigator.of(context).pop();
+        removeAllFromFav();
+      },
+    );
+
+    Widget noButton = TextButton(
+      child: Text("NO"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Empty your favourite list?",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [yesButton, noButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showSuccessAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+        getData();
+        setState(() {});
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "Successfully removed event.",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [okButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showEmptyAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 2,
+      buttonPadding: EdgeInsets.symmetric(vertical: 20),
+      content: Text(
+        "No event detected, add your favourite events from home page.",
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ),
+      actions: [okButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

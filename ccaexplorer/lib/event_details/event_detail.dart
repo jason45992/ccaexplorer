@@ -204,12 +204,14 @@ class _EventDetailState extends State<EventDetail> {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                if (iconDisplay == Icons.star) {
-                  showDeleteAlertDialog(context);
-                } else {
-                  addToFav();
+                if (mounted) {
+                  if (iconDisplay != Icons.star) {
+                    addToFav();
+                    print("added");
+                  } else {
+                    print("do nothing");
+                  }
                 }
-                setState(() {});
               },
               icon: Icon(
                 iconDisplay,

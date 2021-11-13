@@ -28,15 +28,15 @@ class ApplicationEventDetailState extends ChangeNotifier {
           snapshot.docs.forEach((document) {
             _eventDetailList.add(
               EventDetails(
-                id: document.data()['eventid'],
-                club: document.data()['club'],
-                cover: document.data()['cover'],
-                datetime: document.data()['datetime'],
-                description: document.data()['description'],
-                eventTitle: document.data()['event_title'],
-                place: document.data()['place'],
-                poster: document.data()['poster'],
-              ),
+                  id: document.data()['eventid'],
+                  club: document.data()['club'],
+                  cover: document.data()['cover'],
+                  datetime: document.data()['datetime'],
+                  description: document.data()['description'],
+                  eventTitle: document.data()['event_title'],
+                  place: document.data()['place'],
+                  poster: document.data()['poster'],
+                  docId: document.id),
             );
           });
           _eventBannerList = _eventDetailList;
@@ -116,7 +116,8 @@ class EventDetails {
       required this.description,
       required this.eventTitle,
       required this.place,
-      required this.poster});
+      required this.poster,
+      required this.docId});
   final String id;
   final String club;
   final String cover;
@@ -125,4 +126,5 @@ class EventDetails {
   final String eventTitle;
   final String place;
   final String poster;
+  final String docId;
 }

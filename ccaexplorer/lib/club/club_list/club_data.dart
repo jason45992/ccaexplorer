@@ -227,7 +227,8 @@ class ApplicationClubDetailState extends ChangeNotifier {
       this._items = this
           ._items
           .where((i) =>
-              i.club.name.toLowerCase().contains(key) || i.club.name.isEmpty)
+              i.club.name.toLowerCase().contains(key.toLowerCase()) ||
+              i.club.name.isEmpty)
           .toList();
 
       initCategoryCount();

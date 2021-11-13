@@ -109,8 +109,10 @@ class _EventDetailState extends State<EventDetail> {
         .listen((data) {
       data.docs.forEach((element) {
         if (element.get("event_id") == widget.id) {
-          buttonText = "Registered";
-          isClickable = false;
+          setState(() {
+            buttonText = "Registered";
+            isClickable = false;
+          });
         }
       });
     });

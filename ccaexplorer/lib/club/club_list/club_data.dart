@@ -19,7 +19,7 @@ class ClubCategory {
 }
 
 class Club {
-  const Club({
+  Club({
     required this.id,
     required this.name,
     required this.image,
@@ -32,7 +32,7 @@ class Club {
   final String name;
   final String image;
   final String description;
-  final String clubmembernum;
+  String clubmembernum;
   final String rating;
   final String contact;
 }
@@ -65,6 +65,7 @@ class ApplicationClubDetailState extends ChangeNotifier {
   List<Club> _clubs = [];
   List<Club> get clubs => _clubs;
   bool _listen = true;
+  List<ClubMemberNumberList> cLubmemnoList = [];
 
   get club => Club(
       id: "",
@@ -100,36 +101,54 @@ class ApplicationClubDetailState extends ChangeNotifier {
               .snapshots()
               .listen((event) {
             event.docs.forEach((element) {
+              if (i2 == 0) {
+                _items.add(Item(category: category, club: club));
+              }
+
+              _items.add(
+                Item(
+                  category: category,
+                  club: Club(
+                      id: document['id'],
+                      name: document['name'],
+                      image: element['url'],
+                      description: document['description'],
+                      clubmembernum: '0',
+                      rating: document['club_score'].toString(),
+                      contact: document['contact'].toString()),
+                ),
+              );
+
+              i2++;
+              notifyListeners();
+            });
+            for (int i = 0; i < _items.length; i++) {
               FirebaseFirestore.instance
                   .collection('club_member')
-                  .where('club_id', isEqualTo: document['id'])
+                  .where('club_id', isEqualTo: _items[i].club.id)
                   .snapshots()
                   .listen((user) {
-                if (i2 == 0) {
-                  _items.add(Item(category: category, club: club));
-                }
-
-                _items.add(
-                  Item(
-                    category: category,
-                    club: Club(
-                        id: document['id'],
-                        name: document['name'],
-                        image: element['url'],
-                        description: document['description'],
-                        clubmembernum: user.size.toString(),
-                        rating: document['club_score'].toString(),
-                        contact: document['contact'].toString()),
-                  ),
+                cLubmemnoList.add(
+                  ClubMemberNumberList(
+                      id: _items[i].club.id,
+                      clubmemberno: user.size.toString()),
                 );
+                _items.forEach((clubDetail) {
+                  cLubmemnoList.forEach((cLubmemnodetail) {
+                    if (cLubmemnodetail.id == clubDetail.club.id) {
+                      clubDetail.club.clubmembernum =
+                          cLubmemnodetail.clubmemberno;
 
-                i2++;
-                notifyListeners();
+                      notifyListeners();
+                    }
+                  });
+                });
               });
-            });
+            }
             notifyListeners();
           });
         });
+
         if (i > 0) {
           offsetFrom = _tabs[i - 1].clublength * clubHeight +
               _tabs[i - 1].offsetFrom +
@@ -232,4 +251,10 @@ class ApplicationClubDetailState extends ChangeNotifier {
       'Interests': 0
     };
   }
+}
+
+class ClubMemberNumberList {
+  ClubMemberNumberList({required this.id, required this.clubmemberno});
+  final String id;
+  final String clubmemberno;
 }

@@ -395,20 +395,6 @@ class _ClubProfileState extends State<ClubProfile> {
             height: 90,
           ),
         ),
-        Positioned(
-          bottom: 5,
-          right: 5,
-          child: Container(
-            padding: EdgeInsets.all(4),
-            color: Colors.white,
-            child: Text(
-              'LOGO',
-              style: TextStyle(
-                  backgroundColor: Colors.transparent,
-                  fontWeight: FontWeight.w900),
-            ),
-          ),
-        ),
       ]),
       onTap: () {
         pickImage();

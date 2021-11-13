@@ -524,11 +524,12 @@ class _MeHomeState extends State<MeHome> {
         FirebaseFirestore.instance.collection('useracc');
     QuerySnapshot userQuerySnapshot =
         await _userCollectionRef.where('userid', isEqualTo: user!.uid).get();
-    username = userQuerySnapshot.docs.first.get('Name');
-    matricnum = userQuerySnapshot.docs.first.get('Matric_no');
-    isAdmin = userQuerySnapshot.docs.first.get('is_admin');
 
-    setState(() {});
+    setState(() {
+      username = userQuerySnapshot.docs.first.get('Name');
+      matricnum = userQuerySnapshot.docs.first.get('Matric_no');
+      isAdmin = userQuerySnapshot.docs.first.get('is_admin');
+    });
   }
 }
 

@@ -27,7 +27,7 @@ class ClubJoinPageState extends State<ClubJoinPage> {
   final _formKey2 = GlobalKey<FormState>();
 
   List<String> departmentlist = [];
-  List<String> positionlist = [];
+  List<PositionDetail> positionlist = [];
   List<DepartmentDetails> departmentDetaillist = [];
   List<PositionDetails> positionDetaillist = [];
 
@@ -74,7 +74,11 @@ class ClubJoinPageState extends State<ClubJoinPage> {
                 .listen((position) {
               position.docs.forEach((element) {
                 setState(() {
-                  positionlist.add(element['position']);
+                  positionlist.add(PositionDetail(
+                      eca: element['ECA_point'].toString(),
+                      name: element['position']));
+                  print(positionlist);
+
                   positionDetaillist.add(PositionDetails(
                       id: element['id'], name: element['position']));
                 });
@@ -202,12 +206,16 @@ class ClubJoinPageState extends State<ClubJoinPage> {
                     elevation: 1,
                     value: dropdownValue2,
                     items: positionlist
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                        .map((e) => DropdownMenuItem(
+                            value: e.name,
+                            child:
+                                Text(e.name + '  (' + e.eca + ' ECA Point)')))
                         .toList(),
                     onChanged: (String? val) {
                       setState(() {
                         if (val != null) {
                           dropdownValue2 = val;
+                          print(dropdownValue2);
                         }
                       });
                     },
@@ -449,5 +457,14 @@ class PositionDetails {
     required this.name,
   });
   final String id;
+  final String name;
+}
+
+class PositionDetail {
+  PositionDetail({
+    required this.eca,
+    required this.name,
+  });
+  final String eca;
   final String name;
 }

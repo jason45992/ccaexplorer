@@ -72,7 +72,8 @@ class _AdminEventFormState extends State<AdminEventForm> {
   void initState() {
     timeinput.text = "";
     super.initState();
-
+    event_description_controller.text = '';
+    controllerX.text = '';
     event_titile_controller.addListener(() => setState(() {}));
     event_venue_controller.addListener(() => setState(() {}));
     event_description_controller.addListener(() => setState(() {}));
@@ -197,7 +198,8 @@ class _AdminEventFormState extends State<AdminEventForm> {
                   dropdownValue,
                   file_path1,
                   file_path2,
-                  event_description_controller.text),
+                  event_description_controller.text,
+                  widget.clubName),
             ],
           ),
         ),
@@ -234,7 +236,7 @@ class _AdminEventFormState extends State<AdminEventForm> {
             print('change $date in time zone ' +
                 date.timeZoneOffset.inHours.toString());
           }, onConfirm: (date) {
-            String time = DateFormat.yMMMMEEEEd().add_jm().format(date);
+            String time = DateFormat.yMd().add_jm().format(date);
 
             setState(() {
               timeinput.text = time; //set the value of text field.
@@ -391,74 +393,76 @@ class SecondRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(16),
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  SizedBox(
-                    height: 32.0,
-                    width: 32.0,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(
-                            AppBar().preferredSize.height),
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.black87,
-                        ),
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      event_description_controller.text = controllerX.text;
-                    },
-                    icon: Icon(
-                      Icons.done,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    label: Text("Done",
-                        style: TextStyle(fontSize: 20, color: Colors.white)),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.grey),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          side: BorderSide(color: Colors.blue),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(16),
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 32.0,
+                      width: 32.0,
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(
+                              AppBar().preferredSize.height),
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.black87,
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              child: TextField(
-                maxLines: 20,
-                controller: controllerX,
-                decoration: InputDecoration(
-                  hintText: 'Write your event details',
-                  border: OutlineInputBorder(),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        event_description_controller.text = controllerX.text;
+                      },
+                      icon: Icon(
+                        Icons.done,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      label: Text("Done",
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.grey),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            side: BorderSide(color: Colors.blue),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-                keyboardType: TextInputType.multiline,
-                textInputAction: TextInputAction.newline,
               ),
-            )
-          ],
+              Container(
+                child: TextField(
+                  maxLines: 20,
+                  controller: controllerX,
+                  decoration: InputDecoration(
+                    hintText: 'Write your event details',
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.newline,
+                ),
+              )
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

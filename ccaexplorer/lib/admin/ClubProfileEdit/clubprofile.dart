@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:ccaexplorer/admin_image_upload/button_widget.dart';
 import 'package:ccaexplorer/club/event_app_theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -215,18 +213,18 @@ class _ClubProfileState extends State<ClubProfile> {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: InkWell(
-                        child: Icon(Icons.edit, size: 20, color: Colors.black),
-                        onTap: () {
-                          setState(() {
-                            logoimageurl = '';
-                          });
-                        },
-                      ),
-                    ),
+                    // Positioned(
+                    //   bottom: 0,
+                    //   right: 0,
+                    //   child: InkWell(
+                    //     child: Icon(Icons.edit, size: 20, color: Colors.black),
+                    //     onTap: () {
+                    //       setState(() {
+                    //         logoimageurl = '';
+                    //       });
+                    //     },
+                    //   ),
+                    // ),
                   ])
                 : logoImage.length != 0
                     ? Stack(children: [

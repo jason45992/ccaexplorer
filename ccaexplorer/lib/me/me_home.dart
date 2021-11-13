@@ -425,6 +425,7 @@ class _MeHomeState extends State<MeHome> {
   }
 
   Future<void> getData() async {
+    cLubList = [];
     // for club list
     CollectionReference _clubCollectionRef =
         FirebaseFirestore.instance.collection('club');

@@ -220,6 +220,7 @@ class _FavoritesState extends State<Favorites> {
   }
 
   Future<void> getData() async {
+    eventList = [];
     FirebaseFirestore.instance
         .collection('my_favourite')
         .where('user_id', isEqualTo: user!.uid)

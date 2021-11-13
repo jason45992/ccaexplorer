@@ -216,14 +216,10 @@ class _ClubProfileState extends State<ClubProfile> {
                       ),
                     ),
                     Positioned(
-                      bottom: 10,
-                      right: 10,
+                      bottom: 0,
+                      right: 0,
                       child: InkWell(
-                        child: Icon(
-                          Icons.remove_circle,
-                          size: 20,
-                          color: Colors.red,
-                        ),
+                        child: Icon(Icons.edit, size: 20, color: Colors.black),
                         onTap: () {
                           setState(() {
                             logoimageurl = '';
@@ -294,7 +290,7 @@ class _ClubProfileState extends State<ClubProfile> {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              child: Text("Add Photos To Your Club Album"),
+              child: Text("Add New Photos To Your Club Album"),
               onPressed: () {
                 _imageFileList!.forEach((element) {
                   uploadAlbumPhoto(element.path);

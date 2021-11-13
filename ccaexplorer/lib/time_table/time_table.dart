@@ -55,7 +55,6 @@ class _TimeTableState extends State<TimeTable> {
               showDatePickerButton: true,
               onTap: timeTableTapped,
             ),
-            // _DismissibleApp(),
             SfCalendar(
               dataSource: MeetingDataSource(events),
               view: CalendarView.schedule,
@@ -109,8 +108,8 @@ class _TimeTableState extends State<TimeTable> {
         .snapshots()
         .listen((data) {
       if (data.docs.isNotEmpty) {
-        data.docs.forEach((element) {
-          myEventList.add(element.get('event_id'));
+        data.docs.forEach((eventApplication) {
+          myEventList.add(eventApplication.get('event_id'));
         });
       }
     });
@@ -247,7 +246,6 @@ class _TimeTableState extends State<TimeTable> {
       _endTimeText =
           DateFormat('hh:mm a').format(appointmentDetails.to).toString();
       _timeDetails = '$_startTimeText - $_endTimeText';
-      print(appointmentDetails);
 
       showDialog(
           context: context,
@@ -351,8 +349,7 @@ class _TimeTableState extends State<TimeTable> {
               new TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    deleteEvet();
-                    showCancelSuccess(eventId);
+                    deleteEvet(eventId);
                   },
                   child: new Text(
                     'Yes',
@@ -408,7 +405,24 @@ class _TimeTableState extends State<TimeTable> {
         });
   }
 
-  deleteEvet() {}
+  deleteEvet(String eventId) {
+    FirebaseFirestore.instance
+        .collection('event_application')
+        .where('user_id', isEqualTo: user!.uid)
+        .where('event_id', isEqualTo: eventId)
+        .snapshots()
+        .listen((data) {
+      if (data.docs.isNotEmpty) {
+        FirebaseFirestore.instance
+            .collection('event_application')
+            .doc(data.docs[0].id)
+            .delete()
+            .then((value) => showCancelSuccess(eventId))
+            .catchError(
+                (error) => print("Failed removing from favourite: $error"));
+      }
+    });
+  }
 }
 
 //for time table view

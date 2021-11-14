@@ -334,7 +334,7 @@ class _AdminEditEventFormState extends State<AdminEditEventForm> {
             print('change $date in time zone ' +
                 date.timeZoneOffset.inHours.toString());
           }, onConfirm: (date) {
-            String time = DateFormat.yMd().add_jm().format(date);
+            String time = DateFormat("yyyy-MM-dd hh:mm:ss").format(date);
 
             setState(() {
               timeinput.text = time; //set the value of text field.

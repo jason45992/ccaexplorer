@@ -261,10 +261,11 @@ class _MeHomeState extends State<MeHome> {
                     semanticContainer: true,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: InkWell(
-                      child: Image.network(
-                        '${cLubList[index].logoUrl}',
-                        fit: BoxFit.fill,
-                      ),
+                      child: Image.network('${cLubList[index].logoUrl}',
+                          fit: BoxFit.fill, errorBuilder: (BuildContext context,
+                              Object exception, StackTrace? stackTrace) {
+                        return CircularProgressIndicator();
+                      }),
                       onTap: () {
                         Navigator.push(
                           context,
@@ -279,7 +280,8 @@ class _MeHomeState extends State<MeHome> {
                                     cLubList[index].clubmemnum,
                                     cLubList[index].rating,
                                     cLubList[index].contact,
-                                    true)[0],
+                                    true,
+                                    cLubList[index].list)[0],
                                 cLubMemberList),
                           ),
                         );
@@ -444,8 +446,34 @@ class _MeHomeState extends State<MeHome> {
             logoUrl: '',
             rating: document.get('club_score').toString(),
             contact: document.get('contact').toString(),
-            clubmemnum: '0'),
+            clubmemnum: '0',
+            list: []),
       );
+      FirebaseFirestore.instance
+          .collection('album')
+          .where('club_id', isEqualTo: document['id'])
+          .snapshots()
+          .listen((album) {
+        album.docs.forEach((album1) {
+          print(document['id']);
+          FirebaseFirestore.instance
+              .collection('file')
+              .where('album_id', isEqualTo: album1['id'])
+              .snapshots()
+              .listen((file) {
+            List<String> urlList = [];
+            file.docs.forEach((file1) {
+              urlList.add(file1['url']);
+            });
+            cLubList.forEach((element) {
+              if (element.name == document['name']) {
+                element.list = urlList;
+                setState(() {});
+              }
+            });
+          });
+        });
+      });
     });
 
     // for club logo list
@@ -544,7 +572,8 @@ class ClubDetails {
       required this.logoUrl,
       required this.rating,
       required this.contact,
-      required this.clubmemnum});
+      required this.clubmemnum,
+      required this.list});
   final String category;
   final String description;
   final String id;
@@ -555,6 +584,7 @@ class ClubDetails {
   final String rating;
   final String contact;
   String clubmemnum;
+  List<String> list;
 
   @override
   String toString() {

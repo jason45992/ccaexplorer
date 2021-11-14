@@ -324,14 +324,23 @@ class _EditMemberState extends State<EditMember> {
       padding: EdgeInsets.symmetric(vertical: 30),
       child: Row(
         children: [
-          ClipOval(
-            child: Image.network(
-              imageurl,
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
-            ),
-          ),
+          imageurl.isNotEmpty
+              ? ClipOval(
+                  child: Image.network(
+                    imageurl,
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.cover,
+                  ),
+                )
+              : ClipOval(
+                  child: Image.asset(
+                    'assets/images/userImage.png',
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.cover,
+                  ),
+                ),
           const SizedBox(width: 25),
           Text(
             name,

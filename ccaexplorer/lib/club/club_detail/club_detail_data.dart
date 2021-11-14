@@ -1,12 +1,3 @@
-import 'dart:async';
-
-import 'package:ccaexplorer/common_method/common_method_authentication.dart';
-import 'package:ccaexplorer/src/authentication_state.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-
 class Club {
   String id;
   String bgImg;
@@ -45,7 +36,8 @@ class Club {
       String membernum,
       String rating,
       String contact,
-      bool isMember) {
+      bool isMember,
+      List<String> list) {
     return [
       Club(
         id,
@@ -58,11 +50,12 @@ class Club {
         400,
         description,
         'Tel:$contact',
-        [
-          'assets/club/album1.JPG',
-          'assets/club/album2.JPG',
-          'assets/club/album3.JPG',
-        ],
+        list,
+        // [
+        //   'assets/club/album1.JPG',
+        //   'assets/club/album2.JPG',
+        //   'assets/club/album3.JPG',
+        // ],
         membernum,
         isMember,
       ),

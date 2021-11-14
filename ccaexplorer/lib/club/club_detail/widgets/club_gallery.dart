@@ -24,7 +24,7 @@ class ClubGallery extends StatelessWidget {
                     width: 250,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        child: Image.asset(
+                        child: Image.network(
                           club.imgs[index],
                           fit: BoxFit.cover,
                         )),

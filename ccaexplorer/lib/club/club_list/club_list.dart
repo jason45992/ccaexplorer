@@ -290,7 +290,8 @@ class _ClubItem1 extends StatelessWidget {
                       club.clubmembernum,
                       club.rating,
                       club.contact,
-                      false)[0],
+                      false,
+                      club.urllist)[0],
                   []),
             ),
           );

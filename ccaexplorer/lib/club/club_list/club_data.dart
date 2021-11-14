@@ -19,15 +19,15 @@ class ClubCategory {
 }
 
 class Club {
-  Club({
-    required this.id,
-    required this.name,
-    required this.image,
-    required this.description,
-    required this.clubmembernum,
-    required this.rating,
-    required this.contact,
-  });
+  Club(
+      {required this.id,
+      required this.name,
+      required this.image,
+      required this.description,
+      required this.clubmembernum,
+      required this.rating,
+      required this.contact,
+      required this.urllist});
   final String id;
   final String name;
   final String image;
@@ -35,6 +35,7 @@ class Club {
   String clubmembernum;
   final String rating;
   final String contact;
+  List<String> urllist;
 }
 
 List categorylist = [
@@ -74,7 +75,8 @@ class ApplicationClubDetailState extends ChangeNotifier {
       description: '',
       clubmembernum: '',
       rating: '',
-      contact: '');
+      contact: '',
+      urllist: []);
 
   //init applicaiton State
   Future<void> init() async {
@@ -104,7 +106,6 @@ class ApplicationClubDetailState extends ChangeNotifier {
               if (i2 == 0) {
                 _items.add(Item(category: category, club: club));
               }
-
               _items.add(
                 Item(
                   category: category,
@@ -115,12 +116,39 @@ class ApplicationClubDetailState extends ChangeNotifier {
                       description: document['description'],
                       clubmembernum: '0',
                       rating: document['club_score'].toString(),
-                      contact: document['contact'].toString()),
+                      contact: document['contact'].toString(),
+                      urllist: []),
                 ),
               );
-
               i2++;
+
               notifyListeners();
+              FirebaseFirestore.instance
+                  .collection('album')
+                  .where('club_id', isEqualTo: document['id'])
+                  .snapshots()
+                  .listen((album) {
+                album.docs.forEach((album1) {
+                  print(document['id']);
+                  FirebaseFirestore.instance
+                      .collection('file')
+                      .where('album_id', isEqualTo: album1['id'])
+                      .snapshots()
+                      .listen((file) {
+                    List<String> urlList = [];
+                    file.docs.forEach((file1) {
+                      urlList.add(file1['url']);
+                      notifyListeners();
+                    });
+                    _items.forEach((element) {
+                      if (element.club.name == document['name']) {
+                        element.club.urllist = urlList;
+                      }
+                      print(element.club.urllist);
+                    });
+                  });
+                });
+              });
             });
             for (int i = 0; i < _items.length; i++) {
               FirebaseFirestore.instance

@@ -105,8 +105,6 @@ This is an example of how to get a local copy up and running.
 * For Visual Studio Code: https://flutter.dev/docs/development/tools/vs-code
 
 ### Installation
-
-_Below is an example of how you can instruct your audience on installing and setting up your app.
 1. Clone the repo
    ```sh
    git clone https://github.com/jason45992/ccaexplorer.git

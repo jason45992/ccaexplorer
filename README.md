@@ -99,7 +99,7 @@ Below are instructions on setting up the project locally.
 
 ### Prerequisites
 
-This is an example of how to lget a local copy up and running.
+This is an example of how to get a local copy up and running.
 
 * For Android Studio and IntelliJ: https://flutter.dev/docs/development/tools/android-studio
 * For Visual Studio Code: https://flutter.dev/docs/development/tools/vs-code
